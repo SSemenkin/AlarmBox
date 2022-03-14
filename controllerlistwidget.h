@@ -15,7 +15,6 @@ public:
 
     void processFailedControllerAuthentication(Telnet *telnet);
     void processSuccessfullControllerAuthentication(Telnet *telnet);
-
     void removeController();
 
 signals:
@@ -33,8 +32,9 @@ private:
 private:
     QVector<QString> m_controllersHosts;
     QHash<QString, int> m_hostToRow;
-    QPixmap m_okPixmap;
-    QPixmap m_noOkPixmap;
+    QIcon m_okIcon;
+    QIcon m_noOkIcon;
+    QIcon m_undefIcon;
 
     QScopedPointer<QMenu> m_contextMenu;
 
@@ -43,8 +43,6 @@ private:
     QScopedPointer<QAction> m_removeAction;
     QScopedPointer<QAction> m_detailAction;
     QScopedPointer<QAction> m_addAction;
-
-    QListWidgetItem *m_lastContextItem {nullptr};
 };
 
 #endif // CONTROLLERLISTWIDGET_H

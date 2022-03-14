@@ -7,5 +7,6 @@
         <file>icons/reconnect.png</file>
         <file>icons/remove.webp</file>
         <file>icons/add.png</file>
+        <file>icons/load.png</file>
     </qresource>
 </RCC>

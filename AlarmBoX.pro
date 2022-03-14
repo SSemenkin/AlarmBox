@@ -13,6 +13,7 @@ SOURCES += \
     controllereditwidget.cpp \
     controllerlistwidget.cpp \
     controllerownership.cpp \
+    controllersedit.cpp \
     editcontrollerdialog.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -25,6 +26,7 @@ HEADERS += \
     controllereditwidget.h \
     controllerlistwidget.h \
     controllerownership.h \
+    controllersedit.h \
     editcontrollerdialog.h \
     mainwindow.h \
     network/QTelnet.h \
@@ -34,6 +36,7 @@ HEADERS += \
 FORMS += \
     addcontrollerdialog.ui \
     controllereditwidget.ui \
+    controllersedit.ui \
     editcontrollerdialog.ui \
     mainwindow.ui
 

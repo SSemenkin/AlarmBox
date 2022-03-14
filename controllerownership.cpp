@@ -93,7 +93,6 @@ void ControllerOwnership::loadControllersFromSettings()
         addController(info.m_hostname,
                       info.m_username,
                       info.m_password);
-        qDebug() << info;
     }
 }
 

@@ -1,39 +1,51 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "controllerlistwidget.h"
 
+#include <QListWidgetItem>
 #include <QMessageBox>
+#include <QPushButton>
+#include <QSplitter>
+#include <QTreeWidget>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
+    , ui(new Ui::MainWindow),
+      controllersEdit(new ControllersEdit(this))
 {
     ui->setupUi(this);
-    connect(ui->addController, &QPushButton::clicked,
+
+    connect(controllersEdit->addControllerButton(), &QPushButton::clicked,
             this, &MainWindow::execAddControllerDialog);
-    connect(ui->editController, &QPushButton::clicked,
+    connect(controllersEdit->editControllerButton(), &QPushButton::clicked,
             this, &MainWindow::execEditControllerDialog);
-    connect(ui->removeController, &QPushButton::clicked,
-            ui->controllerWidget, &ControllerListWidget::removeController);
+    connect(controllersEdit->removeControllerButton(), &QPushButton::clicked,
+            controllersEdit->controllerWidget(), &ControllerListWidget::removeController);
 
     connect(&m_controllerOwner, &ControllerOwnership::controllerAuthenticationFailed,
-            ui->controllerWidget, &ControllerListWidget::processFailedControllerAuthentication);
+            controllersEdit->controllerWidget(), &ControllerListWidget::processFailedControllerAuthentication);
     connect(&m_controllerOwner, &ControllerOwnership::controllerAuthenticationSuccessfull,
-            ui->controllerWidget, &ControllerListWidget::processSuccessfullControllerAuthentication);
-    connect(&m_controllerOwner, &ControllerOwnership::controllerInfo, this, [this] (QSharedPointer<Telnet> controller){
+            controllersEdit->controllerWidget(), &ControllerListWidget::processSuccessfullControllerAuthentication);
+    connect(&m_controllerOwner, &ControllerOwnership::controllerInfo, this, [] (QSharedPointer<Telnet> controller){
             qDebug() << ControllerInfo(controller);
     });
 
 
-    connect(ui->controllerWidget, QOverload<Telnet*>::of(&ControllerListWidget::reconnectRequested),
+    connect(controllersEdit->controllerWidget(), QOverload<Telnet*>::of(&ControllerListWidget::reconnectRequested),
             &m_controllerOwner, QOverload<Telnet*>::of(&ControllerOwnership::reconnect));
-    connect(ui->controllerWidget, QOverload<const QString&>::of(&ControllerListWidget::reconnectRequested),
+    connect(controllersEdit->controllerWidget(), QOverload<const QString&>::of(&ControllerListWidget::reconnectRequested),
             &m_controllerOwner, QOverload<const QString&>::of(&ControllerOwnership::reconnect));
 
-    connect(ui->controllerWidget, &ControllerListWidget::editRequested, this, &MainWindow::execEditControllerDialog);
-    connect(ui->controllerWidget, &ControllerListWidget::removeRequested,
+    connect(controllersEdit->controllerWidget(), &ControllerListWidget::editRequested, this, &MainWindow::execEditControllerDialog);
+    connect(controllersEdit->controllerWidget(), &ControllerListWidget::removeRequested,
             &m_controllerOwner, QOverload<const QString&>::of(&ControllerOwnership::removeController));
-    connect(ui->controllerWidget, &ControllerListWidget::detailRequested,
+    connect(controllersEdit->controllerWidget(), &ControllerListWidget::detailRequested,
             &m_controllerOwner, &ControllerOwnership::onDetailControllerRequested);
+
+    QSplitter *splitter = new QSplitter(Qt::Orientation::Horizontal, this);
+    splitter->addWidget(controllersEdit);
+    splitter->addWidget(new QTreeWidget(this));
+    ui->horizontalLayout->addWidget(splitter);
 
 }
 
@@ -51,7 +63,7 @@ void MainWindow::execAddControllerDialog()
 
 void MainWindow::execEditControllerDialog()
 {
-    QList<QListWidgetItem*> d_items = ui->controllerWidget->selectedItems();
+    QList<QListWidgetItem*> d_items = controllersEdit->controllerWidget()->selectedItems();
     if (d_items.isEmpty() || d_items.size() > 1) {
         QMessageBox::information(this, tr("Select more than one item"), tr("Please select only one item"));
         return;

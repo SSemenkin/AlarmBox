@@ -6,6 +6,7 @@
 #include "controllerownership.h"
 #include "addcontrollerdialog.h"
 #include "editcontrollerdialog.h"
+#include "controllersedit.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -26,5 +27,6 @@ private:
 private:
     Ui::MainWindow *ui;
     ControllerOwnership m_controllerOwner;
+    ControllersEdit *controllersEdit;
 };
 #endif // MAINWINDOW_H

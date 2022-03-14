@@ -8,14 +8,15 @@
 
 ControllerListWidget::ControllerListWidget(QWidget *parent) :
     QListWidget(parent),
-    m_okPixmap(":/icons/ok.png"),
-    m_noOkPixmap(":/icons/no_ok.png"),
+    m_okIcon(":/icons/ok.png"),
+    m_noOkIcon(":/icons/no_ok.png"),
+    m_undefIcon(":/icons/load.png"),
     m_contextMenu(new QMenu),
-    m_reconnectAction(new QAction(QIcon(QPixmap(":/icons/reconnect.png")), tr("&Reconnect"))),
-    m_editAction(new QAction(QIcon(QPixmap(":/icons/edit.png")), tr("&Edit"))),
-    m_removeAction(new QAction(QIcon(QPixmap(":/icons/remove.webp")), tr("&Remove"))),
-    m_detailAction(new QAction(QIcon(QPixmap(":/icons/details.png")), tr("&Details"))),
-    m_addAction(new QAction(QIcon(QPixmap(":/icons/add.png")), tr("Add")))
+    m_reconnectAction(new QAction(QIcon(":/icons/reconnect.png"), tr("&Reconnect"))),
+    m_editAction(new QAction(QIcon(":/icons/edit.png"), tr("&Edit"))),
+    m_removeAction(new QAction(QIcon(":/icons/remove.webp"), tr("&Remove"))),
+    m_detailAction(new QAction(QIcon(":/icons/details.png"), tr("&Details"))),
+    m_addAction(new QAction(QIcon(":/icons/add.png"), tr("Add")))
 {
 
     m_contextMenu->addAction(m_addAction.data());
@@ -27,6 +28,8 @@ ControllerListWidget::ControllerListWidget(QWidget *parent) :
 
     connect(m_addAction.data(), &QAction::triggered, this, &ControllerListWidget::addRequested);
     connect(m_reconnectAction.data(), &QAction::triggered, this, [this] () {
+        QListWidgetItem *d = item(m_hostToRow[selectedItems().first()->text()]);
+        d->setIcon(m_undefIcon);
         callMethod(&ControllerListWidget::reconnectRequested);
     });
     connect(m_editAction.data(), &QAction::triggered, this, &ControllerListWidget::editRequested);
@@ -44,6 +47,8 @@ void ControllerListWidget::processFailedControllerAuthentication(Telnet *telnet)
                                                               "Do you want try again?").arg(telnet->hostname()));
 
     if (result == QMessageBox::StandardButton::Yes) {
+        QListWidgetItem *d = item(m_hostToRow[telnet->hostname()]);
+        d->setIcon(m_undefIcon);
         emit reconnectRequested(telnet);
     }
 }
@@ -63,7 +68,6 @@ void ControllerListWidget::removeController()
 
 void ControllerListWidget::contextMenuEvent(QContextMenuEvent *event)
 {
-
     QListWidgetItem *d = itemAt(event->pos());
 
     m_editAction->setEnabled(d);
@@ -85,9 +89,10 @@ void ControllerListWidget::addController(Telnet *telnet)
 
     QListWidgetItem *d = item(m_hostToRow[telnet->hostname()]);
     if (telnet->isLoggedInNode()) {
-        d->setIcon(QIcon(m_okPixmap));
+        d->setIcon(m_okIcon);
+        d->setToolTip(telnet->parsedTitle());
     } else {
-        d->setIcon(QIcon(m_noOkPixmap));
+        d->setIcon(m_noOkIcon);
     }
 }
 
