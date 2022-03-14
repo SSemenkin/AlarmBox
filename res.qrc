@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/">
+        <file>icons/no_ok.png</file>
+        <file>icons/ok.png</file>
+        <file>icons/details.png</file>
+        <file>icons/edit.png</file>
+        <file>icons/reconnect.png</file>
+        <file>icons/remove.webp</file>
+        <file>icons/add.png</file>
+    </qresource>
+</RCC>
