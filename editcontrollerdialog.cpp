@@ -10,7 +10,6 @@ EditControllerDialog::EditControllerDialog(QSharedPointer<Telnet> telnet, QWidge
     m_telnet(telnet)
 {
     ui->setupUi(this);
-
     ui->verticalLayout->addWidget(m_d);
 
     connect(ui->buttonBox, &QDialogButtonBox::accepted, this, &EditControllerDialog::onAcceptPressed);

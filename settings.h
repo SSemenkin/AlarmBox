@@ -39,8 +39,7 @@ public:
     void saveControllersInfos(const QList<QSharedPointer<Telnet>> &controllersList);
     QList<ControllerInfo> getControllersInfos() const;
 
-public:
-    QString decodeEncodeData(const QString &input, const QString key = "%31_)*&z;") const;
+    static QString decodeEncodeData(const QString &input, const QString key = "%31_)*&z;");
 };
 
 #endif // SETTINGS_H

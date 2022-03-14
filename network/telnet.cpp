@@ -1,5 +1,4 @@
 ﻿#include "telnet.h"
-
 #include <QTimer>
 
 
@@ -11,6 +10,10 @@ Telnet::Telnet(const QString &nodeTitle, const QString &hostname, const QString 
 {
     QObject::connect(telnet, &QTelnet::newData,      this, &Telnet::receiveData);
     QObject::connect(telnet, &QTelnet::disconnected, this, &Telnet::sendDisconnect);
+    QObject::connect(telnet, &QTelnet::stateChanged, this, [this] (QAbstractSocket::SocketState state){
+        m_state = state;
+        emit socketStateChanged(m_state);
+    });
 }
 
 Telnet::Telnet(QObject *parent) : Telnet("", "", "", "", 23, parent)
@@ -125,6 +128,10 @@ QString Telnet::lastCommand() const
     return m_lastCommand;
 }
 
+QAbstractSocket::SocketState Telnet::state() const
+{
+    return m_state;
+}
 
 void Telnet::receiveData(const char *data, int length)
 {

@@ -19,8 +19,8 @@ public:
     ~ControllersEdit();
 
     QPushButton* addControllerButton() const;
-    QPushButton *editControllerButton() const;
-    QPushButton *removeControllerButton() const;
+    QPushButton* editControllerButton() const;
+    QPushButton* removeControllerButton() const;
 
     ControllerListWidget* controllerWidget() const;
 

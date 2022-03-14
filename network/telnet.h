@@ -47,6 +47,8 @@ public:
     QString parsedTitle() const;
     QString lastCommand() const;
 
+    QAbstractSocket::SocketState state() const;
+
 
 signals:
     ///
@@ -55,6 +57,7 @@ signals:
     void commandExecuted(const QString &answer);
     void loginState(bool state);
     void errorOccured(const QString &detail);
+    void socketStateChanged(QAbstractSocket::SocketState state);
 
 private:
     /// @brief struct contains info about network element and info to authentication to him.
@@ -97,6 +100,8 @@ private:
     QString parsedName {"Unknown"};
 
     bool isLogged {false};
+
+    QAbstractSocket::SocketState m_state {QAbstractSocket::SocketState::UnconnectedState};
 
 
 private Q_SLOTS:

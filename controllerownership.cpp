@@ -25,7 +25,7 @@ void ControllerOwnership::addController(const QString &hostname, const QString &
 
 void ControllerOwnership::removeController(int index)
 {
-    Q_ASSERT(index >=0 && index < m_controllerList.size());
+    Q_ASSERT(index >=0 && index < m_controllerList.size() && "Out of range");
     m_controllerList.removeAt(index);
 }
 
@@ -40,7 +40,7 @@ void ControllerOwnership::removeController(const QString &hostname)
 
 QSharedPointer<Telnet> ControllerOwnership::controller(int index) const
 {
-    Q_ASSERT(index >=0 && index < m_controllerList.size());
+    Q_ASSERT(index >=0 && index < m_controllerList.size() && "Out of range");
     return m_controllerList.at(index);
 }
 

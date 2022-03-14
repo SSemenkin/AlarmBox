@@ -10,6 +10,8 @@ CONFIG += c++11
 
 SOURCES += \
     addcontrollerdialog.cpp \
+    alarmdisplaywidget.cpp \
+    alarminterrogator.cpp \
     controllereditwidget.cpp \
     controllerlistwidget.cpp \
     controllerownership.cpp \
@@ -19,10 +21,13 @@ SOURCES += \
     mainwindow.cpp \
     network/QTelnet.cpp \
     network/telnet.cpp \
-    settings.cpp
+    settings.cpp \
+    settingsdialog.cpp
 
 HEADERS += \
     addcontrollerdialog.h \
+    alarmdisplaywidget.h \
+    alarminterrogator.h \
     controllereditwidget.h \
     controllerlistwidget.h \
     controllerownership.h \
@@ -31,14 +36,17 @@ HEADERS += \
     mainwindow.h \
     network/QTelnet.h \
     network/telnet.h \
-    settings.h
+    settings.h \
+    settingsdialog.h
 
 FORMS += \
     addcontrollerdialog.ui \
+    alarmdisplaywidget.ui \
     controllereditwidget.ui \
     controllersedit.ui \
     editcontrollerdialog.ui \
-    mainwindow.ui
+    mainwindow.ui \
+    settingsdialog.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

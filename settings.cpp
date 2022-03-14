@@ -41,7 +41,7 @@ QList<ControllerInfo> Settings::getControllersInfos() const
     return result;
 }
 
-QString Settings::decodeEncodeData(const QString &input, const QString key) const
+QString Settings::decodeEncodeData(const QString &input, const QString key)
 {
     QByteArray inputData = input.toLatin1();
     const char *rawInput = inputData.data();
