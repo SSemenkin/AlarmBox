@@ -30,8 +30,9 @@ private:
 private:
     Ui::MainWindow *ui;
     ControllerOwnership m_controllerOwner;
+    QScopedPointer<AlarmInterrogator> m_interrogator;
+
     ControllersEdit *m_controllersEdit;
     AlarmDisplayWidget *m_alarmDisplayWidget;
-    QScopedPointer<AlarmInterrogator> m_interrogator;
 };
 #endif // MAINWINDOW_H

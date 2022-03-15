@@ -6,6 +6,9 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     ui(new Ui::SettingsDialog)
 {
     ui->setupUi(this);
+    setWindowFlag(Qt::WindowContextHelpButtonHint, false);
+
+    ui->comboBox->addItems(QStringList{tr("English"), tr("Russian")});
 }
 
 SettingsDialog::~SettingsDialog()

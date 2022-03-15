@@ -28,6 +28,10 @@
        <property name="text">
         <string>Add</string>
        </property>
+       <property name="icon">
+        <iconset resource="res.qrc">
+         <normaloff>:/icons/add.png</normaloff>:/icons/add.png</iconset>
+       </property>
       </widget>
      </item>
      <item row="3" column="0">
@@ -35,12 +39,20 @@
        <property name="text">
         <string>Edit</string>
        </property>
+       <property name="icon">
+        <iconset resource="res.qrc">
+         <normaloff>:/icons/edit.png</normaloff>:/icons/edit.png</iconset>
+       </property>
       </widget>
      </item>
      <item row="4" column="0">
       <widget class="QPushButton" name="removeController">
        <property name="text">
         <string>Remove</string>
+       </property>
+       <property name="icon">
+        <iconset resource="res.qrc">
+         <normaloff>:/icons/remove.png</normaloff>:/icons/remove.png</iconset>
        </property>
       </widget>
      </item>
@@ -58,6 +70,8 @@
    <header location="global">controllerlistwidget.h</header>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="res.qrc"/>
+ </resources>
  <connections/>
 </ui>

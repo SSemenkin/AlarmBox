@@ -38,7 +38,11 @@
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QLineEdit" name="hostname"/>
+      <widget class="QLineEdit" name="hostname">
+       <property name="inputMask">
+        <string>000.000.000.000</string>
+       </property>
+      </widget>
      </item>
      <item row="1" column="1">
       <widget class="QLineEdit" name="username"/>
@@ -46,7 +50,10 @@
      <item row="2" column="1">
       <widget class="QLineEdit" name="password">
        <property name="echoMode">
-        <enum>QLineEdit::Password</enum>
+        <enum>QLineEdit::PasswordEchoOnEdit</enum>
+       </property>
+       <property name="clearButtonEnabled">
+        <bool>true</bool>
        </property>
       </widget>
      </item>

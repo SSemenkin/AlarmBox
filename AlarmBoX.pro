@@ -12,6 +12,7 @@ SOURCES += \
     addcontrollerdialog.cpp \
     alarmdisplaywidget.cpp \
     alarminterrogator.cpp \
+    alarmtreewidget.cpp \
     controllereditwidget.cpp \
     controllerlistwidget.cpp \
     controllerownership.cpp \
@@ -28,6 +29,7 @@ HEADERS += \
     addcontrollerdialog.h \
     alarmdisplaywidget.h \
     alarminterrogator.h \
+    alarmtreewidget.h \
     controllereditwidget.h \
     controllerlistwidget.h \
     controllerownership.h \

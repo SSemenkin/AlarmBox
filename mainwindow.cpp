@@ -14,9 +14,9 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
+    , m_interrogator(new AlarmInterrogator(m_controllerOwner.controllerList()))
     , m_controllersEdit(new ControllersEdit(this))
     , m_alarmDisplayWidget(new AlarmDisplayWidget(this))
-    , m_interrogator(new AlarmInterrogator(m_controllerOwner.controllerList()))
 {
     ui->setupUi(this);
 
@@ -54,6 +54,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(m_interrogator.data(), &AlarmInterrogator::alarmsReceived,
             m_alarmDisplayWidget, &AlarmDisplayWidget::processAlarms);
+    connect(m_alarmDisplayWidget, &AlarmDisplayWidget::refreshRequested,
+            m_interrogator.data(), &AlarmInterrogator::interrogateControllers);
 
 
     QSplitter *splitter = new QSplitter(Qt::Orientation::Horizontal, this);
@@ -77,8 +79,12 @@ void MainWindow::execAddControllerDialog()
 void MainWindow::execEditControllerDialog()
 {
     QList<QListWidgetItem*> d_items = m_controllersEdit->controllerWidget()->selectedItems();
-    if (d_items.isEmpty() || d_items.size() > 1) {
-        QMessageBox::information(this, tr("Select more than one item"), tr("Please select only one item"));
+
+    if ((d_items.isEmpty() || d_items.size() > 1)) {
+        QMessageBox::information(this, tr("No items selected"), tr("Please select item"));
+        return;
+    }
+    if (m_controllersEdit->controllerWidget()->row(d_items.first()) == 0) {
         return;
     }
     QSharedPointer<Telnet> controller = m_controllerOwner.controller(d_items.first()->text());

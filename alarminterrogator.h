@@ -70,7 +70,7 @@ public:
     void onControllerAdded();
     void onControllerRemoved();
 
-
+    void interrogateControllers() const;
 signals:
     void alarmsReceived(const QVector<Alarm> &currentAlarms);
 protected:
@@ -80,11 +80,7 @@ protected:
     static const QString& rlcrp();
     static const QString& rxtcp();
     static const QStringList& interrogatorCommands();
-
-
-
 private:
-    void interrogateControllers();
     ///@brief обработка всех поступивших принтов команд
     void processOutput(const QString &output);
     ///@brief тут расположены аварии по типу OML/PERMANENT и другие

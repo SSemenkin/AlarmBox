@@ -11,6 +11,7 @@ AddControllerDialog::AddControllerDialog(QWidget *parent) :
 
 {
     ui->setupUi(this);
+    setWindowFlag(Qt::WindowContextHelpButtonHint, false);
     ui->verticalLayout->addWidget(m_d);
 
     connect(ui->buttonBox, &QDialogButtonBox::accepted, this, &AddControllerDialog::onAcceptPressed);
