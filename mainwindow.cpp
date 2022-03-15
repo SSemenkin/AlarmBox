@@ -34,6 +34,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect(&m_controllerOwner, &ControllerOwnership::controllerInfo, this, [] (QSharedPointer<Telnet> controller){
             qDebug() << ControllerInfo(controller);
     });
+    connect(&m_controllerOwner, &ControllerOwnership::controllerAdded,
+            m_interrogator.data(), &AlarmInterrogator::onControllerAdded);
+    connect(&m_controllerOwner, &ControllerOwnership::controllerRemoved,
+            m_interrogator.data(), &AlarmInterrogator::onControllerRemoved);
 
 
     connect(m_controllersEdit->controllerWidget(), QOverload<Telnet*>::of(&ControllerListWidget::reconnectRequested),
@@ -49,11 +53,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->action_Settings, &QAction::triggered, this, &MainWindow::execSettingsDialog);
 
     connect(m_interrogator.data(), &AlarmInterrogator::alarmsReceived,
-            this, [this] (const QVector<Alarm> &alarms){
-        for (int i = 0; i < alarms.size(); ++i) {
-            qDebug() << alarms.at(i).m_object << alarms.at(i).m_description;
-        }
-    });
+            m_alarmDisplayWidget, &AlarmDisplayWidget::processAlarms);
+
 
     QSplitter *splitter = new QSplitter(Qt::Orientation::Horizontal, this);
     splitter->addWidget(m_controllersEdit);

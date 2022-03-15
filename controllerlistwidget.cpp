@@ -37,12 +37,14 @@ ControllerListWidget::ControllerListWidget(QWidget *parent) :
     connect(m_detailAction.data(), &QAction::triggered, this, [this] (){
         callMethod(&ControllerListWidget::detailRequested);
     });
+    addItem(tr("All"));
 
 }
 
 void ControllerListWidget::processFailedControllerAuthentication(Telnet *telnet)
 {
     addController(telnet);
+    qDebug() << telnet;
     int result = QMessageBox::question(this, tr("Failure Authentication"), QString("Failed Authentication on %1!\n"
                                                               "Do you want try again?").arg(telnet->hostname()));
 
@@ -99,9 +101,11 @@ void ControllerListWidget::addController(Telnet *telnet)
 bool ControllerListWidget::callMethod(void (ControllerListWidget::*method)(const QString &))
 {
     QList<QListWidgetItem*> d_items = selectedItems();
-    if (d_items.isEmpty() || d_items.size() > 1) {
+    if ((d_items.isEmpty() || d_items.size() > 1)) {
             QMessageBox::information(this, tr("Select more than one item"), tr("Please select only one item"));
             return false;
+    } else if (d_items.first()->text() == tr("All")) {
+        return false;
     }
     emit (this->*method)(d_items.first()->text());
     return true;

@@ -21,12 +21,14 @@ void ControllerOwnership::addController(const QString &hostname, const QString &
     m_controllerList.push_back(controller);
     connect(controller.data(), &Telnet::loginState, this, &ControllerOwnership::processContollerAuthentication);
     controller->connectToNode();
+    emit controllerAdded();
 }
 
 void ControllerOwnership::removeController(int index)
 {
     Q_ASSERT(index >=0 && index < m_controllerList.size() && "Out of range");
     m_controllerList.removeAt(index);
+    emit controllerRemoved();
 }
 
 void ControllerOwnership::removeController(const QString &hostname)
@@ -55,7 +57,7 @@ QSharedPointer<Telnet> ControllerOwnership::controller(const QString &hostname) 
     return QSharedPointer<Telnet>(nullptr);
 }
 
-QList<QSharedPointer<Telnet>> ControllerOwnership::controllerList() const
+const QList<QSharedPointer<Telnet>>& ControllerOwnership::controllerList() const
 {
     return m_controllerList;
 }

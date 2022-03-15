@@ -31,6 +31,13 @@ struct Alarm {
         Raised,
         Cleared
     };
+    enum class AlarmCategory : int {
+        A1 = 0,
+        A2,
+        A3,
+        A4
+    };
+
     Alarm() = default;
 
 
@@ -43,6 +50,13 @@ struct Alarm {
     QDateTime m_raisedTime;
     QDateTime m_clearedTime;
     State m_state {State::Raised};
+    AlarmCategory m_category;
+
+    bool operator== (const Alarm& other) const {
+        return m_object == other.m_object &&
+                m_description == other.m_description &&
+                m_controller == other.m_controller;
+    }
 };
 
 class AlarmInterrogator : public QObject
@@ -52,6 +66,9 @@ public:
     explicit AlarmInterrogator(const QList<QSharedPointer<Telnet>> &controllerList,
                                QObject *parent = nullptr);
     static QString joinLastN(const QStringList &input, int count, const char* separator = "");
+
+    void onControllerAdded();
+    void onControllerRemoved();
 
 
 signals:
@@ -83,11 +100,17 @@ private:
     Telnet* fromController() const;
     void updateObjectHierarchy(const QString &print);
 
+    Alarm createDefaultAlarm(Alarm::AlarmCategory category) const;
+    bool isRBSinAlarm(const QString &cellname) const;
+
+    void connectController(QSharedPointer<Telnet> controller);
+    void processControllerAuthentication(bool state);
+
 private:
     static uint timeDelta;
 
     QTimer *m_timer;
-    const QList<QSharedPointer<Telnet>>& m_controllerList;
+    const QList<QSharedPointer<Telnet>> &m_controllerList;
 
     uint32_t m_answerReceived {0};
     uint32_t m_answerExpected;
@@ -95,6 +118,7 @@ private:
     QVector<Alarm> m_alarms;
 
     QHash<QString, QList<RBS>> m_objectHierarchy;
+    QMap<QString, QMap<QString, QString>> m_fromTGtoRBS;
 };
 
 #endif // ALARMINTERROGATOR_H

@@ -37,7 +37,7 @@ void Telnet::connectToNode()
         telnet->connectToHost(hostname(), port());
         QTimer::singleShot(5000, this, [this] () {
            if (!isLogged) {
-               emit loginState(isLogged);
+               emit errorOccured("timeout error.");
            }
         });
     } else {

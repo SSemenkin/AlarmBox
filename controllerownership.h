@@ -20,7 +20,7 @@ public:
 
     QSharedPointer<Telnet> controller(int index) const;
     QSharedPointer<Telnet> controller(const QString &hostname) const;
-    QList<QSharedPointer<Telnet>> controllerList() const;
+    const QList<QSharedPointer<Telnet>>& controllerList() const;
 
 
     void reconnect(Telnet *telnet);
@@ -29,6 +29,8 @@ public:
     void onDetailControllerRequested(const QString &hostname);
 
 signals:
+    void controllerAdded();
+    void controllerRemoved();
     void controllerAuthenticationFailed(Telnet *conroller);
     void controllerAuthenticationSuccessfull(Telnet *controller);
     void controllerInfo(QSharedPointer<Telnet> controller);
