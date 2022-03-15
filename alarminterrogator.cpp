@@ -5,7 +5,7 @@
 #define makeAndReturnStaticQString(x) static QString d((x)); \
     return d;
 
-uint AlarmInterrogator::timeDelta {3 * 60 * 1000}; // by default 3 minutes
+uint AlarmInterrogator::timeDelta {1 * 60 * 1000}; // by default 3 minutes
 
 AlarmInterrogator::AlarmInterrogator(const QList<QSharedPointer<Telnet> > &controllerList, QObject *parent)
     : QObject{parent}
@@ -247,6 +247,7 @@ void AlarmInterrogator::connectController(QSharedPointer<Telnet> controller)
             this, &AlarmInterrogator::processOutput);
     connect(controller.data(), &Telnet::errorOccured,
             this, &AlarmInterrogator::processErrors);
+    if (!controller.data()->isLoggedInNode())
     connect(controller.data(), &Telnet::loginState,
             this, &AlarmInterrogator::processControllerAuthentication);
     controller->executeCommand(rxtcp());
