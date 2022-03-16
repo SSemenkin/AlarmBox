@@ -44,6 +44,7 @@ class AlarmTreeWidget : public QTreeWidget
 public:
     AlarmTreeWidget(QWidget *parent = nullptr);
     void processAlarms(const QVector<Alarm> &alarms);
+    void onCurrentControllerChanged(const QString &controllerHostname);
 signals:
     void refresh();
 private:
@@ -54,8 +55,10 @@ private:
 
     QTreeWidgetItem* createAlarmItem(const Alarm &alarm);
     void processNewAlarm(const Alarm &alarm);
+    void processClearedAlarm(DisplayAlarm& alarm);
 private:
     QVector<DisplayAlarm> m_currentAlarms;
+    bool isManuallyRefreshed {false};
 };
 
 #endif // ALARMTREEWIDGET_H

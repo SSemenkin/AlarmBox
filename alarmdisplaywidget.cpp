@@ -23,3 +23,13 @@ void AlarmDisplayWidget::processAlarms(const QVector<Alarm> &alarms)
     ui->treeWidget->processAlarms(alarms);
 }
 
+void AlarmDisplayWidget::onControllerChanged(const QString &hostname)
+{
+    ui->treeWidget->onCurrentControllerChanged(hostname);
+}
+
+void AlarmDisplayWidget::retranslate()
+{
+    ui->retranslateUi(this);
+}
+

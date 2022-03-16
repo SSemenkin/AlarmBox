@@ -13,8 +13,9 @@ class ControllerListWidget : public QListWidget
 public:
     ControllerListWidget(QWidget *parent = nullptr);
 
-    void processFailedControllerAuthentication(Telnet *telnet);
-    void processSuccessfullControllerAuthentication(Telnet *telnet);
+    void processFailedControllerAuthentication(Telnet *controller);
+    void processSuccessfullControllerAuthentication(Telnet *controller);
+    void processControllerError(const QString &errorText, Telnet *controller);
     void removeController();
 
 signals:
@@ -24,11 +25,13 @@ signals:
     void reconnectRequested(Telnet *telnet);
     void removeRequested(const QString &hostname);
     void editRequested();
+    void controllerSelectionChanged(const QString &hostname);
 protected:
     void contextMenuEvent(QContextMenuEvent *event);
 private:
     void addController(Telnet *telnet);
     bool callMethod(void (ControllerListWidget::*method)(const QString&));
+    void askForReconnect(Telnet *controller, const QString &error = QString());
 private:
     QVector<QString> m_controllersHosts;
     QHash<QString, int> m_hostToRow;

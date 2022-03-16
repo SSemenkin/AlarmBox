@@ -38,26 +38,26 @@ ControllerListWidget::ControllerListWidget(QWidget *parent) :
         callMethod(&ControllerListWidget::detailRequested);
     });
     addItem(tr("All"));
-
+    connect(this, &QListWidget::currentTextChanged, this, &ControllerListWidget::controllerSelectionChanged);
 }
 
 void ControllerListWidget::processFailedControllerAuthentication(Telnet *telnet)
 {
     addController(telnet);
-    qDebug() << telnet;
-    int result = QMessageBox::question(this, tr("Failure Authentication"), QString("Failed Authentication on %1!\n"
-                                                              "Do you want try again?").arg(telnet->hostname()));
-
-    if (result == QMessageBox::StandardButton::Yes) {
-        QListWidgetItem *d = item(m_hostToRow[telnet->hostname()]);
-        d->setIcon(m_undefIcon);
-        emit reconnectRequested(telnet);
-    }
+    askForReconnect(telnet);
 }
 
 void ControllerListWidget::processSuccessfullControllerAuthentication(Telnet *telnet)
 {
     addController(telnet);
+}
+
+void ControllerListWidget::processControllerError(const QString &errorText, Telnet *telnet)
+{
+    if (!m_hostToRow.contains(telnet->hostname())) {
+        addController(telnet);
+    }
+    askForReconnect(telnet, errorText);
 }
 
 void ControllerListWidget::removeController()
@@ -109,4 +109,24 @@ bool ControllerListWidget::callMethod(void (ControllerListWidget::*method)(const
     }
     emit (this->*method)(d_items.first()->text());
     return true;
+}
+
+void ControllerListWidget::askForReconnect(Telnet *controller, const QString &errorText)
+{
+    QListWidgetItem *d = item(m_hostToRow.value(controller->hostname()));
+    d->setIcon(m_noOkIcon);
+
+    QString messageText = tr("Error: %1\nFailed connection on %2!\nDo you want try again?");
+
+    if (!messageText.isEmpty()) {
+        messageText = messageText.arg(errorText);
+    }
+
+    int result = QMessageBox::question(this, tr("Error"), messageText.arg(controller->hostname()));
+
+    if (result == QMessageBox::StandardButton::Yes) {
+        QListWidgetItem *d = item(m_hostToRow[controller->hostname()]);
+        d->setIcon(m_undefIcon);
+        emit reconnectRequested(controller);
+    }
 }

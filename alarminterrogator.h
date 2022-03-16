@@ -69,10 +69,11 @@ public:
 
     void onControllerAdded();
     void onControllerRemoved();
-
+    void onPeriodChanged(uint32_t delta);
     void interrogateControllers() const;
 signals:
     void alarmsReceived(const QVector<Alarm> &currentAlarms);
+    void noMMLError(const QString &text, Telnet *controller);
 protected:
     static const QString& rxasp();
     static const QString& rxmsp();
@@ -102,10 +103,13 @@ private:
     void connectController(QSharedPointer<Telnet> controller);
     void processControllerAuthentication(bool state);
 
+    void supportConnection();
+
 private:
-    static uint timeDelta;
+    static uint64_t timeDelta;
 
     QTimer *m_timer;
+
     const QList<QSharedPointer<Telnet>> &m_controllerList;
 
     uint32_t m_answerReceived {0};
@@ -115,6 +119,8 @@ private:
 
     QHash<QString, QList<RBS>> m_objectHierarchy;
     QMap<QString, QMap<QString, QString>> m_fromTGtoRBS;
+
+    QTimer *m_defaultTimer;
 };
 
 #endif // ALARMINTERROGATOR_H

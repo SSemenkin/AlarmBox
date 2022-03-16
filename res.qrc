@@ -10,5 +10,7 @@
         <file>icons/load.png</file>
         <file>icons/remove.png</file>
         <file>icons/refresh.png</file>
+        <file>icons/box.webp</file>
+        <file>icons/settings.png</file>
     </qresource>
 </RCC>

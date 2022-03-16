@@ -37,11 +37,11 @@ void Telnet::connectToNode()
         telnet->connectToHost(hostname(), port());
         QTimer::singleShot(5000, this, [this] () {
            if (!isLogged) {
-               emit errorOccured("timeout error.");
+               emit errorOccured(tr("Connection timeout error."));
            }
         });
     } else {
-        emit errorOccured("Hostname of node is empty.");
+        emit errorOccured(tr("Hostname of node is empty."));
     }
 }
 
@@ -133,6 +133,13 @@ QAbstractSocket::SocketState Telnet::state() const
     return m_state;
 }
 
+const QStringList &Telnet::finishTokens()
+{
+    static QStringList tokens =  {"END\n", "NOT ACCEPTED", "UNRESONABLE VALUE",
+                                       "ORDERED", "FUNCTION BUSY", "INHIBITED", "FORMAT ERROR", "TIME OUT"};
+    return tokens;
+}
+
 void Telnet::receiveData(const char *data, int length)
 {
     QString responce;
@@ -157,7 +164,7 @@ void Telnet::authenticationHandler(const QString &responce)
 {
     Qt::CaseSensitivity cs = Qt::CaseSensitivity::CaseInsensitive;
 
-    if (responce.contains("login incorrect", cs)) {
+    if (responce.contains(tr("login incorrect"), cs)) {
         emit loginState(false);
         return;
     } else if (responce.contains("login:", cs) || responce.contains("login name:", cs)) {
@@ -185,12 +192,9 @@ void Telnet::mmlHandler(const QString &responce)
 {
     buffer.append(responce);
 
-    static QStringList finishTokens =  {"END\n", "NOT ACCEPTED", "UNRESONABLE VALUE",
-                                       "ORDERED", "FUNCTION BUSY", "INHIBITED", "FORMAT ERROR", "TIME OUT"};
-
-    for (const QString &token : finishTokens) {
+    for (const QString &token : finishTokens()) {
         if (buffer.contains(token)) {
-            token == finishTokens.first() ? emit commandExecuted(buffer.left(buffer.indexOf(token) + token.length())) :
+            token == finishTokens().first() ? emit commandExecuted(buffer.left(buffer.indexOf(token) + token.length())) :
                                             emit errorOccured(buffer.left(buffer.indexOf(token) + token.length()));
 
             if (!buffer.contains("*** ALARM")) {

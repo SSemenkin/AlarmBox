@@ -1,17 +1,19 @@
 #include "alarminterrogator.h"
 #include <QSharedPointer>
 #include <network/telnet.h>
+#include "settings.h"
 
 #define makeAndReturnStaticQString(x) static QString d((x)); \
     return d;
 
-uint AlarmInterrogator::timeDelta { 15 * 1000}; // by default 30 seconds
+uint64_t AlarmInterrogator::timeDelta { Settings::instance()->period() * 60 * 1000}; // by default 180 seconds
 
 AlarmInterrogator::AlarmInterrogator(const QList<QSharedPointer<Telnet> > &controllerList, QObject *parent)
     : QObject{parent}
     , m_timer(new QTimer(this))
     , m_controllerList(controllerList)
     , m_answerExpected(m_controllerList.size() * interrogatorCommands().size())
+    , m_defaultTimer(new QTimer(this))
 {
 
     for (int i = 0; i < m_controllerList.size(); ++i) {
@@ -19,8 +21,11 @@ AlarmInterrogator::AlarmInterrogator(const QList<QSharedPointer<Telnet> > &contr
     }
 
     connect(m_timer, &QTimer::timeout, this, &AlarmInterrogator::interrogateControllers);
+    connect(m_defaultTimer, &QTimer::timeout, this, &AlarmInterrogator::supportConnection);
+
     interrogateControllers();
     m_timer->start(timeDelta);
+    m_defaultTimer->start(60000);
 }
 
 QString AlarmInterrogator::joinLastN(const QStringList &input, int count, const char *separator)
@@ -46,6 +51,11 @@ void AlarmInterrogator::onControllerRemoved()
 {
     m_answerExpected = m_controllerList.size()
             * interrogatorCommands().size();
+}
+
+void AlarmInterrogator::onPeriodChanged(uint32_t delta)
+{
+    timeDelta = delta * 60 * 1000;
 }
 
 const QStringList& AlarmInterrogator::interrogatorCommands()
@@ -81,6 +91,9 @@ const QString &AlarmInterrogator::rxtcp()
 
 void AlarmInterrogator::interrogateControllers() const
 {
+    if (!Settings::instance()->autoRefreshEnabled()) {
+        return;
+    }
     for (int i = 0; i < m_controllerList.size(); ++i) {
         for (int j = 0; j < interrogatorCommands().size(); ++j) {
             m_controllerList.at(i)->executeCommand(interrogatorCommands().at(j));
@@ -182,7 +195,9 @@ void AlarmInterrogator::processRLCRP(const QString &print)
 
 void AlarmInterrogator::processErrors(const QString &errorText)
 {
-
+    if (!Telnet::finishTokens().contains(errorText)) {
+        emit noMMLError(errorText, fromController());
+    }
 }
 
 Telnet *AlarmInterrogator::fromController() const
@@ -258,5 +273,14 @@ void AlarmInterrogator::processControllerAuthentication(bool state)
     if (state) {
         fromController()->executeCommand(rxtcp());
         interrogateControllers();
+    }
+}
+
+void AlarmInterrogator::supportConnection()
+{
+    for (int i = 0; i < m_controllerList.size(); ++i) {
+        for (int j = 0; j < interrogatorCommands().size(); ++j) {
+            m_controllerList.at(i)->sendConnect();
+        }
     }
 }

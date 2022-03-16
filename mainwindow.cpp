@@ -8,8 +8,7 @@
 #include <QMessageBox>
 #include <QPushButton>
 #include <QSplitter>
-#include <QPropertyAnimation>
-#include <QScreen>
+#include <QTranslator>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -44,6 +43,8 @@ MainWindow::MainWindow(QWidget *parent)
             &m_controllerOwner, QOverload<Telnet*>::of(&ControllerOwnership::reconnect));
     connect(m_controllersEdit->controllerWidget(), QOverload<const QString&>::of(&ControllerListWidget::reconnectRequested),
             &m_controllerOwner, QOverload<const QString&>::of(&ControllerOwnership::reconnect));
+    connect(m_controllersEdit->controllerWidget(), &ControllerListWidget::controllerSelectionChanged,
+            m_alarmDisplayWidget, &AlarmDisplayWidget::onControllerChanged);
 
     connect(m_controllersEdit->controllerWidget(), &ControllerListWidget::editRequested, this, &MainWindow::execEditControllerDialog);
     connect(m_controllersEdit->controllerWidget(), &ControllerListWidget::removeRequested,
@@ -56,6 +57,10 @@ MainWindow::MainWindow(QWidget *parent)
             m_alarmDisplayWidget, &AlarmDisplayWidget::processAlarms);
     connect(m_alarmDisplayWidget, &AlarmDisplayWidget::refreshRequested,
             m_interrogator.data(), &AlarmInterrogator::interrogateControllers);
+    connect(m_interrogator.data(), &AlarmInterrogator::noMMLError,
+            m_controllersEdit->controllerWidget(), &ControllerListWidget::processControllerError);
+
+
 
 
     QSplitter *splitter = new QSplitter(Qt::Orientation::Horizontal, this);
@@ -81,7 +86,7 @@ void MainWindow::execEditControllerDialog()
     QList<QListWidgetItem*> d_items = m_controllersEdit->controllerWidget()->selectedItems();
 
     if ((d_items.isEmpty() || d_items.size() > 1)) {
-        QMessageBox::information(this, tr("No items selected"), tr("Please select item"));
+        QMessageBox::information(this, tr("No items selected"), tr("Please select item."));
         return;
     }
     if (m_controllersEdit->controllerWidget()->row(d_items.first()) == 0) {
@@ -95,5 +100,13 @@ void MainWindow::execEditControllerDialog()
 void MainWindow::execSettingsDialog()
 {
     SettingsDialog dialog;
+    connect(&dialog, &SettingsDialog::localeChanged, this, &MainWindow::onLanguageChanged);
+    connect(&dialog, &SettingsDialog::periodChanged, m_interrogator.data(), &AlarmInterrogator::onPeriodChanged);
     dialog.exec();
+}
+
+void MainWindow::onLanguageChanged(const QLocale &locale)
+{
+    Q_UNUSED(locale);
+    QMessageBox::information(this, tr("Language changed"), tr("The language change will take effect after the next launch."));
 }

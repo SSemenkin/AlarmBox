@@ -18,6 +18,9 @@ public:
     ~AlarmDisplayWidget();
 
     void processAlarms(const QVector<Alarm> &alarms);
+    void onControllerChanged(const QString &hostname);
+
+    void retranslate();
 signals:
     void refreshRequested();
 private:

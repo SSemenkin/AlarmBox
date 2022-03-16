@@ -13,7 +13,10 @@ AlarmTreeWidget::AlarmTreeWidget(QWidget *parent) :
     setContextMenuPolicy(Qt::ContextMenuPolicy::ActionsContextMenu);
 
     QAction *refreshAction = new QAction(QIcon(":/icons/refresh.png"), tr("Refresh"), this);
-    connect(refreshAction, &QAction::triggered, this, &AlarmTreeWidget::refresh);
+    connect(refreshAction, &QAction::triggered, this, [this](){
+        isManuallyRefreshed = true;
+        emit refresh();
+    });
     addAction(refreshAction);
 }
 
@@ -27,13 +30,40 @@ void AlarmTreeWidget::processAlarms(const QVector<Alarm> &alarms)
         if (alarm == m_currentAlarms.end()) {
             processNewAlarm(alarms.at(i));
         } else {
-            markItemLikeNormal(*alarm);
+            if(isManuallyRefreshed) {
+                markItemLikeNormal(*alarm);
+            }
         }
     }
 
     for (int i = 0; i < m_currentAlarms.size(); ++i) {
         if (!alarms.contains(m_currentAlarms.at(i).m_alarm)) {
             markItemLikeCleared(m_currentAlarms[i]);
+            if (isManuallyRefreshed) {
+                processClearedAlarm(m_currentAlarms[i]);
+            }
+        }
+    }
+    isManuallyRefreshed = false;
+}
+
+void AlarmTreeWidget::onCurrentControllerChanged(const QString &controllerHostname)
+{
+    for (int i = 0; i < m_currentAlarms.size(); ++i) {
+        if (m_currentAlarms.at(i).m_alarm.m_state == Alarm::State::Normal) {
+            markItemLikeNormal(m_currentAlarms[i]);
+        }
+    }
+
+    if (controllerHostname == tr("All")) {
+        return;
+    }
+
+    for (int i = 0; i < m_currentAlarms.size(); ++i) {
+        DisplayAlarm &alarm = m_currentAlarms[i];
+        if (alarm.m_alarm.m_state == Alarm::State::Normal &&
+                controllerHostname == alarm.m_alarm.m_controller) {
+                    markItemLikeNormal(alarm, Qt::lightGray);
         }
     }
 }
@@ -85,4 +115,10 @@ void AlarmTreeWidget::processNewAlarm(const Alarm &alarm)
 
      m_currentAlarms.push_back(DisplayAlarm(alarm, child));
      markItemLikeRaised(m_currentAlarms.last());
+}
+
+void AlarmTreeWidget::processClearedAlarm(DisplayAlarm &alarm)
+{
+    delete alarm.m_alarmItem;
+    m_currentAlarms.removeOne(alarm);
 }

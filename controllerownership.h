@@ -43,7 +43,7 @@ private:
 
 private:
     QList<QSharedPointer<Telnet>> m_controllerList;
-    Settings m_settings;
+    Settings& m_settings;
 };
 
 #endif // CONTROLLEROWNERSHIP_H

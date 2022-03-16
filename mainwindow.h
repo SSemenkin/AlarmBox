@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 
+
 #include "controllerownership.h"
 #include "addcontrollerdialog.h"
 #include "editcontrollerdialog.h"
@@ -23,10 +24,13 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    void onLanguageChanged(const QLocale& locale);
+
 private:
     void execAddControllerDialog();
     void execEditControllerDialog();
     void execSettingsDialog();
+
 private:
     Ui::MainWindow *ui;
     ControllerOwnership m_controllerOwner;

@@ -4,20 +4,27 @@
 
 
 Settings::Settings(QObject *parent)
-    : QSettings(QStandardPaths::writableLocation(QStandardPaths::StandardLocation::AppConfigLocation) + "/config.ini",
+    : QSettings(QStandardPaths::writableLocation(QStandardPaths::StandardLocation::AppConfigLocation) +"/AlarmBox/config.ini",
                 QSettings::IniFormat, parent)
 {
 
 }
 
+Settings* Settings::instance()
+{
+    static Settings s;
+    return &s;
+}
+
 void Settings::saveControllersInfos(const QList<QSharedPointer<Telnet>> &controllersList)
 {
-    clear();
+
     if (controllersList.isEmpty()) {
         return;
     }
 
     setValue(decodeEncodeData("controllers_count"), controllersList.size());
+
     for (int i = 0; i < controllersList.size(); ++i) {
         setValue(decodeEncodeData(QString("hostname_%1").arg(i)), decodeEncodeData(controllersList.at(i)->hostname()));
         setValue(decodeEncodeData(QString("username_%1").arg(i)), decodeEncodeData(controllersList.at(i)->username()));
@@ -30,6 +37,7 @@ QList<ControllerInfo> Settings::getControllersInfos() const
     QList<ControllerInfo> result;
 
     int count = value(decodeEncodeData("controllers_count"), 0).toInt();
+
     ControllerInfo temporary;
     for (int i = 0; i < count; ++i) {
         temporary.m_hostname = decodeEncodeData(value(decodeEncodeData(QString("hostname_%1").arg(i))).toString());
@@ -39,6 +47,36 @@ QList<ControllerInfo> Settings::getControllersInfos() const
     }
 
     return result;
+}
+
+QLocale Settings::locale() const
+{
+    return value("language", QLocale(QLocale::English)).toLocale();
+}
+
+void Settings::setLocale(const QLocale &locale)
+{
+    setValue("language", locale);
+}
+
+bool Settings::autoRefreshEnabled() const
+{
+    return value("isAuto", true).toBool();
+}
+
+void Settings::setRefreshEnabled(bool state)
+{
+    setValue("isAuto", state);
+}
+
+uint32_t Settings::period() const
+{
+    return value("period", 3).toUInt();
+}
+
+void Settings::setPeriod(uint32_t period)
+{
+    setValue("period", period);
 }
 
 QString Settings::decodeEncodeData(const QString &input, const QString key)

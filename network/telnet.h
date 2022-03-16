@@ -49,6 +49,8 @@ public:
 
     QAbstractSocket::SocketState state() const;
 
+    static const QStringList& finishTokens();
+
 
 signals:
     ///

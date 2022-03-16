@@ -34,12 +34,23 @@ class Settings : public QSettings
 {
     Q_OBJECT
 public:
-    explicit Settings(QObject *parent = nullptr);
-
+    static Settings* instance();
     void saveControllersInfos(const QList<QSharedPointer<Telnet>> &controllersList);
     QList<ControllerInfo> getControllersInfos() const;
 
     static QString decodeEncodeData(const QString &input, const QString key = "%31_)*&z;");
+
+    QLocale locale() const;
+    void setLocale(const QLocale &locale);
+
+    bool autoRefreshEnabled() const;
+    void setRefreshEnabled(bool state);
+
+    uint32_t period() const;
+    void setPeriod(uint32_t period);
+
+protected:
+    explicit Settings(QObject *parent = nullptr);
 };
 
 #endif // SETTINGS_H

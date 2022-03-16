@@ -1,6 +1,7 @@
 #include "controllerownership.h"
 
 ControllerOwnership::ControllerOwnership(QObject *parent) : QObject(parent)
+  , m_settings(*Settings::instance())
 {
     loadControllersFromSettings();
 }
