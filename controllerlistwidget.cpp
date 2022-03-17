@@ -127,6 +127,7 @@ void ControllerListWidget::askForReconnect(Telnet *controller, const QString &er
     if (result == QMessageBox::StandardButton::Yes) {
         QListWidgetItem *d = item(m_hostToRow[controller->hostname()]);
         d->setIcon(m_undefIcon);
+
         emit reconnectRequested(controller);
     }
 }

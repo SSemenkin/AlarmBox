@@ -103,7 +103,7 @@ private:
     void connectController(QSharedPointer<Telnet> controller);
     void processControllerAuthentication(bool state);
 
-    void supportConnection();
+    void supportConnection() const;
 
 private:
     static uint64_t timeDelta;

@@ -6,8 +6,11 @@ Telnet::Telnet(const QString &nodeTitle, const QString &hostname, const QString 
                const QString &password, const uint8_t port, QObject *parent) :
     QObject(parent),
     authData(nodeTitle, hostname, username, password, port),
-    telnet(new QTelnet(this))
+    telnet(new QTelnet(this)),
+    m_file(hostname + ".txt")
 {
+    m_file.open(QIODevice::Text | QIODevice::Append);
+
     QObject::connect(telnet, &QTelnet::newData,      this, &Telnet::receiveData);
     QObject::connect(telnet, &QTelnet::disconnected, this, &Telnet::sendDisconnect);
     QObject::connect(telnet, &QTelnet::stateChanged, this, [this] (QAbstractSocket::SocketState state){
@@ -28,6 +31,7 @@ Telnet::~Telnet()
         telnet->disconnectFromHost();
     }
     qDebug() << "Destroyed telnet " << hostname();
+    m_file.close();
 }
 
 void Telnet::connectToNode()
@@ -158,6 +162,7 @@ void Telnet::receiveData(const char *data, int length)
             mmlHandler(responce);
         break;
     }
+    m_file.write(responce.toUtf8());
 }
 
 void Telnet::authenticationHandler(const QString &responce)
@@ -176,7 +181,7 @@ void Telnet::authenticationHandler(const QString &responce)
     } else if (responce.contains("terminal", cs)) {
         telnet->sendData("xterm\n");
     } else if (responce.contains(">")) {
-        telnet->sendData("mml -a\n");
+        telnet->sendData("mml\n");
     } else if (responce.contains("WO") || responce.contains("EX-")) {
         const QStringList p = responce.split(' ', Qt::SkipEmptyParts);
         if (p.size() > 1)
@@ -197,9 +202,7 @@ void Telnet::mmlHandler(const QString &responce)
             token == finishTokens().first() ? emit commandExecuted(buffer.left(buffer.indexOf(token) + token.length())) :
                                             emit errorOccured(buffer.left(buffer.indexOf(token) + token.length()));
 
-            if (!buffer.contains("*** ALARM")) {
-                queueState = QueueState::Write;
-            }
+
 
             buffer = buffer.right(buffer.length() - buffer.indexOf(token) - token.length());
 
@@ -208,16 +211,19 @@ void Telnet::mmlHandler(const QString &responce)
         }
     }
 }
+#include <QDateTime>
 
 void Telnet::writeIfStateEnabled()
 {
-    if (queueState == QueueState::Write &&
-            commands.size() && terminalProgressState == EricssonTerminalProgressState::InMML) {
+    if (commands.size() && terminalProgressState == EricssonTerminalProgressState::InMML) {
         commands.first() != disconnectSymbol && commands.first() != connectSymbol ?
-        telnet->sendData(commands.first().toLatin1() + '\n') : telnet->sendData(commands.first().toLatin1());
+                telnet->sendData(commands.first().toLatin1() + '\n') :
+                telnet->sendData(commands.first().toLatin1());
+
         queueState = QueueState::Read;
         m_lastCommand = commands.first();
         commands.removeFirst();
+
     }
 }
 

@@ -56,6 +56,9 @@ void AlarmInterrogator::onControllerRemoved()
 void AlarmInterrogator::onPeriodChanged(uint32_t delta)
 {
     timeDelta = delta * 60 * 1000;
+    m_timer->stop();
+    m_timer->setInterval(timeDelta);
+    m_timer->start();
 }
 
 const QStringList& AlarmInterrogator::interrogatorCommands()
@@ -91,9 +94,7 @@ const QString &AlarmInterrogator::rxtcp()
 
 void AlarmInterrogator::interrogateControllers() const
 {
-    if (!Settings::instance()->autoRefreshEnabled()) {
-        return;
-    }
+    qDebug() << QDateTime::currentDateTime() << Q_FUNC_INFO;
     for (int i = 0; i < m_controllerList.size(); ++i) {
         for (int j = 0; j < interrogatorCommands().size(); ++j) {
             m_controllerList.at(i)->executeCommand(interrogatorCommands().at(j));
@@ -116,12 +117,13 @@ void AlarmInterrogator::processOutput(const QString &output)
     } else if (output.contains(rlcrp())) {
         processRLCRP(output);
     } else {
-        qDebug() << "Undefined output";
+        qDebug() << "Undefined output" << output;
     }
     ++m_answerReceived;
 
     if (m_answerReceived == m_answerExpected) {
         emit alarmsReceived(m_alarms);
+        m_alarms.clear();
         m_answerReceived = 0;
     }
 }
@@ -276,7 +278,7 @@ void AlarmInterrogator::processControllerAuthentication(bool state)
     }
 }
 
-void AlarmInterrogator::supportConnection()
+void AlarmInterrogator::supportConnection() const
 {
     for (int i = 0; i < m_controllerList.size(); ++i) {
         for (int j = 0; j < interrogatorCommands().size(); ++j) {

@@ -4,10 +4,12 @@
 #include <QTranslator>
 #include <QLocale>
 #include <QLibraryInfo>
+#include <QStyleFactory>
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+    a.setStyle(QStyleFactory::create("fusion"));
     QLocale locale = Settings::instance()->locale();
     QTranslator translator;
     QTranslator qtTranslator;

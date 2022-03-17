@@ -103,7 +103,9 @@ QTreeWidgetItem *AlarmTreeWidget::createAlarmItem(const Alarm &alarm)
     labels.push_back(alarm.m_raisedTime.toString(Qt::LocaleDate));
     labels.push_back(alarm.m_userComment);
 
-    return new QTreeWidgetItem(labels);
+    QTreeWidgetItem *item = new QTreeWidgetItem(labels);
+    item->setFlags(item->flags() ^ Qt::ItemFlag::ItemIsEditable);
+    return item;
 }
 
 void AlarmTreeWidget::processNewAlarm(const Alarm &alarm)
