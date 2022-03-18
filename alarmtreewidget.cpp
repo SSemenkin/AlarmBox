@@ -1,14 +1,11 @@
 #include "alarmtreewidget.h"
 
-#include "addexceptiondialog.h"
-#include "controllerownership.h"
 #include <QAction>
 
 AlarmTreeWidget::AlarmTreeWidget(QWidget *parent) :
     QTreeWidget(parent)
 {
     loadUserComments();
-    qDebug() << m_userComments;
     addTopLevelItem(new AlarmTreeWidgetItem(tr("In Alarm")));
     addTopLevelItem(new AlarmTreeWidgetItem(tr("Manually blocked")));
     addTopLevelItem(new AlarmTreeWidgetItem(tr("Halted")));
@@ -17,10 +14,10 @@ AlarmTreeWidget::AlarmTreeWidget(QWidget *parent) :
     setContextMenuPolicy(Qt::ContextMenuPolicy::ActionsContextMenu);
 
     QAction *refreshAction = new QAction(QIcon(":/icons/refresh.png"), tr("Refresh"), this);
-    QAction *addExceptionAction = new QAction(QIcon(), tr("Add exception"), this);
+    QAction *addExceptionAction = new QAction(QIcon(), tr("Display exceptions"), this);
     connect(addExceptionAction, &QAction::triggered, this, &AlarmTreeWidget::execAddExceptionDialog);
     connect(refreshAction, &QAction::triggered, this, [this](){
-        isManuallyRefreshed = true;
+        m_isManuallyRefreshed = true;
         emit refresh();
     });
     addAction(refreshAction);
@@ -43,7 +40,7 @@ void AlarmTreeWidget::processAlarms(const QVector<Alarm> &alarms)
         if (alarm == m_alarms.end()) {
             processNewAlarm(alarms.at(i));
         } else {
-            if(isManuallyRefreshed) {
+            if(m_isManuallyRefreshed) {
                 markItemLikeNormal(*alarm);
             }
         }
@@ -52,12 +49,12 @@ void AlarmTreeWidget::processAlarms(const QVector<Alarm> &alarms)
     for (int i = 0; i < m_alarms.size(); ++i) {
         if (!alarms.contains(m_alarms.at(i).m_alarm)) {
             markItemLikeCleared(m_alarms[i]);
-            if (isManuallyRefreshed) {
+            if (m_isManuallyRefreshed) {
                 processClearedAlarm(m_alarms[i]);
             }
         }
     }
-    isManuallyRefreshed = false;
+    m_isManuallyRefreshed = false;
 }
 
 void AlarmTreeWidget::onCurrentControllerChanged(const QString &controllerHostname)
@@ -83,8 +80,10 @@ void AlarmTreeWidget::onCurrentControllerChanged(const QString &controllerHostna
 
 void AlarmTreeWidget::execAddExceptionDialog()
 {
-    AddExceptionDialog dialog(ControllerOwnership::instance()->controllerList());
-    dialog.exec();
+    if(m_exceptionsPanel.isNull()) {
+        m_exceptionsPanel.reset(new ExceptionsPanel);
+    }
+    m_exceptionsPanel->show();
 }
 
 void AlarmTreeWidget::markItemLikeRaised(DisplayAlarm &alarm, const QBrush& brush)

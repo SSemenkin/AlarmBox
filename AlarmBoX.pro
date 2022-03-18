@@ -19,6 +19,7 @@ SOURCES += \
     controllerownership.cpp \
     controllersedit.cpp \
     editcontrollerdialog.cpp \
+    exceptionspanel.cpp \
     main.cpp \
     mainwindow.cpp \
     network/QTelnet.cpp \
@@ -37,6 +38,7 @@ HEADERS += \
     controllerownership.h \
     controllersedit.h \
     editcontrollerdialog.h \
+    exceptionspanel.h \
     mainwindow.h \
     network/QTelnet.h \
     network/telnet.h \

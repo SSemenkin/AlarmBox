@@ -6,7 +6,6 @@
 #include <QCoreApplication>
 #include <QDebug>
 #include <QDateTime>
-
 #include "network/telnet.h"
 
 struct ControllerInfo
@@ -43,6 +42,12 @@ struct DisplayException
 
     }
     explicit DisplayException() = default;
+
+    QVariantMap toVariantMap() const {
+        return QVariantMap({std::make_pair("controller", m_controller),
+                            std::make_pair("object", m_object),
+                            std::make_pair("alarmType", m_alarmType)});
+    }
 
     QString m_object;
     QString m_alarmType;
@@ -118,11 +123,11 @@ public:
     uint32_t period() const;
     void setPeriod(uint32_t period);
 
-    void addException(const DisplayException &exception);
-    QList<DisplayException> getExceptions() const;
-
     void setAlarmComments(const QMap<QString, QMap<QString, AlarmComment>> &controllerComments);
     QMap<QString, QMap<QString, AlarmComment>> getAlarmComments() const;
+
+    void setDisplayExceptions(const QMap<QString, QMap<QString, DisplayException>>& exceptions);
+    QMap<QString, QMap<QString, DisplayException>> getExceptions() const;
 
 protected:
     explicit Settings(QObject *parent = nullptr);

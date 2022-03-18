@@ -5,6 +5,7 @@
 #include <QWidget>
 #include "alarminterrogator.h"
 #include "settings.h"
+#include "exceptionspanel.h"
 
 struct DisplayAlarm {
     DisplayAlarm() = default;
@@ -65,8 +66,8 @@ private:
 private:
     QVector<DisplayAlarm> m_alarms;
     QMap<QString, QMap<QString, AlarmComment>> m_userComments;
-
-    bool isManuallyRefreshed {false};
+    QScopedPointer<ExceptionsPanel> m_exceptionsPanel;
+    bool m_isManuallyRefreshed {false};
 };
 
 #endif // ALARMTREEWIDGET_H
