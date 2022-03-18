@@ -17,9 +17,12 @@ class AddExceptionDialog : public QDialog
 public:
     explicit AddExceptionDialog(const QList<QSharedPointer<Telnet>> &controllers, QWidget *parent = nullptr);
     ~AddExceptionDialog();
+    void accept() override;
 
-private:
-    void addException();
+signals:
+    void exceptionAdded(const QString &controller,
+                        const QString &object,
+                        const QString &alarmType);
 private:
     Ui::AddExceptionDialog *ui;
     const QList<QSharedPointer<Telnet>> &m_controllers;

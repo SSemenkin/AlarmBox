@@ -14,9 +14,15 @@ public:
     ~ExceptionsPanel();
 
     void execAddExceptionDialog();
-
 private:
-    QMap<QString, QMap<QString, DisplayException>> m_exceptions;
+    void addException(const QString &controller, const QString &object, const QString &alarmType);
+    void removeException();
+
+    bool isDuplicate(const DisplayException &exception) const;
+
+    void setupContextMenu();
+private:
+    QMap<QString, QVector<DisplayException>> m_exceptions;
 };
 
 #endif // EXCEPTIONSPANEL_H

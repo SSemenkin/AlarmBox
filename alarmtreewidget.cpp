@@ -82,6 +82,7 @@ void AlarmTreeWidget::execAddExceptionDialog()
 {
     if(m_exceptionsPanel.isNull()) {
         m_exceptionsPanel.reset(new ExceptionsPanel);
+        m_exceptionsPanel->resize(size());
     }
     m_exceptionsPanel->show();
 }

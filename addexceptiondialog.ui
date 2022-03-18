@@ -7,11 +7,11 @@
     <x>0</x>
     <y>0</y>
     <width>277</width>
-    <height>125</height>
+    <height>158</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Add exception</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="1" column="0">
@@ -34,10 +34,10 @@
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="QComboBox" name="comboBox"/>
+      <widget class="QComboBox" name="alarmTypeCombo"/>
      </item>
      <item row="0" column="1">
-      <widget class="QLineEdit" name="lineEdit"/>
+      <widget class="QLineEdit" name="object"/>
      </item>
      <item row="1" column="0">
       <widget class="QLabel" name="label_2">
@@ -54,12 +54,17 @@
       </widget>
      </item>
      <item row="2" column="1">
-      <widget class="QComboBox" name="comboBox_2"/>
+      <widget class="QComboBox" name="controllerCombo"/>
      </item>
     </layout>
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>object</tabstop>
+  <tabstop>alarmTypeCombo</tabstop>
+  <tabstop>controllerCombo</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

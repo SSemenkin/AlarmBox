@@ -15,7 +15,26 @@ Settings::Settings(QObject *parent)
 }
 
 template <typename T>
-void serializeToJson(const QMap<QString, QMap<QString, T>> &data, const QString& filename)
+void Settings::serialize(const QMap<QString, QMap<QString, T>> &data, const QString& filename) const
+{
+    QJsonDocument document;
+    QJsonArray array;
+
+    QFile f(QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation) + "/" + filename);
+    f.open(QIODevice::WriteOnly | QIODevice::Truncate);
+    for (auto it = data.begin(); it != data.end(); ++it) {
+        for (auto jt = it.value().begin(); jt != it.value().end(); ++jt) {
+            QJsonValue value;
+            array.push_back(QJsonValue::fromVariant((*jt).toVariantMap()));
+        }
+    }
+    document.setArray(array);
+    f.write(document.toJson());
+    f.close();
+}
+
+template <typename T>
+void Settings::serialize(const QMap<QString, QVector<T>> &data, const QString& filename) const
 {
     QJsonDocument document;
     QJsonArray array;
@@ -110,7 +129,7 @@ void Settings::setPeriod(uint32_t period)
 
 void Settings::setAlarmComments(const QMap<QString, QMap<QString, AlarmComment>> &controllerComments)
 {
-    serializeToJson(controllerComments, "comments.json");
+    serialize(controllerComments, "comments.json");
 }
 
 QMap<QString, QMap<QString, AlarmComment>> Settings::getAlarmComments() const
@@ -138,19 +157,19 @@ QMap<QString, QMap<QString, AlarmComment>> Settings::getAlarmComments() const
     return result;
 }
 
-void Settings::setDisplayExceptions(const QMap<QString, QMap<QString, DisplayException>> &exceptions)
+void Settings::setDisplayExceptions(const QMap<QString, QVector<DisplayException>> &exceptions)
 {
-    serializeToJson(exceptions, "exceptions.json");
+    serialize(exceptions, "exceptions.json");
 }
 
-QMap<QString, QMap<QString, DisplayException>> Settings::getExceptions() const
+QMap<QString, QVector<DisplayException>> Settings::getExceptions() const
 {
-    QFile f(QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation) + "/comments.json");
+    QFile f(QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation) + "/exceptions.json");
     f.open(QIODevice::ReadOnly);
 
     QJsonDocument document = QJsonDocument::fromJson(f.readAll());
     QJsonArray array = document.array();
-    QMap<QString, QMap<QString, DisplayException>> result;
+    QMap<QString, QVector<DisplayException>> result;
 
     for (int i = 0; i < array.size(); ++i) {
          QVariantMap m = array[i].toObject().toVariantMap();
@@ -159,7 +178,7 @@ QMap<QString, QMap<QString, DisplayException>> Settings::getExceptions() const
          QString object = m["object"].toString();
          QString alarmType = m["alarmType"].toString();
 
-         result[controller][object] = DisplayException(object, alarmType, controller);
+         result[controller].push_back(DisplayException(object, alarmType, controller));
     }
 
     f.close();

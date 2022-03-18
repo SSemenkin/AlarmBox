@@ -49,6 +49,18 @@ struct DisplayException
                             std::make_pair("alarmType", m_alarmType)});
     }
 
+    friend QDebug operator << (QDebug debug, const DisplayException &a) {
+        debug << "DisplayException(" <<a.m_controller << ", " <<
+                 a.m_object << ", " << a.m_alarmType << ")";
+        return debug;
+    }
+
+    bool operator == (const DisplayException& other) const {
+        return m_object == other.m_object &&
+               m_controller == other.m_controller &&
+               m_alarmType == other.m_alarmType;
+    }
+
     QString m_object;
     QString m_alarmType;
     QString m_controller;
@@ -126,11 +138,18 @@ public:
     void setAlarmComments(const QMap<QString, QMap<QString, AlarmComment>> &controllerComments);
     QMap<QString, QMap<QString, AlarmComment>> getAlarmComments() const;
 
-    void setDisplayExceptions(const QMap<QString, QMap<QString, DisplayException>>& exceptions);
-    QMap<QString, QMap<QString, DisplayException>> getExceptions() const;
+    void setDisplayExceptions(const QMap<QString, QVector<DisplayException>>& exceptions);
+    QMap<QString, QVector<DisplayException>> getExceptions() const;
 
 protected:
     explicit Settings(QObject *parent = nullptr);
+
+private:
+    template<typename T>
+    void serialize(const QMap<QString, QVector<T>> &data, const QString& filename) const;
+
+    template<typename T>
+    void serialize(const QMap<QString, QMap<QString, T>> &data, const QString& filename) const;
 };
 
 #endif // SETTINGS_H
