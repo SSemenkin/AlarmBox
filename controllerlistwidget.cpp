@@ -8,15 +8,15 @@
 
 ControllerListWidget::ControllerListWidget(QWidget *parent) :
     QListWidget(parent),
-    m_okIcon(":/icons/ok.png"),
-    m_noOkIcon(":/icons/no_ok.png"),
-    m_undefIcon(":/icons/load.png"),
+    m_okIcon(":/icons/apps/scalable/zanshin.svg"),
+    m_noOkIcon(":/icons/apps/scalable/tools-report-bug.svg"),
+    m_undefIcon(":/icons/apps/scalable/zathura.svg"),
     m_contextMenu(new QMenu),
-    m_reconnectAction(new QAction(QIcon(":/icons/reconnect.png"), tr("&Reconnect"))),
-    m_editAction(new QAction(QIcon(":/icons/edit.png"), tr("&Edit"))),
-    m_removeAction(new QAction(QIcon(":/icons/remove.webp"), tr("&Remove"))),
-    m_detailAction(new QAction(QIcon(":/icons/details.png"), tr("&Details"))),
-    m_addAction(new QAction(QIcon(":/icons/add.png"), tr("Add")))
+    m_reconnectAction(new QAction(QIcon(":/icons/devices/scalable/drive-removable-media-usb-pendrive.svg"), tr("&Reconnect"))),
+    m_editAction(new QAction(QIcon(":/icons/apps/scalable/tomboy.svg"), tr("&Edit"))),
+    m_removeAction(new QAction(QIcon(":/icons/apps/scalable/com.azuredatastudio.oss.svg"), tr("&Remove"))),
+    m_detailAction(new QAction(QIcon(":/icons/apps/scalable/applications-office.svg"), tr("&Details"))),
+    m_addAction(new QAction(QIcon(":/icons/apps/scalable/zanshin.svg"), tr("Add")))
 {
 
     m_contextMenu->addAction(m_addAction.data());

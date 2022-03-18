@@ -14,6 +14,10 @@ public:
     ~ExceptionsPanel();
 
     void execAddExceptionDialog();
+    bool isInException(const QString &controller,
+                       const QString &object,
+                       const QString &alarmType) const;
+
 private:
     void addException(const QString &controller, const QString &object, const QString &alarmType);
     void removeException();

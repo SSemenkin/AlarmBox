@@ -14,6 +14,7 @@ ExceptionsPanel::ExceptionsPanel(QWidget *parent) :
   , m_exceptions(Settings::instance()->getExceptions())
 {
     setWindowTitle(tr("Exceptions"));
+    setWindowIcon(QIcon(":/icons/preferences/scalable/cs-themes.svg"));
     setColumnCount(3);
     setHorizontalHeaderLabels({tr("Controller"), tr("Object"), tr("Alarm")});
     setSelectionBehavior(QAbstractItemView::SelectionBehavior::SelectRows);
@@ -49,6 +50,16 @@ void ExceptionsPanel::execAddExceptionDialog()
     AddExceptionDialog dialog(ControllerOwnership::instance()->controllerList());
     connect(&dialog, &AddExceptionDialog::exceptionAdded, this, &ExceptionsPanel::addException);
     dialog.exec();
+}
+
+bool ExceptionsPanel::isInException(const QString &controller, const QString &object, const QString &alarmType) const
+{
+    auto pos = m_exceptions.find(controller);
+    if (pos == m_exceptions.end()) {
+        return false;
+    }
+    DisplayException d(object, alarmType, controller);
+    return (*pos).contains(d);
 }
 
 void ExceptionsPanel::addException(const QString &controller, const QString &object, const QString &alarmType)
@@ -103,8 +114,8 @@ void ExceptionsPanel::setupContextMenu()
 {
     setContextMenuPolicy(Qt::ContextMenuPolicy::ActionsContextMenu);
 
-    QAction *addException = new QAction(QIcon(), tr("Add exception"), this);
-    QAction *removeException = new QAction(QIcon(), tr("Remove exception"), this);
+    QAction *addException = new QAction(QIcon(":/icons/apps/scalable/zanshin.svg"), tr("Add exception"), this);
+    QAction *removeException = new QAction(QIcon(":/icons/apps/scalable/com.azuredatastudio.oss.svg"), tr("Remove exception"), this);
 
     connect(addException, &QAction::triggered, this, &ExceptionsPanel::execAddExceptionDialog);
     connect(removeException, &QAction::triggered, this, &ExceptionsPanel::removeException);

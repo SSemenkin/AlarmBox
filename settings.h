@@ -141,6 +141,7 @@ public:
     void setDisplayExceptions(const QMap<QString, QVector<DisplayException>>& exceptions);
     QMap<QString, QVector<DisplayException>> getExceptions() const;
 
+
 protected:
     explicit Settings(QObject *parent = nullptr);
 

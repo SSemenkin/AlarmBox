@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>Add exception</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="res.qrc">
+    <normaloff>:/icons/apps/scalable/todo.svg</normaloff>:/icons/apps/scalable/todo.svg</iconset>
+  </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="1" column="0">
     <widget class="QDialogButtonBox" name="buttonBox">
@@ -65,7 +69,9 @@
   <tabstop>alarmTypeCombo</tabstop>
   <tabstop>controllerCombo</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="res.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>buttonBox</sender>

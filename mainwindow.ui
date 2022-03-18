@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="res.qrc">
-    <normaloff>:/icons/box.webp</normaloff>:/icons/box.webp</iconset>
+    <normaloff>:/icons/preferences/scalable/unity-display-panel.svg</normaloff>:/icons/preferences/scalable/unity-display-panel.svg</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
@@ -45,7 +45,7 @@
   <action name="action_Settings">
    <property name="icon">
     <iconset resource="res.qrc">
-     <normaloff>:/icons/settings.png</normaloff>:/icons/settings.png</iconset>
+     <normaloff>:/icons/apps/scalable/applications-system.svg</normaloff>:/icons/apps/scalable/applications-system.svg</iconset>
    </property>
    <property name="text">
     <string>&amp;Settings</string>

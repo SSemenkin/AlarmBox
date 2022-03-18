@@ -4,17 +4,23 @@
 
 AlarmTreeWidget::AlarmTreeWidget(QWidget *parent) :
     QTreeWidget(parent)
+  , m_exceptionsPanel(new ExceptionsPanel)
 {
     loadUserComments();
-    addTopLevelItem(new AlarmTreeWidgetItem(tr("In Alarm")));
+    addTopLevelItem(new AlarmTreeWidgetItem(tr("CF Alarm")));
     addTopLevelItem(new AlarmTreeWidgetItem(tr("Manually blocked")));
     addTopLevelItem(new AlarmTreeWidgetItem(tr("Halted")));
     addTopLevelItem(new AlarmTreeWidgetItem(tr("Not works")));
 
+    topLevelItem(0)->setIcon(0, QIcon(":/icons/places/48/folder-public.svg"));
+    topLevelItem(1)->setIcon(0, QIcon(":/icons/places/48/folder-documents.svg"));
+    topLevelItem(2)->setIcon(0, QIcon(":/icons/places/48/folder-templates.svg"));
+    topLevelItem(3)->setIcon(0, QIcon(":/icons/places/48/folder.svg"));
+
     setContextMenuPolicy(Qt::ContextMenuPolicy::ActionsContextMenu);
 
-    QAction *refreshAction = new QAction(QIcon(":/icons/refresh.png"), tr("Refresh"), this);
-    QAction *addExceptionAction = new QAction(QIcon(), tr("Display exceptions"), this);
+    QAction *refreshAction = new QAction(QIcon(":/icons/apps/scalable/catfish.svg"), tr("Refresh"), this);
+    QAction *addExceptionAction = new QAction(QIcon(":/icons/preferences/scalable/cs-themes.svg"), tr("Exceptions"), this);
     connect(addExceptionAction, &QAction::triggered, this, &AlarmTreeWidget::execAddExceptionDialog);
     connect(refreshAction, &QAction::triggered, this, [this](){
         m_isManuallyRefreshed = true;
@@ -50,7 +56,7 @@ void AlarmTreeWidget::processAlarms(const QVector<Alarm> &alarms)
         if (!alarms.contains(m_alarms.at(i).m_alarm)) {
             markItemLikeCleared(m_alarms[i]);
             if (m_isManuallyRefreshed) {
-                processClearedAlarm(m_alarms[i]);
+                processClearedAlarm(m_alarms[i--]);
             }
         }
     }
@@ -80,10 +86,7 @@ void AlarmTreeWidget::onCurrentControllerChanged(const QString &controllerHostna
 
 void AlarmTreeWidget::execAddExceptionDialog()
 {
-    if(m_exceptionsPanel.isNull()) {
-        m_exceptionsPanel.reset(new ExceptionsPanel);
-        m_exceptionsPanel->resize(size());
-    }
+    m_exceptionsPanel->resize(size());
     m_exceptionsPanel->show();
 }
 
@@ -136,6 +139,13 @@ QTreeWidgetItem *AlarmTreeWidget::createAlarmItem(const Alarm &alarm)
 void AlarmTreeWidget::processNewAlarm(const Alarm &alarm)
 {
      AlarmTreeWidgetItem *parent = static_cast<AlarmTreeWidgetItem*>(topLevelItem(static_cast<int>(alarm.m_category)));
+     // обработка исключений
+     // не добавлять те аварии, которые находятся в исключении
+     if (m_exceptionsPanel->isInException(alarm.m_controllerTitle, alarm.m_object,
+                                          static_cast<AlarmTreeWidgetItem*>(parent)->pinnedText())) {
+         return;
+     }
+
      QTreeWidgetItem *child = createAlarmItem(alarm);
      parent->addChild(child);
      parent->setText(0, parent->pinnedText() + "(" + QString::number(parent->childCount()) + ")");
