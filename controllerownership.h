@@ -12,6 +12,8 @@ public:
     ControllerOwnership(QObject *parent = nullptr);
     virtual ~ControllerOwnership();
 
+    static ControllerOwnership *instance();
+
     void addController(const QString &hostname,
                        const QString &username,
                        const QString &password);
@@ -44,6 +46,8 @@ private:
 private:
     QList<QSharedPointer<Telnet>> m_controllerList;
     Settings& m_settings;
+
+    static ControllerOwnership *m_instance;
 };
 
 #endif // CONTROLLEROWNERSHIP_H

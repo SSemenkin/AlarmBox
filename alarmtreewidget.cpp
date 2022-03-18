@@ -1,10 +1,14 @@
 #include "alarmtreewidget.h"
 
+#include "addexceptiondialog.h"
+#include "controllerownership.h"
 #include <QAction>
 
 AlarmTreeWidget::AlarmTreeWidget(QWidget *parent) :
     QTreeWidget(parent)
 {
+    loadUserComments();
+    qDebug() << m_userComments;
     addTopLevelItem(new AlarmTreeWidgetItem(tr("In Alarm")));
     addTopLevelItem(new AlarmTreeWidgetItem(tr("Manually blocked")));
     addTopLevelItem(new AlarmTreeWidgetItem(tr("Halted")));
@@ -13,21 +17,30 @@ AlarmTreeWidget::AlarmTreeWidget(QWidget *parent) :
     setContextMenuPolicy(Qt::ContextMenuPolicy::ActionsContextMenu);
 
     QAction *refreshAction = new QAction(QIcon(":/icons/refresh.png"), tr("Refresh"), this);
+    QAction *addExceptionAction = new QAction(QIcon(), tr("Add exception"), this);
+    connect(addExceptionAction, &QAction::triggered, this, &AlarmTreeWidget::execAddExceptionDialog);
     connect(refreshAction, &QAction::triggered, this, [this](){
         isManuallyRefreshed = true;
         emit refresh();
     });
     addAction(refreshAction);
+    addAction(addExceptionAction);
+}
+
+AlarmTreeWidget::~AlarmTreeWidget()
+{
+    saveUserComments();
 }
 
 void AlarmTreeWidget::processAlarms(const QVector<Alarm> &alarms)
 {
     for (int i = 0; i < alarms.size(); ++i) {
-        auto alarm = std::find_if(m_currentAlarms.begin(),
-                               m_currentAlarms.end(), [&alarms, i](const DisplayAlarm& displayAlarm){
-            return displayAlarm.m_alarm == alarms.at(i);
+        auto alarm = std::find_if(m_alarms.begin(),
+                               m_alarms.end(), [&alarms, i](const DisplayAlarm& displayAlarm){
+            return displayAlarm.m_alarm == alarms.at(i) ;
         });
-        if (alarm == m_currentAlarms.end()) {
+
+        if (alarm == m_alarms.end()) {
             processNewAlarm(alarms.at(i));
         } else {
             if(isManuallyRefreshed) {
@@ -36,11 +49,11 @@ void AlarmTreeWidget::processAlarms(const QVector<Alarm> &alarms)
         }
     }
 
-    for (int i = 0; i < m_currentAlarms.size(); ++i) {
-        if (!alarms.contains(m_currentAlarms.at(i).m_alarm)) {
-            markItemLikeCleared(m_currentAlarms[i]);
+    for (int i = 0; i < m_alarms.size(); ++i) {
+        if (!alarms.contains(m_alarms.at(i).m_alarm)) {
+            markItemLikeCleared(m_alarms[i]);
             if (isManuallyRefreshed) {
-                processClearedAlarm(m_currentAlarms[i]);
+                processClearedAlarm(m_alarms[i]);
             }
         }
     }
@@ -49,9 +62,9 @@ void AlarmTreeWidget::processAlarms(const QVector<Alarm> &alarms)
 
 void AlarmTreeWidget::onCurrentControllerChanged(const QString &controllerHostname)
 {
-    for (int i = 0; i < m_currentAlarms.size(); ++i) {
-        if (m_currentAlarms.at(i).m_alarm.m_state == Alarm::State::Normal) {
-            markItemLikeNormal(m_currentAlarms[i]);
+    for (int i = 0; i < m_alarms.size(); ++i) {
+        if (m_alarms.at(i).m_alarm.m_state == Alarm::State::Normal) {
+            markItemLikeNormal(m_alarms[i]);
         }
     }
 
@@ -59,13 +72,19 @@ void AlarmTreeWidget::onCurrentControllerChanged(const QString &controllerHostna
         return;
     }
 
-    for (int i = 0; i < m_currentAlarms.size(); ++i) {
-        DisplayAlarm &alarm = m_currentAlarms[i];
+    for (int i = 0; i < m_alarms.size(); ++i) {
+        DisplayAlarm &alarm = m_alarms[i];
         if (alarm.m_alarm.m_state == Alarm::State::Normal &&
                 controllerHostname == alarm.m_alarm.m_controller) {
                     markItemLikeNormal(alarm, Qt::lightGray);
         }
     }
+}
+
+void AlarmTreeWidget::execAddExceptionDialog()
+{
+    AddExceptionDialog dialog(ControllerOwnership::instance()->controllerList());
+    dialog.exec();
 }
 
 void AlarmTreeWidget::markItemLikeRaised(DisplayAlarm &alarm, const QBrush& brush)
@@ -99,9 +118,15 @@ QTreeWidgetItem *AlarmTreeWidget::createAlarmItem(const Alarm &alarm)
     QStringList labels;
     labels.push_back(alarm.m_object);
     labels.push_back(alarm.m_description);
-    labels.push_back(alarm.m_controller);
+    labels.push_back(alarm.m_controllerTitle);
     labels.push_back(alarm.m_raisedTime.toString(Qt::LocaleDate));
-    labels.push_back(alarm.m_userComment);
+    labels.push_back("");
+
+    if (m_userComments.contains(alarm.m_controller)) {
+        if (m_userComments[alarm.m_controller].contains(alarm.m_object)) {
+            labels.push_back(m_userComments.value(alarm.m_controller).value(alarm.m_object).m_description);
+        }
+    }
 
     QTreeWidgetItem *item = new QTreeWidgetItem(labels);
     item->setFlags(item->flags() ^ Qt::ItemFlag::ItemIsEditable);
@@ -115,12 +140,49 @@ void AlarmTreeWidget::processNewAlarm(const Alarm &alarm)
      parent->addChild(child);
      parent->setText(0, parent->pinnedText() + "(" + QString::number(parent->childCount()) + ")");
 
-     m_currentAlarms.push_back(DisplayAlarm(alarm, child));
-     markItemLikeRaised(m_currentAlarms.last());
+     m_alarms.push_back(DisplayAlarm(alarm, child));
+     markItemLikeRaised(m_alarms.last());
 }
 
 void AlarmTreeWidget::processClearedAlarm(DisplayAlarm &alarm)
 {
+    AlarmTreeWidgetItem *parent = static_cast<AlarmTreeWidgetItem*>(alarm.m_alarmItem->parent());
     delete alarm.m_alarmItem;
-    m_currentAlarms.removeOne(alarm);
+    parent->setText(0, parent->pinnedText() + "(" + QString::number(parent->childCount()) + ")");
+    m_alarms.removeOne(alarm);
+}
+
+void AlarmTreeWidget::loadUserComments()
+{
+    m_userComments = Settings::instance()->getAlarmComments();
+}
+
+void AlarmTreeWidget::saveUserComments()
+{
+   for (int i = 0; i < m_alarms.size(); ++i) {
+       const DisplayAlarm &d = m_alarms.at(i);
+       if (!d.m_alarmItem->text(5).isEmpty()) {
+            AlarmComment a(d.m_alarm.m_object,
+                           d.m_alarm.m_controller,
+                           d.m_alarm.m_description,
+                           d.m_alarmItem->text(5));
+
+            if (m_userComments.contains(d.m_alarm.m_controller)) {
+                auto controllerComments = m_userComments.value(d.m_alarm.m_controller);
+
+                auto comment = controllerComments.find(d.m_alarm.m_object);
+
+                if (comment != controllerComments.end()) {
+                    if (comment.value() != a) {
+                        m_userComments[d.m_alarm.m_controller][d.m_alarm.m_object] = a;
+                    }
+                } else {
+                    m_userComments[d.m_alarm.m_controller][d.m_alarm.m_object] = a;
+                }
+            } else {
+                m_userComments[d.m_alarm.m_controller][d.m_alarm.m_object] = a;
+            }
+       }
+   }
+   Settings::instance()->setAlarmComments(m_userComments);
 }

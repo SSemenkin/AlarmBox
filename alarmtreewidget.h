@@ -4,6 +4,7 @@
 #include <QTreeWidget>
 #include <QWidget>
 #include "alarminterrogator.h"
+#include "settings.h"
 
 struct DisplayAlarm {
     DisplayAlarm() = default;
@@ -43,8 +44,10 @@ class AlarmTreeWidget : public QTreeWidget
     Q_OBJECT
 public:
     AlarmTreeWidget(QWidget *parent = nullptr);
+    ~AlarmTreeWidget();
     void processAlarms(const QVector<Alarm> &alarms);
     void onCurrentControllerChanged(const QString &controllerHostname);
+    void execAddExceptionDialog();
 signals:
     void refresh();
 private:
@@ -56,8 +59,13 @@ private:
     QTreeWidgetItem* createAlarmItem(const Alarm &alarm);
     void processNewAlarm(const Alarm &alarm);
     void processClearedAlarm(DisplayAlarm& alarm);
+
+    void loadUserComments();
+    void saveUserComments();
 private:
-    QVector<DisplayAlarm> m_currentAlarms;
+    QVector<DisplayAlarm> m_alarms;
+    QMap<QString, QMap<QString, AlarmComment>> m_userComments;
+
     bool isManuallyRefreshed {false};
 };
 

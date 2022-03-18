@@ -8,8 +8,9 @@ AlarmDisplayWidget::AlarmDisplayWidget(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    ui->treeWidget->setColumnCount(5);
-    ui->treeWidget->setHeaderLabels(QStringList {tr("Object"), tr("Alarm"), tr("Controller"), tr("Raised Time"), tr("Comment")});
+    ui->treeWidget->setColumnCount(6);
+    ui->treeWidget->setHeaderLabels(QStringList {tr("Object"), tr("Alarm"), tr("Controller"),
+                                                 tr("Raised Time"), tr("Cleared Time"),tr("Comment")});
     connect(ui->treeWidget, &AlarmTreeWidget::refresh, this, &AlarmDisplayWidget::refreshRequested);
 }
 
@@ -27,9 +28,3 @@ void AlarmDisplayWidget::onControllerChanged(const QString &hostname)
 {
     ui->treeWidget->onCurrentControllerChanged(hostname);
 }
-
-void AlarmDisplayWidget::retranslate()
-{
-    ui->retranslateUi(this);
-}
-

@@ -10,6 +10,7 @@ CONFIG += c++11
 
 SOURCES += \
     addcontrollerdialog.cpp \
+    addexceptiondialog.cpp \
     alarmdisplaywidget.cpp \
     alarminterrogator.cpp \
     alarmtreewidget.cpp \
@@ -27,6 +28,7 @@ SOURCES += \
 
 HEADERS += \
     addcontrollerdialog.h \
+    addexceptiondialog.h \
     alarmdisplaywidget.h \
     alarminterrogator.h \
     alarmtreewidget.h \
@@ -43,6 +45,7 @@ HEADERS += \
 
 FORMS += \
     addcontrollerdialog.ui \
+    addexceptiondialog.ui \
     alarmdisplaywidget.ui \
     controllereditwidget.ui \
     controllersedit.ui \

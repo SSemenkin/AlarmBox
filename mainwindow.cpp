@@ -31,8 +31,11 @@ MainWindow::MainWindow(QWidget *parent)
     connect(&m_controllerOwner, &ControllerOwnership::controllerAuthenticationSuccessfull,
             m_controllersEdit->controllerWidget(), &ControllerListWidget::processSuccessfullControllerAuthentication);
     connect(&m_controllerOwner, &ControllerOwnership::controllerInfo, this, [] (QSharedPointer<Telnet> controller){
-            qDebug() << ControllerInfo(controller);
+            //qDebug() << ControllerInfo(controller);
     });
+
+    connect(m_controllersEdit->controllerWidget(), &ControllerListWidget::addRequested, this, &MainWindow::execAddControllerDialog);
+
     connect(&m_controllerOwner, &ControllerOwnership::controllerAdded,
             m_interrogator.data(), &AlarmInterrogator::onControllerAdded);
     connect(&m_controllerOwner, &ControllerOwnership::controllerRemoved,
@@ -41,6 +44,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(m_controllersEdit->controllerWidget(), QOverload<Telnet*>::of(&ControllerListWidget::reconnectRequested),
             &m_controllerOwner, QOverload<Telnet*>::of(&ControllerOwnership::reconnect));
+
     connect(m_controllersEdit->controllerWidget(), QOverload<const QString&>::of(&ControllerListWidget::reconnectRequested),
             &m_controllerOwner, QOverload<const QString&>::of(&ControllerOwnership::reconnect));
     connect(m_controllersEdit->controllerWidget(), &ControllerListWidget::controllerSelectionChanged,
@@ -67,6 +71,7 @@ MainWindow::MainWindow(QWidget *parent)
     splitter->addWidget(m_controllersEdit);
     splitter->addWidget(m_alarmDisplayWidget);
     ui->horizontalLayout->addWidget(splitter);
+
 }
 
 MainWindow::~MainWindow()
@@ -92,7 +97,7 @@ void MainWindow::execEditControllerDialog()
     if (m_controllersEdit->controllerWidget()->row(d_items.first()) == 0) {
         return;
     }
-    QSharedPointer<Telnet> controller = m_controllerOwner.controller(d_items.first()->text());
+    QSharedPointer<Telnet> controller = m_controllerOwner.controller(d_items.first()->toolTip());
     EditControllerDialog dialog(controller);
     dialog.exec();
 }

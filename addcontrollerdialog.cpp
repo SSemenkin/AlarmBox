@@ -32,6 +32,7 @@ void AddControllerDialog::onAcceptPressed()
                                m_d->password());
     } else {
         QMessageBox::information(this, tr("Error add..."), tr("Fill empty fields."));
+        return;
     }
     close();
 }

@@ -49,6 +49,13 @@ void Telnet::connectToNode()
     }
 }
 
+void Telnet::reconnect()
+{
+    disconnect(telnet, &QTelnet::disconnected, this, &Telnet::sendDisconnect);
+    connectToNode();
+    connect(telnet, &QTelnet::disconnected, this, &Telnet::sendDisconnect);
+}
+
 bool Telnet::isLoggedInNode() const
 {
     return isLogged;
@@ -170,7 +177,7 @@ void Telnet::authenticationHandler(const QString &responce)
     Qt::CaseSensitivity cs = Qt::CaseSensitivity::CaseInsensitive;
 
     if (responce.contains(tr("login incorrect"), cs)) {
-        emit loginState(false);
+        emit loginStateChanged(false);
         return;
     } else if (responce.contains("login:", cs) || responce.contains("login name:", cs)) {
         telnet->sendData(authData.username.toLatin1() + '\n');
@@ -189,7 +196,7 @@ void Telnet::authenticationHandler(const QString &responce)
         terminalProgressState = EricssonTerminalProgressState::InMML;
         writeIfStateEnabled();
         isLogged = true;
-        emit loginState(true);
+        emit loginStateChanged(isLogged);
     }
 }
 
@@ -211,7 +218,6 @@ void Telnet::mmlHandler(const QString &responce)
         }
     }
 }
-#include <QDateTime>
 
 void Telnet::writeIfStateEnabled()
 {
@@ -223,7 +229,6 @@ void Telnet::writeIfStateEnabled()
         queueState = QueueState::Read;
         m_lastCommand = commands.first();
         commands.removeFirst();
-
     }
 }
 

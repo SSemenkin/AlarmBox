@@ -1,14 +1,24 @@
 #include "controllerownership.h"
 
+ControllerOwnership *ControllerOwnership::m_instance = nullptr;
+
 ControllerOwnership::ControllerOwnership(QObject *parent) : QObject(parent)
   , m_settings(*Settings::instance())
 {
+    Q_ASSERT_X(m_instance == nullptr, Q_FUNC_INFO, "Instance ControllerOwnership is already exists.");
+    m_instance = this;
     loadControllersFromSettings();
+
 }
 
 ControllerOwnership::~ControllerOwnership()
 {
     saveControllersToSettings();
+}
+
+ControllerOwnership *ControllerOwnership::instance()
+{
+    return m_instance;
 }
 
 void ControllerOwnership::addController(const QString &hostname, const QString &username, const QString &password)
@@ -20,7 +30,7 @@ void ControllerOwnership::addController(const QString &hostname, const QString &
     }
     QSharedPointer<Telnet> controller(new Telnet("nodeTitle", hostname, username, password));
     m_controllerList.push_back(controller);
-    connect(controller.data(), &Telnet::loginState, this, &ControllerOwnership::processContollerAuthentication);
+    connect(controller.data(), &Telnet::loginStateChanged, this, &ControllerOwnership::processContollerAuthentication);
     controller->connectToNode();
     emit controllerAdded();
 }
@@ -72,7 +82,7 @@ void ControllerOwnership::reconnect(const QString &hostname)
 {
     for (int i = 0; i < m_controllerList.size(); ++i) {
         if (m_controllerList.at(i)->hostname() == hostname) {
-            m_controllerList.at(i)->connectToNode();
+            m_controllerList.at(i)->reconnect();
             return;
         }
     }
@@ -86,6 +96,7 @@ void ControllerOwnership::onDetailControllerRequested(const QString &hostname)
             return;
         }
     }
+    qDebug() << Q_FUNC_INFO << "Controller with hostname" << hostname << "not found";
 }
 
 void ControllerOwnership::loadControllersFromSettings()
@@ -101,7 +112,7 @@ void ControllerOwnership::loadControllersFromSettings()
 
 void ControllerOwnership::saveControllersToSettings()
 {
-    m_settings.saveControllersInfos(m_controllerList);
+    m_settings.setControllersInfos(m_controllerList);
 }
 
 void ControllerOwnership::processContollerAuthentication(bool state)

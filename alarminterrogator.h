@@ -45,8 +45,6 @@ struct Alarm {
     QString m_description;
     QString m_controller;
     QString m_controllerTitle;
-    QString m_userComment;
-    QString m_location;
     QDateTime m_raisedTime;
     QDateTime m_clearedTime;
     State m_state {State::Raised};
@@ -104,6 +102,7 @@ private:
     void processControllerAuthentication(bool state);
 
     void supportConnection() const;
+    void calcExpectedAnswers();
 
 private:
     static uint64_t timeDelta;
@@ -117,7 +116,6 @@ private:
 
     QVector<Alarm> m_alarms;
 
-    QHash<QString, QList<RBS>> m_objectHierarchy;
     QMap<QString, QMap<QString, QString>> m_fromTGtoRBS;
 
     QTimer *m_defaultTimer;

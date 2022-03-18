@@ -21,6 +21,7 @@ public:
     /// before you need subscribe on SIGNAL loginStatus(const bool state), so you can check
     /// your data is valid.
     void connectToNode();
+    void reconnect();
 
     bool isLoggedInNode() const;
 
@@ -58,7 +59,7 @@ signals:
     /// @brief emitted when Telnet received terminating symbol.
     ///
     void commandExecuted(const QString &answer);
-    void loginState(bool state);
+    void loginStateChanged(bool state);
     void errorOccured(const QString &detail);
     void socketStateChanged(QAbstractSocket::SocketState state);
 

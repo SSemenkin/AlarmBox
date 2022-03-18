@@ -28,7 +28,7 @@ ControllerListWidget::ControllerListWidget(QWidget *parent) :
 
     connect(m_addAction.data(), &QAction::triggered, this, &ControllerListWidget::addRequested);
     connect(m_reconnectAction.data(), &QAction::triggered, this, [this] () {
-        QListWidgetItem *d = item(m_hostToRow[selectedItems().first()->text()]);
+        QListWidgetItem *d = item(m_hostToRow[selectedItems().first()->toolTip()]);
         d->setIcon(m_undefIcon);
         callMethod(&ControllerListWidget::reconnectRequested);
     });
@@ -84,7 +84,7 @@ void ControllerListWidget::contextMenuEvent(QContextMenuEvent *event)
 void ControllerListWidget::addController(Telnet *telnet)
 {
     if (!m_controllersHosts.contains(telnet->hostname())) {
-        addItem(telnet->hostname());
+        addItem(telnet->parsedTitle());
         m_controllersHosts.push_back(telnet->hostname());
         m_hostToRow[telnet->hostname()] = count() - 1;
     }
@@ -92,10 +92,11 @@ void ControllerListWidget::addController(Telnet *telnet)
     QListWidgetItem *d = item(m_hostToRow[telnet->hostname()]);
     if (telnet->isLoggedInNode()) {
         d->setIcon(m_okIcon);
-        d->setToolTip(telnet->parsedTitle());
     } else {
         d->setIcon(m_noOkIcon);
     }
+    d->setText(telnet->parsedTitle());
+    d->setToolTip(telnet->hostname());
 }
 
 bool ControllerListWidget::callMethod(void (ControllerListWidget::*method)(const QString &))
@@ -107,7 +108,7 @@ bool ControllerListWidget::callMethod(void (ControllerListWidget::*method)(const
     } else if (d_items.first()->text() == tr("All")) {
         return false;
     }
-    emit (this->*method)(d_items.first()->text());
+    emit (this->*method)(d_items.first()->toolTip());
     return true;
 }
 
