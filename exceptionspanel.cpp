@@ -33,7 +33,7 @@ ExceptionsPanel::ExceptionsPanel(QWidget *parent) :
         for (auto jt = it.value().begin(); jt != it.value().end(); ++jt) {
             setItem(rowCounter, 0, new QTableWidgetItem((*jt).m_controller));
             setItem(rowCounter, 1, new QTableWidgetItem((*jt).m_object));
-            setItem(rowCounter++, 2, new QTableWidgetItem((*jt).m_alarmType));
+            setItem(rowCounter++, 2, new QTableWidgetItem(titleToAlarmTypeIndex((*jt).m_alarmType.toInt())));
         }
     }
     setupContextMenu();
@@ -75,7 +75,7 @@ void ExceptionsPanel::addException(const QString &controller, const QString &obj
     setRowCount(rowCount() + 1);
     setItem(rowCount() - 1, 0, new QTableWidgetItem(controller));
     setItem(rowCount() - 1, 1, new QTableWidgetItem(object));
-    setItem(rowCount() - 1, 2, new QTableWidgetItem(alarmType));
+    setItem(rowCount() - 1, 2, new QTableWidgetItem(titleToAlarmTypeIndex(alarmType.toInt())));
 }
 
 void ExceptionsPanel::removeException()
@@ -122,4 +122,12 @@ void ExceptionsPanel::setupContextMenu()
 
     addAction(addException);
     addAction(removeException);
+}
+
+QString ExceptionsPanel::titleToAlarmTypeIndex(int index)
+{
+    static QStringList alarmTypes {tr("CF Alarm"), tr("Manually blocked"),
+                                   tr("Halted"), tr("Not works")};
+    Q_ASSERT_X(index >= 0 && index < alarmTypes.size(), Q_FUNC_INFO, "Index out of range.");
+    return alarmTypes.at(index);
 }

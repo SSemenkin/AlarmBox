@@ -19,7 +19,7 @@ AlarmTreeWidget::AlarmTreeWidget(QWidget *parent) :
 
     setContextMenuPolicy(Qt::ContextMenuPolicy::ActionsContextMenu);
 
-    QAction *refreshAction = new QAction(QIcon(":/icons/apps/scalable/catfish.svg"), tr("Refresh"), this);
+    QAction *refreshAction = new QAction(QIcon(":/icons/apps/scalable/acetoneiso.svg"), tr("Refresh"), this);
     QAction *addExceptionAction = new QAction(QIcon(":/icons/preferences/scalable/cs-themes.svg"), tr("Exceptions"), this);
     connect(addExceptionAction, &QAction::triggered, this, &AlarmTreeWidget::execAddExceptionDialog);
     connect(refreshAction, &QAction::triggered, this, [this](){
@@ -77,8 +77,11 @@ void AlarmTreeWidget::onCurrentControllerChanged(const QString &controllerHostna
 
     for (int i = 0; i < m_alarms.size(); ++i) {
         DisplayAlarm &alarm = m_alarms[i];
-        if (alarm.m_alarm.m_state == Alarm::State::Normal &&
-                controllerHostname == alarm.m_alarm.m_controller) {
+        if ((alarm.m_alarm.m_state == Alarm::State::Normal &&
+                controllerHostname == alarm.m_alarm.m_controllerTitle)
+                ||
+                (alarm.m_alarm.m_state == Alarm::State::Normal &&
+                                controllerHostname == alarm.m_alarm.m_controller)) {
                     markItemLikeNormal(alarm, Qt::lightGray);
         }
     }
@@ -142,7 +145,7 @@ void AlarmTreeWidget::processNewAlarm(const Alarm &alarm)
      // обработка исключений
      // не добавлять те аварии, которые находятся в исключении
      if (m_exceptionsPanel->isInException(alarm.m_controllerTitle, alarm.m_object,
-                                          static_cast<AlarmTreeWidgetItem*>(parent)->pinnedText())) {
+                                         QString::number(static_cast<int>(alarm.m_category)))) {
          return;
      }
 

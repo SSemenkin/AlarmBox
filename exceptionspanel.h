@@ -25,6 +25,8 @@ private:
     bool isDuplicate(const DisplayException &exception) const;
 
     void setupContextMenu();
+
+    static QString titleToAlarmTypeIndex(int index);
 private:
     QMap<QString, QVector<DisplayException>> m_exceptions;
 };

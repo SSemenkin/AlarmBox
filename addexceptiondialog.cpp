@@ -33,6 +33,6 @@ void AddExceptionDialog::accept()
     }
     emit exceptionAdded(ui->controllerCombo->currentText(),
                         ui->object->text(),
-                        ui->alarmTypeCombo->currentText());
+                        QString::number(ui->alarmTypeCombo->currentIndex()));
     QDialog::accept();
 }
