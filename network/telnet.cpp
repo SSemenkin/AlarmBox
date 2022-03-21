@@ -15,8 +15,8 @@ Telnet::Telnet(const QString &nodeTitle, const QString &hostname, const QString 
     QObject::connect(telnet, &QTelnet::disconnected, this, &Telnet::sendDisconnect);
     QObject::connect(telnet, &QTelnet::stateChanged, this, [this] (QAbstractSocket::SocketState state){
         m_state = state;
-        emit socketStateChanged(m_state);
     });
+    QObject::connect(telnet, &QTelnet::socketError, this, &Telnet::processSocketError);
 }
 
 Telnet::Telnet(QObject *parent) : Telnet("", "", "", "", 23, parent)
@@ -247,4 +247,114 @@ void Telnet::resetState()
 void Telnet::sendDisconnect()
 {
     emit errorOccured(QString("disconnected from host %1").arg(this->hostname()));
+}
+
+void Telnet::processSocketError(QAbstractSocket::SocketError error)
+{
+    QString errorMessage;
+    switch (error) {
+
+    case QAbstractSocket::SocketError::AddressInUseError :
+    {
+        errorMessage = tr("The address specified to QAbstractSocket::bind() is already in use and was set to be exclusive.");
+        break;
+    }
+    case QAbstractSocket::SocketError::ConnectionRefusedError :
+    {
+        errorMessage = tr("The connection was refused by the peer (or timed out).");
+        break;
+    }
+    case QAbstractSocket::SocketError::DatagramTooLargeError :
+    {
+        errorMessage = tr("The datagram was larger than the operating system's limit (which can be as low as 8192 bytes).");
+        break;
+    }
+    case QAbstractSocket::SocketError::HostNotFoundError :
+    {
+        errorMessage = tr("The host address was not found.");
+        break;
+    }
+    case QAbstractSocket::SocketError::NetworkError :
+    {
+        errorMessage = tr("An error occurred with the network (e.g., the network cable was accidentally plugged out).");
+        break;
+    }
+    case QAbstractSocket::SocketError::OperationError :
+    {
+        errorMessage = tr("An operation was attempted while the socket was in a state that did not permit it.");
+        break;
+    }
+    case QAbstractSocket::SocketError::ProxyAuthenticationRequiredError :
+    {
+        errorMessage = tr("The socket is using a proxy, and the proxy requires authentication.");
+        break;
+    }
+    case QAbstractSocket::SocketError::ProxyConnectionClosedError :
+    {
+        errorMessage = tr("The connection to the proxy server was closed unexpectedly (before the connection to the final peer was established).");
+        break;
+    }
+    case QAbstractSocket::SocketError::ProxyConnectionRefusedError:
+    {
+        errorMessage = tr("Could not contact the proxy server because the connection to that server was denied.");
+        break;
+    }
+    case QAbstractSocket::SocketError::ProxyConnectionTimeoutError :
+    {
+        errorMessage = tr("The connection to the proxy server timed out or the proxy server stopped responding in the authentication phase.");
+        break;
+    }
+    case QAbstractSocket::SocketError::ProxyNotFoundError :
+    {
+        errorMessage = tr("The proxy address set with setProxy() (or the application proxy) was not found.");
+        break;
+    }
+    case QAbstractSocket::SocketError::ProxyProtocolError :
+    {
+        errorMessage = tr("The connection negotiation with the proxy server failed, because the response from the proxy server could not be understood.");
+        break;
+    }
+    case QAbstractSocket::SocketError::RemoteHostClosedError :
+    {
+        errorMessage = tr("The remote host closed the connection.");
+        break;
+    }
+    case QAbstractSocket::SocketError::SocketAccessError :
+    {
+        errorMessage = tr("The socket operation failed because the application lacked the required privileges.");
+        break;
+    }
+    case QAbstractSocket::SocketError::SocketAddressNotAvailableError :
+    {
+        errorMessage = tr("The address specified to QAbstractSocket::bind() does not belong to the host.");
+        break;
+    }
+    case QAbstractSocket::SocketError::SocketResourceError :
+    {
+        errorMessage = tr("The local system ran out of resources (e.g., too many sockets).");
+        break;
+    }
+    case QAbstractSocket::SocketError::SocketTimeoutError :
+    {
+        errorMessage = tr("The socket operation timed out.");
+        break;
+    }
+    case QAbstractSocket::SocketError::TemporaryError :
+    {
+        errorMessage = tr("A temporary error occurred (e.g., operation would block and socket is non-blocking).");
+        break;
+    }
+    case QAbstractSocket::SocketError::UnknownSocketError :
+    {
+        errorMessage = tr("An unidentified error occurred.");
+        break;
+    }
+    case QAbstractSocket::SocketError::UnsupportedSocketOperationError :
+    {
+        errorMessage = tr("The requested socket operation is not supported by the local operating system (e.g., lack of IPv6 support).");
+        break;
+    }
+
+    }// end switch
+    emit errorOccured(errorMessage);
 }

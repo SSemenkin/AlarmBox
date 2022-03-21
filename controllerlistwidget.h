@@ -15,9 +15,9 @@ public:
 
     void processFailedControllerAuthentication(Telnet *controller);
     void processSuccessfullControllerAuthentication(Telnet *controller);
-    void processControllerError(const QString &errorText, Telnet *controller);
+    void processControllerNoMMLError(const QString &errorText, Telnet *controller);
+    void processControllerMMLError(const QString &errorText, Telnet *controller);
     void removeController();
-
 signals:
     void addRequested();
     void detailRequested(const QString &hostname);

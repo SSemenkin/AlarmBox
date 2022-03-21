@@ -6,7 +6,7 @@
 #define makeAndReturnStaticQString(x) static QString d((x)); \
     return d;
 
-uint64_t AlarmInterrogator::timeDelta {Settings::instance()->period() * 60 * 1000}; // by default 180 seconds
+uint64_t AlarmInterrogator::timeDelta {Settings::instance()->getRefreshPeriod() * 60 * 1000}; // by default 180 seconds
 
 AlarmInterrogator::AlarmInterrogator(const QList<QSharedPointer<Telnet>> &controllerList, QObject *parent)
     : QObject{parent}
@@ -57,8 +57,7 @@ void AlarmInterrogator::onPeriodChanged(uint32_t delta)
 {
     timeDelta = delta * 60 * 1000;
     m_timer->stop();
-    m_timer->setInterval(timeDelta);
-    m_timer->start();
+    m_timer->start(timeDelta);
 }
 
 const QStringList& AlarmInterrogator::interrogatorCommands()
@@ -94,7 +93,7 @@ const QString &AlarmInterrogator::rxtcp()
 
 void AlarmInterrogator::interrogateControllers() const
 {
-    if (Settings::instance()->autoRefreshEnabled()) {
+    if (Settings::instance()->getIsAutoRefreshEnabled()) {
         for (int i = 0; i < m_controllerList.size(); ++i) {
             for (int j = 0; j < interrogatorCommands().size(); ++j) {
                 m_controllerList.at(i)->executeCommand(interrogatorCommands().at(j));
@@ -199,7 +198,19 @@ void AlarmInterrogator::processRLCRP(const QString &print)
 
 void AlarmInterrogator::processErrors(const QString &errorText)
 {
-    if (!Telnet::finishTokens().contains(errorText)) {
+    if (Telnet::finishTokens().contains(errorText)) {
+        if (errorText == Telnet::finishTokens().at(1) ||
+            errorText == Telnet::finishTokens().at(4))
+        {
+            m_answerReceived--;
+            fromController()->executeCommand(fromController()->lastCommand());
+            processOutput("");
+            qDebug() << "repeat command " << fromController()->lastCommand() <<
+                        "\nReceived answer: " << errorText;
+            return;
+        }
+        emit MMLError(errorText, fromController());
+    } else {
         emit noMMLError(errorText, fromController());
     }
 }
@@ -234,7 +245,6 @@ void AlarmInterrogator::updateObjectHierarchy(const QString &print)
     }
 
     m_fromTGtoRBS[fromController()->hostname()][tg] = rbs.m_name;
-    rbs.m_cells.clear();
 }
 
 Alarm AlarmInterrogator::createDefaultAlarm(Alarm::AlarmCategory category) const

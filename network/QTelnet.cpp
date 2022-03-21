@@ -17,7 +17,7 @@ char QTelnet::_arrCR[2]           = { 13, 0 };
 QTelnet::QTelnet(QObject *parent) :
 	QTcpSocket(parent), m_actualSB(0)
 {
-	connect( this, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(socketError(QAbstractSocket::SocketError)) );
+    connect( this, SIGNAL(error(QAbstractSocket::SocketError)), this, SIGNAL(socketError(QAbstractSocket::SocketError)) );
 	connect( this, SIGNAL(readyRead()),		this, SLOT(onReadyRead()) );
 }
 
@@ -50,12 +50,6 @@ void QTelnet::sendData(const QByteArray &ba)
 {
 	if( isConnected() )
 		transpose( ba.constData(), ba.count() );
-}
-
-void QTelnet::socketError(QAbstractSocket::SocketError err)
-{
-	Q_UNUSED(err);
-    //disconnectFromHost();
 }
 
 void QTelnet::write(const char c)

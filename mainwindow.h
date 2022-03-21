@@ -11,6 +11,7 @@
 #include "alarminterrogator.h"
 
 class AlarmDisplayWidget;
+class QSplitter;
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -30,11 +31,13 @@ private:
     void execAddControllerDialog();
     void execEditControllerDialog();
     void execSettingsDialog();
+    void createSplitter();
 
 private:
     Ui::MainWindow *ui;
     ControllerOwnership m_controllerOwner;
     QScopedPointer<AlarmInterrogator> m_interrogator;
+    QScopedPointer<QSplitter> m_splitter;
 
     ControllersEdit *m_controllersEdit;
     AlarmDisplayWidget *m_alarmDisplayWidget;

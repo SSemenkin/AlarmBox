@@ -28,6 +28,7 @@ signals:
     void autoRefreshChanged(bool state);
 private:
     void applySettings();
+    void chooseFont();
 private:
     Ui::SettingsDialog *ui;
     Settings& m_settings;

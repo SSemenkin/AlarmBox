@@ -15,11 +15,13 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
     , m_interrogator(new AlarmInterrogator(m_controllerOwner.controllerList()))
+    , m_splitter(new QSplitter(Qt::Horizontal))
     , m_controllersEdit(new ControllersEdit(this))
     , m_alarmDisplayWidget(new AlarmDisplayWidget(this))
 {
     ui->setupUi(this);
 
+    ///Buttons
     connect(m_controllersEdit->addControllerButton(), &QPushButton::clicked,
             this, &MainWindow::execAddControllerDialog);
     connect(m_controllersEdit->editControllerButton(), &QPushButton::clicked,
@@ -27,25 +29,30 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_controllersEdit->removeControllerButton(), &QPushButton::clicked,
             m_controllersEdit->controllerWidget(), &ControllerListWidget::removeController);
 
+    ///
+
+    ///ControllerOwner
     connect(&m_controllerOwner, &ControllerOwnership::controllerAuthenticationFailed,
             m_controllersEdit->controllerWidget(), &ControllerListWidget::processFailedControllerAuthentication);
     connect(&m_controllerOwner, &ControllerOwnership::controllerAuthenticationSuccessfull,
             m_controllersEdit->controllerWidget(), &ControllerListWidget::processSuccessfullControllerAuthentication);
+
     connect(&m_controllerOwner, &ControllerOwnership::controllerInfo, this, [] (QSharedPointer<Telnet> controller){
             //qDebug() << ControllerInfo(controller);
     });
-
-    connect(m_controllersEdit->controllerWidget(), &ControllerListWidget::addRequested, this, &MainWindow::execAddControllerDialog);
 
     connect(&m_controllerOwner, &ControllerOwnership::controllerAdded,
             m_interrogator.data(), &AlarmInterrogator::onControllerAdded);
     connect(&m_controllerOwner, &ControllerOwnership::controllerRemoved,
             m_interrogator.data(), &AlarmInterrogator::onControllerRemoved);
 
+    connect(m_controllersEdit->controllerWidget(), &ControllerListWidget::addRequested, this, &MainWindow::execAddControllerDialog);
+    ///
 
+
+    /// ControllerListWidget
     connect(m_controllersEdit->controllerWidget(), QOverload<Telnet*>::of(&ControllerListWidget::reconnectRequested),
             &m_controllerOwner, QOverload<Telnet*>::of(&ControllerOwnership::reconnect));
-
     connect(m_controllersEdit->controllerWidget(), QOverload<const QString&>::of(&ControllerListWidget::reconnectRequested),
             &m_controllerOwner, QOverload<const QString&>::of(&ControllerOwnership::reconnect));
     connect(m_controllersEdit->controllerWidget(), &ControllerListWidget::controllerSelectionChanged,
@@ -56,30 +63,44 @@ MainWindow::MainWindow(QWidget *parent)
             &m_controllerOwner, QOverload<const QString&>::of(&ControllerOwnership::removeController));
     connect(m_controllersEdit->controllerWidget(), &ControllerListWidget::detailRequested,
             &m_controllerOwner, &ControllerOwnership::onDetailControllerRequested);
-    connect(ui->action_Settings, &QAction::triggered, this, &MainWindow::execSettingsDialog);
+    ///
 
-    connect(m_interrogator.data(), &AlarmInterrogator::alarmsReceived,
-            m_alarmDisplayWidget, &AlarmDisplayWidget::processAlarms);
-    connect(m_alarmDisplayWidget, &AlarmDisplayWidget::refreshRequested,
-            m_interrogator.data(), &AlarmInterrogator::interrogateControllers);
-    connect(m_interrogator.data(), &AlarmInterrogator::noMMLError,
-            m_controllersEdit->controllerWidget(), &ControllerListWidget::processControllerError);
+    /// AlarmDisplayWidget
     connect(m_alarmDisplayWidget->alarmTreeWidget(), &AlarmTreeWidget::updated, this, [this] () {
         ui->statusbar->showMessage(tr("Last update : ") + QDateTime::currentDateTime().toString(Qt::DateFormat::LocaleDate));
     });
+    connect(m_alarmDisplayWidget, &AlarmDisplayWidget::refreshRequested,
+            m_interrogator.data(), &AlarmInterrogator::interrogateControllers);
 
+    ///
 
+    /// Action
+    connect(ui->action_Settings, &QAction::triggered, this, &MainWindow::execSettingsDialog);
 
+    ///
 
-    QSplitter *splitter = new QSplitter(Qt::Orientation::Horizontal, this);
-    splitter->addWidget(m_controllersEdit);
-    splitter->addWidget(m_alarmDisplayWidget);
-    ui->horizontalLayout->addWidget(splitter);
+    ///  Interrogator
+    connect(m_interrogator.data(), &AlarmInterrogator::alarmsReceived,
+            m_alarmDisplayWidget, &AlarmDisplayWidget::processAlarms);
 
+    connect(m_interrogator.data(), &AlarmInterrogator::noMMLError,
+            m_controllersEdit->controllerWidget(), &ControllerListWidget::processControllerNoMMLError);
+    connect(m_interrogator.data(), &AlarmInterrogator::MMLError,
+            m_controllersEdit->controllerWidget(), &ControllerListWidget::processControllerMMLError);
+
+    ///
+
+    createSplitter();
+
+    setGeometry(Settings::instance()->getWindowGeometry());
+    qApp->setFont(Settings::instance()->getFont());
 }
 
 MainWindow::~MainWindow()
 {
+    Settings::instance()->setWindowGeometry(geometry());
+    Settings::instance()->setSplitterSizes(m_splitter->sizes());
+    Settings::instance()->setFont(qApp->font());
     delete ui;
 }
 
@@ -112,6 +133,18 @@ void MainWindow::execSettingsDialog()
     connect(&dialog, &SettingsDialog::localeChanged, this, &MainWindow::onLanguageChanged);
     connect(&dialog, &SettingsDialog::periodChanged, m_interrogator.data(), &AlarmInterrogator::onPeriodChanged);
     dialog.exec();
+}
+
+void MainWindow::createSplitter()
+{
+    m_splitter->addWidget(m_controllersEdit);
+    m_splitter->addWidget(m_alarmDisplayWidget);
+    ui->horizontalLayout->addWidget(m_splitter.data());
+
+    QList<int> sizes = Settings::instance()->getSplitterSizes();
+    if(!sizes.isEmpty()) {
+        m_splitter->setSizes(sizes);
+    }
 }
 
 void MainWindow::onLanguageChanged(const QLocale &locale)

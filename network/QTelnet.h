@@ -127,9 +127,9 @@ signals:
 	void newData(const char *buff, int len);
 	void endOfRecord();
 	void echoLocal(bool echo);
+    void socketError(QAbstractSocket::SocketError);
 
 private slots:
-	void socketError(QAbstractSocket::SocketError err);
 	void onReadyRead();
 };
 

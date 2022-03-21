@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     a.setStyle(QStyleFactory::create("fusion"));
-    QLocale locale = Settings::instance()->locale();
+    QLocale locale = Settings::instance()->getLocale();
     QTranslator translator;
     QTranslator qtTranslator;
 
@@ -23,6 +23,8 @@ int main(int argc, char *argv[])
                     QLibraryInfo::location(QLibraryInfo::TranslationsPath));
         a.installTranslator(&qtTranslator);
     }
+
+    a.setFont(QFont("Consolas", 12));
     MainWindow w;
     w.show();
     return a.exec();

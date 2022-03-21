@@ -10,6 +10,7 @@
 
 struct ControllerInfo
 {
+    explicit ControllerInfo() = default;
     explicit ControllerInfo(QSharedPointer<Telnet> controller) :
         m_hostname(controller->hostname()),
         m_username(controller->username()),
@@ -17,7 +18,6 @@ struct ControllerInfo
     {
 
     }
-    explicit ControllerInfo() = default;
 
     QString m_hostname;
     QString m_username;
@@ -32,6 +32,7 @@ struct ControllerInfo
 
 struct DisplayException
 {
+    explicit DisplayException() = default;
     explicit DisplayException(const QString &object,
                      const QString &alarmType,
                      const QString &controller) :
@@ -45,7 +46,6 @@ struct DisplayException
         DisplayException(object, QString::number(alarmType), controller) {}
 
 
-    explicit DisplayException() = default;
 
     QVariantMap toVariantMap() const {
         return QVariantMap({std::make_pair("controller", m_controller),
@@ -72,12 +72,6 @@ struct DisplayException
 
 struct AlarmComment
 {
-    QString m_object;
-    QString m_controller;
-    QString m_alarmType;
-    QString m_description;
-    QDateTime m_createAt;
-
     AlarmComment() = default;
 
     AlarmComment(const AlarmComment&) = default;
@@ -118,9 +112,16 @@ struct AlarmComment
         dbg << c.m_object << c.m_alarmType << c.m_description;
         return dbg;
     }
+
+    QString m_object;
+    QString m_controller;
+    QString m_alarmType;
+    QString m_description;
+    QDateTime m_createAt;
 };
 
-class Settings : protected QSettings
+class Settings : protected QSettings // наследование protected для того чтобы закрыть доступ к методам базового класса
+                                     // и оставить такую возможность только для наследников.
 {
     Q_OBJECT
 public:
@@ -130,14 +131,14 @@ public:
 
     static QString decodeEncodeData(const QString &input, const QString &key = "%31_)*&z;");
 
-    QLocale locale() const;
+    QLocale getLocale() const;
     void setLocale(const QLocale &locale);
 
-    bool autoRefreshEnabled() const;
-    void setRefreshEnabled(bool state);
+    bool getIsAutoRefreshEnabled() const;
+    void setAutoRefreshEnabled(bool state);
 
-    uint32_t period() const;
-    void setPeriod(uint32_t period);
+    uint32_t getRefreshPeriod() const;
+    void setRefreshPeriod(uint32_t period);
 
     void setAlarmComments(const QMap<QString, QMap<QString, AlarmComment>> &controllerComments);
     QMap<QString, QMap<QString, AlarmComment>> getAlarmComments() const;
@@ -145,16 +146,27 @@ public:
     void setDisplayExceptions(const QMap<QString, QVector<DisplayException>>& exceptions);
     QMap<QString, QVector<DisplayException>> getExceptions() const;
 
+    void setWindowGeometry(const QRect &windowRect);
+    QRect getWindowGeometry() const;
+
+    void setSplitterSizes(const QList<int> &sizes);
+    QList<int> getSplitterSizes() const;
+
+    void setFont(const QFont &font);
+    QFont getFont() const;
 
 protected:
     explicit Settings(QObject *parent = nullptr);
 
 private:
+    ///@brief Метод сериализации данных в JSON формат.
+    /// @param data контейнер данных
+    /// накладывает на объект, такие требование что получаемый при итерации объект должен быть сам итерируем
+    /// и внутри такого объекта необходимо реализовать метод QVariantMap toVariantMap()
+    /// @param filename
+    /// имя файла (будет распологаться в user/appdata/local/programm/filename.prefix
     template<typename T>
-    void serialize(const QMap<QString, QVector<T>> &data, const QString& filename) const;
-
-    template<typename T>
-    void serialize(const QMap<QString, QMap<QString, T>> &data, const QString& filename) const;
+    void serialize(const T &data, const QString& filename) const;
 };
 
 #endif // SETTINGS_H

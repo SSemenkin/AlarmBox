@@ -52,7 +52,12 @@ void ControllerListWidget::processSuccessfullControllerAuthentication(Telnet *te
     addController(telnet);
 }
 
-void ControllerListWidget::processControllerError(const QString &errorText, Telnet *telnet)
+void ControllerListWidget::processControllerMMLError(const QString &errorText, Telnet *controller)
+{
+    QMessageBox::critical(this, tr("Error in mml mode"), QString(tr("Error: %1\nController: %2")).arg(errorText, controller->hostname()));
+}
+
+void ControllerListWidget::processControllerNoMMLError(const QString &errorText, Telnet *telnet)
 {
     if (!m_hostToRow.contains(telnet->hostname())) {
         addController(telnet);
@@ -117,7 +122,7 @@ void ControllerListWidget::askForReconnect(Telnet *controller, const QString &er
     QListWidgetItem *d = item(m_hostToRow.value(controller->hostname()));
     d->setIcon(m_noOkIcon);
 
-    QString messageText = tr("Error: %1\nFailed connection on %2!\nDo you want try again?");
+    QString messageText = tr("Error: %1\nController: %2!\nDo you want to reconnect?");
 
     if (!messageText.isEmpty()) {
         messageText = messageText.arg(errorText);
@@ -128,7 +133,6 @@ void ControllerListWidget::askForReconnect(Telnet *controller, const QString &er
     if (result == QMessageBox::StandardButton::Yes) {
         QListWidgetItem *d = item(m_hostToRow[controller->hostname()]);
         d->setIcon(m_undefIcon);
-
         emit reconnectRequested(controller);
     }
 }

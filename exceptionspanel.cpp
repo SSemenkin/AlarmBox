@@ -128,16 +128,18 @@ void ExceptionsPanel::setupContextMenu()
 
 QString ExceptionsPanel::titleToAlarmTypeIndex(int index)
 {
-    static QStringList alarmTypes {tr("CF Alarm"), tr("Manually blocked"),
-                                   tr("Halted"), tr("Not works")};
-    Q_ASSERT_X(index >= 0 && index < alarmTypes.size(), Q_FUNC_INFO, "Index out of range.");
-    return alarmTypes.at(index);
+    Q_ASSERT_X(index >= 0 && index < alarmTitles().size(), Q_FUNC_INFO, "Index out of range.");
+    return alarmTitles().at(index);
 }
 
 int ExceptionsPanel::indexToAlarmTitle(const QString &title)
 {
-    static QStringList alarmTypes {tr("CF Alarm"), tr("Manually blocked"),
-                                   tr("Halted"), tr("Not works")};
+    return alarmTitles().indexOf(title);
+}
 
-    return alarmTypes.indexOf(title);
+QStringList ExceptionsPanel::alarmTitles()
+{
+    static QStringList d {tr("CF Alarm"), tr("Manually blocked"),
+                          tr("Halted"), tr("Not works")};
+    return d;
 }

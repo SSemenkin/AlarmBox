@@ -75,6 +75,7 @@ public:
 signals:
     void alarmsReceived(const QVector<Alarm> &currentAlarms);
     void noMMLError(const QString &text, Telnet *controller);
+    void MMLError(const QString &text, Telnet *controller);
 protected:
     static const QString& rxasp();
     static const QString& rxmsp();

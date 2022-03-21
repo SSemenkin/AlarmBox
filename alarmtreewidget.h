@@ -70,6 +70,11 @@ private:
     QMap<QString, QMap<QString, AlarmComment>> m_userComments;
     QScopedPointer<ExceptionsPanel> m_exceptionsPanel;
     bool m_isManuallyRefreshed {false};
+
+
+    // QAbstractItemView interface
+protected:
+    virtual bool edit(const QModelIndex &index, EditTrigger trigger, QEvent *event) override;
 };
 
 #endif // ALARMTREEWIDGET_H

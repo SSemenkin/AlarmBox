@@ -5,7 +5,8 @@
 #include <QJsonObject>
 #include <QJsonValue>
 #include <QJsonArray>
-
+#include <QRect>
+#include <QFont>
 
 Settings::Settings(QObject *parent)
     : QSettings(QStandardPaths::writableLocation(QStandardPaths::StandardLocation::AppConfigLocation) +"/AlarmBox/config.ini",
@@ -15,26 +16,7 @@ Settings::Settings(QObject *parent)
 }
 
 template <typename T>
-void Settings::serialize(const QMap<QString, QMap<QString, T>> &data, const QString& filename) const
-{
-    QJsonDocument document;
-    QJsonArray array;
-
-    QFile f(QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation) + "/" + filename);
-    f.open(QIODevice::WriteOnly | QIODevice::Truncate);
-    for (auto it = data.begin(); it != data.end(); ++it) {
-        for (auto jt = it.value().begin(); jt != it.value().end(); ++jt) {
-            QJsonValue value;
-            array.push_back(QJsonValue::fromVariant((*jt).toVariantMap()));
-        }
-    }
-    document.setArray(array);
-    f.write(document.toJson());
-    f.close();
-}
-
-template <typename T>
-void Settings::serialize(const QMap<QString, QVector<T>> &data, const QString& filename) const
+void Settings::serialize(const T &data, const QString& filename) const
 {
     QJsonDocument document;
     QJsonArray array;
@@ -97,7 +79,7 @@ QList<ControllerInfo> Settings::getControllersInfos()
     return result;
 }
 
-QLocale Settings::locale() const
+QLocale Settings::getLocale() const
 {
     return value("language", QLocale(QLocale::English)).toLocale();
 }
@@ -107,22 +89,22 @@ void Settings::setLocale(const QLocale &locale)
     setValue("language", locale);
 }
 
-bool Settings::autoRefreshEnabled() const
+bool Settings::getIsAutoRefreshEnabled() const
 {
     return value("isAuto", true).toBool();
 }
 
-void Settings::setRefreshEnabled(bool state)
+void Settings::setAutoRefreshEnabled(bool state)
 {
     setValue("isAuto", state);
 }
 
-uint32_t Settings::period() const
+uint32_t Settings::getRefreshPeriod() const
 {
     return value("period", 3).toUInt();
 }
 
-void Settings::setPeriod(uint32_t period)
+void Settings::setRefreshPeriod(uint32_t period)
 {
     setValue("period", period);
 }
@@ -183,6 +165,51 @@ QMap<QString, QVector<DisplayException>> Settings::getExceptions() const
 
     f.close();
     return result;
+}
+
+void Settings::setWindowGeometry(const QRect &windowRect)
+{
+    setValue("window_geometry", windowRect);
+}
+
+QRect Settings::getWindowGeometry() const
+{
+    return value("window_geometry", QRect(0, 0, 800, 600)).toRect();
+}
+
+void Settings::setSplitterSizes(const QList<int> &sizes)
+{
+    QStringList s;
+    for (int i = 0; i < sizes.size(); ++i) {
+        s.push_back(QString::number(sizes[i]));
+    }
+    setValue("splitter_sizes", s);
+}
+
+QList<int> Settings::getSplitterSizes() const
+{
+    QStringList s =  value("splitter_sizes").toStringList();
+
+    QList<int> result;
+    for (int i = 0; i < s.size(); ++i) {
+        result.push_back(s[i].toInt());
+    }
+
+    return result;
+}
+
+void Settings::setFont(const QFont &font)
+{
+    setValue("app_font_family", font.family());
+    setValue("font_size", font.pointSize());
+}
+
+QFont Settings::getFont() const
+{
+   QFont result;
+   result.setFamily(value("app_font_family").toString());
+   result.setPointSize(value("font_size").toInt());
+   return result;
 }
 
 QString Settings::decodeEncodeData(const QString &input, const QString &key)

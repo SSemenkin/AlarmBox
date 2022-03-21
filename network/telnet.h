@@ -61,8 +61,6 @@ signals:
     void commandExecuted(const QString &answer);
     void loginStateChanged(bool state);
     void errorOccured(const QString &detail);
-    void socketStateChanged(QAbstractSocket::SocketState state);
-
 private:
     /// @brief struct contains info about network element and info to authentication to him.
     struct AuthenticationData{
@@ -116,6 +114,7 @@ private Q_SLOTS:
     void writeIfStateEnabled();
     void resetState();
     void sendDisconnect();
+    void processSocketError(QAbstractSocket::SocketError error);
 };
 
 

@@ -1,6 +1,7 @@
 #include "alarmtreewidget.h"
 
 #include <QAction>
+#include <QAbstractItemModel>
 
 AlarmTreeWidget::AlarmTreeWidget(QWidget *parent) :
     QTreeWidget(parent)
@@ -37,6 +38,18 @@ AlarmTreeWidget::~AlarmTreeWidget()
 
 void AlarmTreeWidget::processAlarms(const QVector<Alarm> &alarms)
 {
+
+    for (int i = 0; i < m_alarms.size(); ++i) {
+        if (!alarms.contains(m_alarms.at(i).m_alarm)) {
+            if (m_isManuallyRefreshed) {
+                processClearedAlarm(m_alarms[i--]);
+            }
+        }
+        if (!alarms.contains(m_alarms.at(i).m_alarm)) {
+            markItemLikeCleared(m_alarms[i]);
+        }
+    }
+
     for (int i = 0; i < alarms.size(); ++i) {
         auto alarm = std::find_if(m_alarms.begin(),
                                m_alarms.end(), [&alarms, i](const DisplayAlarm& displayAlarm){
@@ -52,14 +65,6 @@ void AlarmTreeWidget::processAlarms(const QVector<Alarm> &alarms)
         }
     }
 
-    for (int i = 0; i < m_alarms.size(); ++i) {
-        if (!alarms.contains(m_alarms.at(i).m_alarm)) {
-            markItemLikeCleared(m_alarms[i]);
-            if (m_isManuallyRefreshed) {
-                processClearedAlarm(m_alarms[i--]);
-            }
-        }
-    }
     m_isManuallyRefreshed = false;
 
     emit updated();
@@ -200,4 +205,9 @@ void AlarmTreeWidget::saveUserComments()
        }
    }
    Settings::instance()->setAlarmComments(m_userComments);
+}
+
+bool AlarmTreeWidget::edit(const QModelIndex &index, EditTrigger trigger, QEvent *event)
+{
+    return QAbstractItemView::edit(index.model()->index(index.row(), 5, index.parent()), trigger, event);
 }
