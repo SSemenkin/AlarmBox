@@ -65,6 +65,8 @@ private:
 
     void loadUserComments();
     void saveUserComments();
+
+    void resizeColumnsToContents();
 private:
     QVector<DisplayAlarm> m_alarms;
     QMap<QString, QMap<QString, AlarmComment>> m_userComments;

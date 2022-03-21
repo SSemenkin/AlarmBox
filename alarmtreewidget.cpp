@@ -13,6 +13,8 @@ AlarmTreeWidget::AlarmTreeWidget(QWidget *parent) :
     addTopLevelItem(new AlarmTreeWidgetItem(tr("Halted")));
     addTopLevelItem(new AlarmTreeWidgetItem(tr("Not works")));
 
+    expandAll();
+
     topLevelItem(0)->setIcon(0, QIcon(":/icons/places/48/folder-public.svg"));
     topLevelItem(1)->setIcon(0, QIcon(":/icons/places/48/folder-documents.svg"));
     topLevelItem(2)->setIcon(0, QIcon(":/icons/places/48/folder-templates.svg"));
@@ -43,6 +45,7 @@ void AlarmTreeWidget::processAlarms(const QVector<Alarm> &alarms)
         if (!alarms.contains(m_alarms.at(i).m_alarm)) {
             if (m_isManuallyRefreshed) {
                 processClearedAlarm(m_alarms[i--]);
+                continue;
             }
         }
         if (!alarms.contains(m_alarms.at(i).m_alarm)) {
@@ -66,7 +69,7 @@ void AlarmTreeWidget::processAlarms(const QVector<Alarm> &alarms)
     }
 
     m_isManuallyRefreshed = false;
-
+    resizeColumnsToContents();
     emit updated();
 }
 
@@ -207,7 +210,19 @@ void AlarmTreeWidget::saveUserComments()
    Settings::instance()->setAlarmComments(m_userComments);
 }
 
+void AlarmTreeWidget::resizeColumnsToContents()
+{
+    for (int i = 0; i < columnCount(); ++i) {
+        resizeColumnToContents(i);
+    }
+}
+
 bool AlarmTreeWidget::edit(const QModelIndex &index, EditTrigger trigger, QEvent *event)
 {
-    return QAbstractItemView::edit(index.model()->index(index.row(), 5, index.parent()), trigger, event);
+    static uint64_t calls = 0;
+    qDebug() << Q_FUNC_INFO << "called " << ++calls;
+
+    if (index.parent().isValid())
+        return QAbstractItemView::edit(index.model()->index(index.row(), 5, index.parent()), trigger, event);
+    else return QAbstractItemView::edit(index, trigger, event);
 }
