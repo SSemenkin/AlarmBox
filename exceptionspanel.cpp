@@ -91,9 +91,11 @@ void ExceptionsPanel::removeException()
         return;
     }
     int row = selectItems.first()->row();
-    DisplayException d(item(row, 1)->text(), item(row, 2)->text(), item(row, 0)->text());
+    DisplayException d(item(row, 1)->text(), indexToAlarmTitle(item(row, 2)->text()), item(row, 0)->text());
 
-    m_exceptions[d.m_controller].removeOne(d);
+    bool r = m_exceptions[d.m_controller].removeOne(d);
+
+    qDebug() << (r ? "Exception removed." : "Exception dont removed.");
 
     for (int i = 0; i < 3; i++) {
         delete takeItem(row, i);
@@ -130,4 +132,12 @@ QString ExceptionsPanel::titleToAlarmTypeIndex(int index)
                                    tr("Halted"), tr("Not works")};
     Q_ASSERT_X(index >= 0 && index < alarmTypes.size(), Q_FUNC_INFO, "Index out of range.");
     return alarmTypes.at(index);
+}
+
+int ExceptionsPanel::indexToAlarmTitle(const QString &title)
+{
+    static QStringList alarmTypes {tr("CF Alarm"), tr("Manually blocked"),
+                                   tr("Halted"), tr("Not works")};
+
+    return alarmTypes.indexOf(title);
 }

@@ -55,7 +55,7 @@ void QTelnet::sendData(const QByteArray &ba)
 void QTelnet::socketError(QAbstractSocket::SocketError err)
 {
 	Q_UNUSED(err);
-	disconnectFromHost();
+    //disconnectFromHost();
 }
 
 void QTelnet::write(const char c)

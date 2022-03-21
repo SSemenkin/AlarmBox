@@ -27,6 +27,7 @@ private:
     void setupContextMenu();
 
     static QString titleToAlarmTypeIndex(int index);
+    static int indexToAlarmTitle(const QString &title);
 private:
     QMap<QString, QVector<DisplayException>> m_exceptions;
 };

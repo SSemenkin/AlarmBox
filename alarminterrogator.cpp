@@ -94,11 +94,11 @@ const QString &AlarmInterrogator::rxtcp()
 
 void AlarmInterrogator::interrogateControllers() const
 {
-    for (int i = 0; i < m_controllerList.size(); ++i) {
-        for (int j = 0; j < interrogatorCommands().size(); ++j) {
-//            if (m_controllerList.at(i)->isLoggedInNode()) {
+    if (Settings::instance()->autoRefreshEnabled()) {
+        for (int i = 0; i < m_controllerList.size(); ++i) {
+            for (int j = 0; j < interrogatorCommands().size(); ++j) {
                 m_controllerList.at(i)->executeCommand(interrogatorCommands().at(j));
-//            }
+            }
         }
     }
 }
@@ -123,6 +123,7 @@ void AlarmInterrogator::processOutput(const QString &output)
     ++m_answerReceived;
 
     if (m_answerReceived == m_answerExpected) {
+        std::sort(m_alarms.begin(), m_alarms.end());
         emit alarmsReceived(m_alarms);
         m_alarms.clear();
         m_answerReceived = 0;

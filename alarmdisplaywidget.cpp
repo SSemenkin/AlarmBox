@@ -28,3 +28,8 @@ void AlarmDisplayWidget::onControllerChanged(const QString &hostname)
 {
     ui->treeWidget->onCurrentControllerChanged(hostname);
 }
+
+const AlarmTreeWidget *AlarmDisplayWidget::alarmTreeWidget() const
+{
+    return ui->treeWidget;
+}

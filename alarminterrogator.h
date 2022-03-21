@@ -55,6 +55,9 @@ struct Alarm {
                 m_description == other.m_description &&
                 m_controller == other.m_controller;
     }
+    bool operator < (const Alarm& other) const {
+        return m_object < other.m_object;
+    }
 };
 
 class AlarmInterrogator : public QObject

@@ -61,6 +61,8 @@ void AlarmTreeWidget::processAlarms(const QVector<Alarm> &alarms)
         }
     }
     m_isManuallyRefreshed = false;
+
+    emit updated();
 }
 
 void AlarmTreeWidget::onCurrentControllerChanged(const QString &controllerHostname)

@@ -41,6 +41,10 @@ struct DisplayException
     {
 
     }
+    explicit DisplayException(const QString &object, int alarmType, const QString &controller) :
+        DisplayException(object, QString::number(alarmType), controller) {}
+
+
     explicit DisplayException() = default;
 
     QVariantMap toVariantMap() const {

@@ -4,6 +4,7 @@
 #include <QWidget>
 
 class Alarm;
+class AlarmTreeWidget;
 
 namespace Ui {
 class AlarmDisplayWidget;
@@ -19,6 +20,8 @@ public:
 
     void processAlarms(const QVector<Alarm> &alarms);
     void onControllerChanged(const QString &hostname);
+
+    const AlarmTreeWidget *alarmTreeWidget() const;
 
 signals:
     void refreshRequested();

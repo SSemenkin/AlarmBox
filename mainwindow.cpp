@@ -3,6 +3,7 @@
 #include "controllerlistwidget.h"
 #include "alarmdisplaywidget.h"
 #include "settingsdialog.h"
+#include "alarmtreewidget.h"
 
 #include <QListWidgetItem>
 #include <QMessageBox>
@@ -63,6 +64,9 @@ MainWindow::MainWindow(QWidget *parent)
             m_interrogator.data(), &AlarmInterrogator::interrogateControllers);
     connect(m_interrogator.data(), &AlarmInterrogator::noMMLError,
             m_controllersEdit->controllerWidget(), &ControllerListWidget::processControllerError);
+    connect(m_alarmDisplayWidget->alarmTreeWidget(), &AlarmTreeWidget::updated, this, [this] () {
+        ui->statusbar->showMessage(tr("Last update : ") + QDateTime::currentDateTime().toString(Qt::DateFormat::LocaleDate));
+    });
 
 
 

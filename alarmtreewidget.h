@@ -7,6 +7,7 @@
 #include "settings.h"
 #include "exceptionspanel.h"
 
+
 struct DisplayAlarm {
     DisplayAlarm() = default;
     DisplayAlarm(const Alarm& alarm, QTreeWidgetItem *alarmItem) : m_alarm(alarm)
@@ -51,6 +52,7 @@ public:
     void execAddExceptionDialog();
 signals:
     void refresh();
+    void updated();
 private:
     void markItemLikeRaised(DisplayAlarm &alarm, const QBrush& color = Qt::red);
     void markItemLikeCleared(DisplayAlarm &alarm, const QBrush& color = Qt::green);
