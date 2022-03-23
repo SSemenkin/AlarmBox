@@ -41,33 +41,8 @@ AlarmTreeWidget::~AlarmTreeWidget()
 void AlarmTreeWidget::processAlarms(const QVector<Alarm> &alarms)
 {
 
-    for (int i = 0; i < m_alarms.size(); ++i) {
-        if (!alarms.contains(m_alarms.at(i).m_alarm)) {
-            if (m_isManuallyRefreshed) {
-                processClearedAlarm(m_alarms[i--]);
-                continue;
-            }
-        }
-        if (!alarms.contains(m_alarms.at(i).m_alarm)) {
-            markItemLikeCleared(m_alarms[i]);
-        }
-    }
-
-    for (int i = 0; i < alarms.size(); ++i) {
-        auto alarm = std::find_if(m_alarms.begin(),
-                               m_alarms.end(), [&alarms, i](const DisplayAlarm& displayAlarm){
-            return displayAlarm.m_alarm == alarms.at(i) ;
-        });
-
-        if (alarm == m_alarms.end()) {
-            processNewAlarm(alarms.at(i));
-        } else {
-            if(m_isManuallyRefreshed) {
-                markItemLikeNormal(*alarm);
-            }
-        }
-    }
-
+    checkForClearedAlarms(alarms);
+    checkForRaisedAlarms(alarms);
     m_isManuallyRefreshed = false;
     resizeColumnsToContents();
     emit updated();
@@ -175,6 +150,40 @@ void AlarmTreeWidget::processClearedAlarm(DisplayAlarm &alarm)
     m_alarms.removeOne(alarm);
 }
 
+void AlarmTreeWidget::checkForClearedAlarms(const QVector<Alarm> &alarms)
+{
+    for (int i = 0; i < m_alarms.size(); ++i) {
+        if (!alarms.contains(m_alarms.at(i).m_alarm)) {
+            if (m_isManuallyRefreshed) {
+                m_alarms.at(i).m_alarm.m_state == Alarm::State::Cleared ?
+                            processClearedAlarm(m_alarms[i--]) : markItemLikeCleared(m_alarms[i]);
+                continue;
+            }
+        }
+        if (!alarms.contains(m_alarms.at(i).m_alarm)) {
+            markItemLikeCleared(m_alarms[i]);
+        }
+    }
+}
+
+void AlarmTreeWidget::checkForRaisedAlarms(const QVector<Alarm> &alarms)
+{
+    for (int i = 0; i < alarms.size(); ++i) {
+        auto alarm = std::find_if(m_alarms.begin(),
+                               m_alarms.end(), [&alarms, i](const DisplayAlarm& displayAlarm){
+            return displayAlarm.m_alarm == alarms.at(i) ;
+        });
+
+        if (alarm == m_alarms.end()) {
+            processNewAlarm(alarms.at(i));
+        } else {
+            if(m_isManuallyRefreshed) {
+                markItemLikeNormal(*alarm);
+            }
+        }
+    }
+}
+
 void AlarmTreeWidget::loadUserComments()
 {
     m_userComments = Settings::instance()->getAlarmComments();
@@ -219,9 +228,6 @@ void AlarmTreeWidget::resizeColumnsToContents()
 
 bool AlarmTreeWidget::edit(const QModelIndex &index, EditTrigger trigger, QEvent *event)
 {
-    static uint64_t calls = 0;
-    qDebug() << Q_FUNC_INFO << "called " << ++calls;
-
     if (index.parent().isValid())
         return QAbstractItemView::edit(index.model()->index(index.row(), 5, index.parent()), trigger, event);
     else return QAbstractItemView::edit(index, trigger, event);

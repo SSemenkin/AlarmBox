@@ -11,9 +11,9 @@ uint64_t AlarmInterrogator::timeDelta {Settings::instance()->getRefreshPeriod() 
 AlarmInterrogator::AlarmInterrogator(const QList<QSharedPointer<Telnet>> &controllerList, QObject *parent)
     : QObject{parent}
     , m_timer(new QTimer(this))
+    , m_defaultTimer(new QTimer(this))
     , m_controllerList(controllerList)
     , m_answerExpected(m_controllerList.size() * interrogatorCommands().size())
-    , m_defaultTimer(new QTimer(this))
 {
 
     for (int i = 0; i < m_controllerList.size(); ++i) {

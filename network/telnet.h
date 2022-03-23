@@ -113,7 +113,6 @@ private Q_SLOTS:
     void mmlHandler(const QString &responce);
     void writeIfStateEnabled();
     void resetState();
-    void sendDisconnect();
     void processSocketError(QAbstractSocket::SocketError error);
 };
 

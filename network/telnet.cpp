@@ -12,7 +12,6 @@ Telnet::Telnet(const QString &nodeTitle, const QString &hostname, const QString 
     m_file.open(QIODevice::Text | QIODevice::Append);
 
     QObject::connect(telnet, &QTelnet::newData,      this, &Telnet::receiveData);
-    QObject::connect(telnet, &QTelnet::disconnected, this, &Telnet::sendDisconnect);
     QObject::connect(telnet, &QTelnet::stateChanged, this, [this] (QAbstractSocket::SocketState state){
         m_state = state;
     });
@@ -26,7 +25,6 @@ Telnet::Telnet(QObject *parent) : Telnet("", "", "", "", 23, parent)
 
 Telnet::~Telnet()
 {
-    disconnect(telnet, &QTelnet::disconnected, this, &Telnet::sendDisconnect);
     if (telnet->isConnected()) {
         telnet->disconnectFromHost();
     }
@@ -39,11 +37,6 @@ void Telnet::connectToNode()
     if (!hostname().isEmpty()) {
         resetState();
         telnet->connectToHost(hostname(), port());
-        QTimer::singleShot(5000, this, [this] () {
-           if (!isLogged) {
-               emit errorOccured(tr("Connection timeout error."));
-           }
-        });
     } else {
         emit errorOccured(tr("Hostname of node is empty."));
     }
@@ -51,9 +44,7 @@ void Telnet::connectToNode()
 
 void Telnet::reconnect()
 {
-    disconnect(telnet, &QTelnet::disconnected, this, &Telnet::sendDisconnect);
     connectToNode();
-    connect(telnet, &QTelnet::disconnected, this, &Telnet::sendDisconnect);
 }
 
 bool Telnet::isLoggedInNode() const
@@ -243,12 +234,6 @@ void Telnet::resetState()
         telnet->disconnectFromHost();
     }
 }
-
-void Telnet::sendDisconnect()
-{
-    emit errorOccured(QString("disconnected from host %1").arg(this->hostname()));
-}
-
 void Telnet::processSocketError(QAbstractSocket::SocketError error)
 {
     QString errorMessage;

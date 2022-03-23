@@ -24,6 +24,7 @@ SOURCES += \
     mainwindow.cpp \
     network/QTelnet.cpp \
     network/telnet.cpp \
+    rbslocation.cpp \
     settings.cpp \
     settingsdialog.cpp
 
@@ -42,6 +43,7 @@ HEADERS += \
     mainwindow.h \
     network/QTelnet.h \
     network/telnet.h \
+    rbslocation.h \
     settings.h \
     settingsdialog.h
 

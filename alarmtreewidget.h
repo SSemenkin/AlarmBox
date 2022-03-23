@@ -53,6 +53,8 @@ public:
 signals:
     void refresh();
     void updated();
+protected:
+    virtual bool edit(const QModelIndex &index, EditTrigger trigger, QEvent *event) override;
 private:
     void markItemLikeRaised(DisplayAlarm &alarm, const QBrush& color = Qt::red);
     void markItemLikeCleared(DisplayAlarm &alarm, const QBrush& color = Qt::green);
@@ -62,6 +64,9 @@ private:
     QTreeWidgetItem* createAlarmItem(const Alarm &alarm);
     void processNewAlarm(const Alarm &alarm);
     void processClearedAlarm(DisplayAlarm& alarm);
+
+    void checkForClearedAlarms(const QVector<Alarm> &alarms);
+    void checkForRaisedAlarms(const QVector<Alarm> &alarms);
 
     void loadUserComments();
     void saveUserComments();
@@ -73,10 +78,6 @@ private:
     QScopedPointer<ExceptionsPanel> m_exceptionsPanel;
     bool m_isManuallyRefreshed {false};
 
-
-    // QAbstractItemView interface
-protected:
-    virtual bool edit(const QModelIndex &index, EditTrigger trigger, QEvent *event) override;
 };
 
 #endif // ALARMTREEWIDGET_H

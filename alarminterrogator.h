@@ -111,18 +111,15 @@ private:
 private:
     static uint64_t timeDelta;
 
-    QTimer *m_timer;
+    QTimer *m_timer; // таймер для опроса
+    QTimer *m_defaultTimer; // таймер для поддержания соединения, отслыает
 
     const QList<QSharedPointer<Telnet>> &m_controllerList;
-
     uint32_t m_answerReceived {0};
     uint32_t m_answerExpected;
 
     QVector<Alarm> m_alarms;
-
     QMap<QString, QMap<QString, QString>> m_fromTGtoRBS;
-
-    QTimer *m_defaultTimer;
 };
 
 #endif // ALARMINTERROGATOR_H

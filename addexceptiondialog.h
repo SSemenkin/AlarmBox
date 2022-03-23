@@ -25,6 +25,7 @@ signals:
                         const QString &alarmType);
 private:
     Ui::AddExceptionDialog *ui;
+
     const QList<QSharedPointer<Telnet>> &m_controllers;
     Settings *m_settings;
 };
