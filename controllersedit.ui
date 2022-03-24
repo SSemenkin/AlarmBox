@@ -23,7 +23,7 @@
        </property>
        <property name="icon">
         <iconset resource="res.qrc">
-         <normaloff>:/icons/apps/scalable/tomboy-ng.svg</normaloff>:/icons/apps/scalable/tomboy-ng.svg</iconset>
+         <normaloff>:/icons/tomboy-ng.svg</normaloff>:/icons/tomboy-ng.svg</iconset>
        </property>
       </widget>
      </item>
@@ -34,7 +34,7 @@
        </property>
        <property name="icon">
         <iconset resource="res.qrc">
-         <normaloff>:/icons/apps/scalable/com.azuredatastudio.oss.svg</normaloff>:/icons/apps/scalable/com.azuredatastudio.oss.svg</iconset>
+         <normaloff>:/icons/com.azuredatastudio.oss.svg</normaloff>:/icons/com.azuredatastudio.oss.svg</iconset>
        </property>
       </widget>
      </item>
@@ -55,7 +55,7 @@
        </property>
        <property name="icon">
         <iconset resource="res.qrc">
-         <normaloff>:/icons/apps/scalable/todo.svg</normaloff>:/icons/apps/scalable/todo.svg</iconset>
+         <normaloff>:/icons/todo.svg</normaloff>:/icons/todo.svg</iconset>
        </property>
       </widget>
      </item>

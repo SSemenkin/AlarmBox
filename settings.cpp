@@ -212,6 +212,16 @@ QFont Settings::getFont() const
    return result;
 }
 
+QString Settings::getLocationFilepath() const
+{
+    return value("location_filename", "adresses.txt").toString();
+}
+
+void Settings::setLocationFilepath(const QString &filepath)
+{
+    setValue("location_filename", filepath);
+}
+
 QString Settings::decodeEncodeData(const QString &input, const QString &key)
 {
     QByteArray inputData = input.toLatin1();

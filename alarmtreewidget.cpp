@@ -2,12 +2,15 @@
 
 #include <QAction>
 #include <QAbstractItemModel>
+#include <QMessageBox>
 
 AlarmTreeWidget::AlarmTreeWidget(QWidget *parent) :
     QTreeWidget(parent)
   , m_exceptionsPanel(new ExceptionsPanel)
+  , m_location(Settings::instance()->getLocationFilepath())
 {
     loadUserComments();
+
     addTopLevelItem(new AlarmTreeWidgetItem(tr("CF Alarm")));
     addTopLevelItem(new AlarmTreeWidgetItem(tr("Manually blocked")));
     addTopLevelItem(new AlarmTreeWidgetItem(tr("Halted")));
@@ -15,22 +18,12 @@ AlarmTreeWidget::AlarmTreeWidget(QWidget *parent) :
 
     expandAll();
 
-    topLevelItem(0)->setIcon(0, QIcon(":/icons/places/48/folder-public.svg"));
-    topLevelItem(1)->setIcon(0, QIcon(":/icons/places/48/folder-documents.svg"));
-    topLevelItem(2)->setIcon(0, QIcon(":/icons/places/48/folder-templates.svg"));
-    topLevelItem(3)->setIcon(0, QIcon(":/icons/places/48/folder.svg"));
+    topLevelItem(0)->setIcon(0, QIcon(":/icons/folder-public.svg"));
+    topLevelItem(1)->setIcon(0, QIcon(":/icons/folder-documents.svg"));
+    topLevelItem(2)->setIcon(0, QIcon(":/icons/folder-templates.svg"));
+    topLevelItem(3)->setIcon(0, QIcon(":/icons/folder.svg"));
 
-    setContextMenuPolicy(Qt::ContextMenuPolicy::ActionsContextMenu);
-
-    QAction *refreshAction = new QAction(QIcon(":/icons/apps/scalable/acetoneiso.svg"), tr("Refresh"), this);
-    QAction *addExceptionAction = new QAction(QIcon(":/icons/preferences/scalable/cs-themes.svg"), tr("Exceptions"), this);
-    connect(addExceptionAction, &QAction::triggered, this, &AlarmTreeWidget::execAddExceptionDialog);
-    connect(refreshAction, &QAction::triggered, this, [this](){
-        m_isManuallyRefreshed = true;
-        emit refresh();
-    });
-    addAction(refreshAction);
-    addAction(addExceptionAction);
+    setupContextMenu();
 }
 
 AlarmTreeWidget::~AlarmTreeWidget()
@@ -224,6 +217,60 @@ void AlarmTreeWidget::resizeColumnsToContents()
     for (int i = 0; i < columnCount(); ++i) {
         resizeColumnToContents(i);
     }
+}
+
+void AlarmTreeWidget::getObjectLocation()
+{
+    QList<QTreeWidgetItem*> d = selectedItems();
+
+    if (d.isEmpty()) {
+        return;
+    }
+
+    if (isItemTopLevel(d.first())) {
+        return;
+    }
+
+    QString object = d.first()->text(0);
+
+    QMessageBox::information(this, object + tr(" location"), m_location.getLocation(object));
+}
+
+bool AlarmTreeWidget::isItemTopLevel(QTreeWidgetItem *item) const
+{
+    for (int i = 0; i < topLevelItemCount(); ++i) {
+        if (item == topLevelItem(i)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+void AlarmTreeWidget::setupContextMenu()
+{
+    setContextMenuPolicy(Qt::ContextMenuPolicy::ActionsContextMenu);
+
+    QAction *refreshAction = new QAction(QIcon(":/icons/acetoneiso.svg"), tr("Refresh"), this);
+    QAction *addExceptionAction = new QAction(QIcon(":/icons/cs-themes.svg"), tr("Exceptions"), this);
+    QAction *getLocation = new QAction(QIcon(":/icons/gpxsee.svg"), tr("Location"), this);
+    QAction *updateLocations = new QAction(QIcon(":/icons/www-browser.svg"), tr("Update locations"), this);
+
+    connect(getLocation, &QAction::triggered, this, &AlarmTreeWidget::getObjectLocation);
+    connect(updateLocations, &QAction::triggered, this, [this] () {
+        m_location.updateLocations(Settings::instance()->getLocationFilepath());
+    });
+
+    connect(addExceptionAction, &QAction::triggered, this, &AlarmTreeWidget::execAddExceptionDialog);
+    connect(refreshAction, &QAction::triggered, this, [this](){
+        m_isManuallyRefreshed = true;
+        emit refresh();
+    });
+
+    addAction(refreshAction);
+    addAction(addExceptionAction);
+    addAction(getLocation);
+
+    addAction(updateLocations);
 }
 
 bool AlarmTreeWidget::edit(const QModelIndex &index, EditTrigger trigger, QEvent *event)

@@ -15,19 +15,43 @@ void RbsLocation::updateLocations(const QString &filename)
     file.open(QIODevice::ReadOnly |
               QIODevice::Text);
 
-    QStringList rows = QString(file.readAll()).split("\n");
+    QStringList rows = QString(file.readAll()).split("\n", Qt::SkipEmptyParts);
     for (int i = 0; i < rows.size(); ++i) {
-        int firstSpaceIndex = rows.at(i).indexOf(' ');
+        QStringList columns = rows.at(i).split(';');
+        const QString &object = columns.first();
+        const QString &location = columns.last();
 
-        QString object = rows.at(i).left(firstSpaceIndex);
-        QString location = rows.at(i).right(rows.at(i).length() - firstSpaceIndex);
-        m_locations.insert(object, location);
+        insert(object, location);
     }
+    file.close();
 }
 
 QString RbsLocation::getLocation(const QString &object)
 {
-    QMap<QString, QString>::iterator it = m_locations.find(object);
+    QMap<QString, QString>::iterator rbs_iterator  = m_locations.find(object);
+    QMap<QString, QString>::iterator cell_iterator = m_locations.find(object.left(object.length() - 1));
 
-    return it == m_locations.end() ? QString() : it.value();
+    if (rbs_iterator == m_locations.end() && cell_iterator == m_locations.end()) {
+        return QString(QObject::tr("Object location is unknown."));
+    } else if (rbs_iterator != m_locations.end()) {
+        return rbs_iterator.value();
+    } else {
+        return cell_iterator.value();
+    }
+}
+
+void RbsLocation::insert(const QString &object, const QString &location)
+{
+    if (object.contains("/")) {
+        QStringList objects = object.split("/", Qt::SkipEmptyParts);
+        for (int i = 0; i < objects.size(); ++i) {
+            m_locations.insert(objects.at(i), location);
+            m_locations.insert("LUG" + objects.at(i), location);
+            m_locations.insert("LU" + objects.at(i), location);
+        }
+    } else {
+        m_locations.insert(object, location);
+        m_locations.insert("LUG" + object, location);
+        m_locations.insert("LU" + object, location);
+    }
 }

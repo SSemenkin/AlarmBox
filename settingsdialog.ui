@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="res.qrc">
-    <normaloff>:/icons/apps/scalable/applications-system.svg</normaloff>:/icons/apps/scalable/applications-system.svg</iconset>
+    <normaloff>:/icons/applications-office.svg</normaloff>:/icons/applications-office.svg</iconset>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
    <item row="1" column="0">
@@ -43,7 +43,7 @@
         <string>Alarm auto refresh</string>
        </property>
        <property name="icon">
-        <iconset resource="res.qrc">
+        <iconset>
          <normaloff>:/icons/apps/scalable/webex.svg</normaloff>:/icons/apps/scalable/webex.svg</iconset>
        </property>
       </widget>

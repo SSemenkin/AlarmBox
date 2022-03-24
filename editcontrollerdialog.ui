@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="res.qrc">
-    <normaloff>:/icons/apps/scalable/tomboy.svg</normaloff>:/icons/apps/scalable/tomboy.svg</iconset>
+    <normaloff>:/icons/tomboy-ng.svg</normaloff>:/icons/tomboy-ng.svg</iconset>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">

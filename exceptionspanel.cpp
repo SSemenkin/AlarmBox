@@ -14,7 +14,7 @@ ExceptionsPanel::ExceptionsPanel(QWidget *parent) :
   , m_exceptions(Settings::instance()->getExceptions())
 {
     setWindowTitle(tr("Exceptions"));
-    setWindowIcon(QIcon(":/icons/preferences/scalable/cs-themes.svg"));
+    setWindowIcon(QIcon(":/icons/cs-themes.svg"));
     setColumnCount(3);
     setHorizontalHeaderLabels({tr("Controller"), tr("Object"), tr("Alarm")});
     setSelectionBehavior(QAbstractItemView::SelectionBehavior::SelectRows);
@@ -116,8 +116,8 @@ void ExceptionsPanel::setupContextMenu()
 {
     setContextMenuPolicy(Qt::ContextMenuPolicy::ActionsContextMenu);
 
-    QAction *addException = new QAction(QIcon(":/icons/apps/scalable/zanshin.svg"), tr("Add exception"), this);
-    QAction *removeException = new QAction(QIcon(":/icons/apps/scalable/com.azuredatastudio.oss.svg"), tr("Remove exception"), this);
+    QAction *addException = new QAction(QIcon(":/icons/zanshin.svg"), tr("Add exception"), this);
+    QAction *removeException = new QAction(QIcon(":/icons/com.azuredatastudio.oss.svg"), tr("Remove exception"), this);
 
     connect(addException, &QAction::triggered, this, &ExceptionsPanel::execAddExceptionDialog);
     connect(removeException, &QAction::triggered, this, &ExceptionsPanel::removeException);

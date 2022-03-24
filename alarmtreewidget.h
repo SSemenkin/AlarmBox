@@ -6,6 +6,7 @@
 #include "alarminterrogator.h"
 #include "settings.h"
 #include "exceptionspanel.h"
+#include "rbslocation.h"
 
 
 struct DisplayAlarm {
@@ -72,11 +73,17 @@ private:
     void saveUserComments();
 
     void resizeColumnsToContents();
+
+    void getObjectLocation();
+    bool isItemTopLevel(QTreeWidgetItem *item) const;
+
+    void setupContextMenu();
 private:
     QVector<DisplayAlarm> m_alarms;
     QMap<QString, QMap<QString, AlarmComment>> m_userComments;
     QScopedPointer<ExceptionsPanel> m_exceptionsPanel;
     bool m_isManuallyRefreshed {false};
+    RbsLocation m_location;
 
 };
 

@@ -13,6 +13,8 @@ public:
     QString getLocation(const QString &object);
 
 private:
+    void insert(const QString& object, const QString &location);
+private:
     QMap<QString, QString> m_locations;
 };
 

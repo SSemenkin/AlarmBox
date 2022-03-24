@@ -140,37 +140,52 @@
         <translation type="vanished">В аварии</translation>
     </message>
     <message>
-        <location filename="../alarmtreewidget.cpp" line="10"/>
+        <location filename="../alarmtreewidget.cpp" line="14"/>
         <source>CF Alarm</source>
         <translation>Аварии по CF</translation>
     </message>
     <message>
-        <location filename="../alarmtreewidget.cpp" line="11"/>
+        <location filename="../alarmtreewidget.cpp" line="15"/>
         <source>Manually blocked</source>
         <translation>Заблокированы</translation>
     </message>
     <message>
-        <location filename="../alarmtreewidget.cpp" line="12"/>
+        <location filename="../alarmtreewidget.cpp" line="16"/>
         <source>Halted</source>
         <translation>Захалчены</translation>
     </message>
     <message>
-        <location filename="../alarmtreewidget.cpp" line="13"/>
+        <location filename="../alarmtreewidget.cpp" line="17"/>
         <source>Not works</source>
         <translation>Не в работе</translation>
     </message>
     <message>
-        <location filename="../alarmtreewidget.cpp" line="22"/>
+        <location filename="../alarmtreewidget.cpp" line="236"/>
+        <source> location</source>
+        <translation> местоположение</translation>
+    </message>
+    <message>
+        <location filename="../alarmtreewidget.cpp" line="253"/>
         <source>Refresh</source>
         <translation>Обновить</translation>
     </message>
     <message>
-        <location filename="../alarmtreewidget.cpp" line="23"/>
+        <location filename="../alarmtreewidget.cpp" line="254"/>
         <source>Exceptions</source>
         <translation>Исключения</translation>
     </message>
     <message>
-        <location filename="../alarmtreewidget.cpp" line="79"/>
+        <location filename="../alarmtreewidget.cpp" line="255"/>
+        <source>Location</source>
+        <translation>Местоположение</translation>
+    </message>
+    <message>
+        <location filename="../alarmtreewidget.cpp" line="256"/>
+        <source>Update locations</source>
+        <translation>Обновить местоположения</translation>
+    </message>
+    <message>
+        <location filename="../alarmtreewidget.cpp" line="52"/>
         <source>All</source>
         <translation>Все</translation>
     </message>
@@ -417,28 +432,36 @@ Do you want try again?</source>
         <translation>Последнее обновление : </translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="117"/>
+        <location filename="../mainwindow.cpp" line="119"/>
         <source>No items selected</source>
         <translation>Выберите хотя бы один элемент</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="117"/>
+        <location filename="../mainwindow.cpp" line="119"/>
         <source>Please select item.</source>
         <translation>Выберите хотя бы один элемент.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="151"/>
+        <location filename="../mainwindow.cpp" line="153"/>
         <source>Language changed</source>
         <translation>Язык изменён</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="151"/>
+        <location filename="../mainwindow.cpp" line="153"/>
         <source>The language change will take effect after the next launch.</source>
         <translation>Изменение языка вступит в силу после следующего запуска.</translation>
     </message>
     <message>
         <source>Please select item</source>
         <translation type="vanished">Не выбран</translation>
+    </message>
+</context>
+<context>
+    <name>QObject</name>
+    <message>
+        <location filename="../rbslocation.cpp" line="35"/>
+        <source>Object location is unknown.</source>
+        <translation>Местоположение неизвестно.</translation>
     </message>
 </context>
 <context>
@@ -449,31 +472,36 @@ Do you want try again?</source>
         <translation>Настройки</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.ui" line="29"/>
+        <location filename="../settingsdialog.ui" line="36"/>
         <source>Language:</source>
         <translation>Язык:</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.ui" line="36"/>
+        <location filename="../settingsdialog.ui" line="43"/>
         <source>Alarm auto refresh</source>
         <translation>Обновлять</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.ui" line="56"/>
+        <location filename="../settingsdialog.ui" line="63"/>
         <source>Period(mins) :</source>
         <translation>Период(мин):</translation>
+    </message>
+    <message>
+        <location filename="../settingsdialog.ui" line="73"/>
+        <source>Choose font</source>
+        <translation>Выберите шрифт</translation>
     </message>
     <message>
         <source>Every:</source>
         <translation type="vanished">Каждые:</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="12"/>
+        <location filename="../settingsdialog.cpp" line="15"/>
         <source>English</source>
         <translation>Английский</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="12"/>
+        <location filename="../settingsdialog.cpp" line="15"/>
         <source>Russian</source>
         <translation>Русский</translation>
     </message>
@@ -481,117 +509,116 @@ Do you want try again?</source>
 <context>
     <name>Telnet</name>
     <message>
-        <location filename="../network/telnet.cpp" line="44"/>
         <source>Connection timeout error.</source>
-        <translation>Таймаут подключения.</translation>
+        <translation type="vanished">Таймаут подключения.</translation>
     </message>
     <message>
-        <location filename="../network/telnet.cpp" line="48"/>
+        <location filename="../network/telnet.cpp" line="41"/>
         <source>Hostname of node is empty.</source>
         <translation>Имя хоста не указано.</translation>
     </message>
     <message>
-        <location filename="../network/telnet.cpp" line="179"/>
+        <location filename="../network/telnet.cpp" line="170"/>
         <source>login incorrect</source>
         <translation>Неправильный логин</translation>
     </message>
     <message>
-        <location filename="../network/telnet.cpp" line="259"/>
+        <location filename="../network/telnet.cpp" line="244"/>
         <source>The address specified to QAbstractSocket::bind() is already in use and was set to be exclusive.</source>
         <translation>Адрес, указанный в QAbstractSocket::bind(), уже используется и был установлен как монопольный.</translation>
     </message>
     <message>
-        <location filename="../network/telnet.cpp" line="264"/>
+        <location filename="../network/telnet.cpp" line="249"/>
         <source>The connection was refused by the peer (or timed out).</source>
         <translation>Соединение было отклонено узлом (или истекло время ожидания).</translation>
     </message>
     <message>
-        <location filename="../network/telnet.cpp" line="269"/>
+        <location filename="../network/telnet.cpp" line="254"/>
         <source>The datagram was larger than the operating system&apos;s limit (which can be as low as 8192 bytes).</source>
         <translation>Размер дейтаграммы превышает ограничение операционной системы (которое может составлять всего 8192 байта).</translation>
     </message>
     <message>
-        <location filename="../network/telnet.cpp" line="274"/>
+        <location filename="../network/telnet.cpp" line="259"/>
         <source>The host address was not found.</source>
         <translation>Адрес хоста не найден.</translation>
     </message>
     <message>
-        <location filename="../network/telnet.cpp" line="279"/>
+        <location filename="../network/telnet.cpp" line="264"/>
         <source>An error occurred with the network (e.g., the network cable was accidentally plugged out).</source>
         <translation>Произошла ошибка с сетью (например, сетевой кабель был случайно отключен).</translation>
     </message>
     <message>
-        <location filename="../network/telnet.cpp" line="284"/>
+        <location filename="../network/telnet.cpp" line="269"/>
         <source>An operation was attempted while the socket was in a state that did not permit it.</source>
         <translation>Была предпринята попытка выполнения операции, когда сокет находился в недопустимом состоянии.</translation>
     </message>
     <message>
-        <location filename="../network/telnet.cpp" line="289"/>
+        <location filename="../network/telnet.cpp" line="274"/>
         <source>The socket is using a proxy, and the proxy requires authentication.</source>
         <translation>Сокет использует прокси, а прокси требует аутентификации.</translation>
     </message>
     <message>
-        <location filename="../network/telnet.cpp" line="294"/>
+        <location filename="../network/telnet.cpp" line="279"/>
         <source>The connection to the proxy server was closed unexpectedly (before the connection to the final peer was established).</source>
         <translation>Соединение с прокси-сервером было неожиданно закрыто (до того, как было установлено соединение с конечным узлом).</translation>
     </message>
     <message>
-        <location filename="../network/telnet.cpp" line="299"/>
+        <location filename="../network/telnet.cpp" line="284"/>
         <source>Could not contact the proxy server because the connection to that server was denied.</source>
         <translation>Не удалось связаться с прокси-сервером, так как соединение с этим сервером было отклонено.</translation>
     </message>
     <message>
-        <location filename="../network/telnet.cpp" line="304"/>
+        <location filename="../network/telnet.cpp" line="289"/>
         <source>The connection to the proxy server timed out or the proxy server stopped responding in the authentication phase.</source>
         <translation>Время ожидания соединения с прокси-сервером истекло, или прокси-сервер перестал отвечать на этапе аутентификации.</translation>
     </message>
     <message>
-        <location filename="../network/telnet.cpp" line="309"/>
+        <location filename="../network/telnet.cpp" line="294"/>
         <source>The proxy address set with setProxy() (or the application proxy) was not found.</source>
         <translation>Адрес прокси, установленный с помощью setProxy() (или прокси приложения), не найден.</translation>
     </message>
     <message>
-        <location filename="../network/telnet.cpp" line="314"/>
+        <location filename="../network/telnet.cpp" line="299"/>
         <source>The connection negotiation with the proxy server failed, because the response from the proxy server could not be understood.</source>
         <translation>Не удалось согласовать соединение с прокси-сервером, так как не удалось понять ответ от прокси-сервера.</translation>
     </message>
     <message>
-        <location filename="../network/telnet.cpp" line="319"/>
+        <location filename="../network/telnet.cpp" line="304"/>
         <source>The remote host closed the connection.</source>
         <translation>Удаленный хост закрыл соединение.</translation>
     </message>
     <message>
-        <location filename="../network/telnet.cpp" line="324"/>
+        <location filename="../network/telnet.cpp" line="309"/>
         <source>The socket operation failed because the application lacked the required privileges.</source>
         <translation>Операция сокета завершилась неудачно, так как у приложения не было необходимых прав.</translation>
     </message>
     <message>
-        <location filename="../network/telnet.cpp" line="329"/>
+        <location filename="../network/telnet.cpp" line="314"/>
         <source>The address specified to QAbstractSocket::bind() does not belong to the host.</source>
         <translation>Адрес, указанный в QAbstractSocket::bind(), не принадлежит хосту.</translation>
     </message>
     <message>
-        <location filename="../network/telnet.cpp" line="334"/>
+        <location filename="../network/telnet.cpp" line="319"/>
         <source>The local system ran out of resources (e.g., too many sockets).</source>
         <translation>В локальной системе закончились ресурсы (например, слишком много сокетов).</translation>
     </message>
     <message>
-        <location filename="../network/telnet.cpp" line="339"/>
+        <location filename="../network/telnet.cpp" line="324"/>
         <source>The socket operation timed out.</source>
         <translation>Время ожидания операции сокета истекло.</translation>
     </message>
     <message>
-        <location filename="../network/telnet.cpp" line="344"/>
+        <location filename="../network/telnet.cpp" line="329"/>
         <source>A temporary error occurred (e.g., operation would block and socket is non-blocking).</source>
         <translation>Произошла временная ошибка (например, операция блокируется, а сокет не блокируется).</translation>
     </message>
     <message>
-        <location filename="../network/telnet.cpp" line="349"/>
+        <location filename="../network/telnet.cpp" line="334"/>
         <source>An unidentified error occurred.</source>
         <translation>Произошла неизвестная ошибка.</translation>
     </message>
     <message>
-        <location filename="../network/telnet.cpp" line="354"/>
+        <location filename="../network/telnet.cpp" line="339"/>
         <source>The requested socket operation is not supported by the local operating system (e.g., lack of IPv6 support).</source>
         <translation>Запрошенная операция сокета не поддерживается локальной операционной системой (например, отсутствие поддержки IPv6).</translation>
     </message>

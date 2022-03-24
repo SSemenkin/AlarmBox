@@ -155,6 +155,9 @@ public:
     void setFont(const QFont &font);
     QFont getFont() const;
 
+    QString getLocationFilepath() const;
+    void setLocationFilepath(const QString &filepath);
+
 protected:
     explicit Settings(QObject *parent = nullptr);
 
