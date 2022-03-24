@@ -7,9 +7,8 @@ class RbsLocation
 {
 public:
     RbsLocation(const QString &filename);
+
     void updateLocations(const QString &filename);
-
-
     QString getLocation(const QString &object);
 
 private:

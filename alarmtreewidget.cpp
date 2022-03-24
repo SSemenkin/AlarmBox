@@ -9,8 +9,6 @@ AlarmTreeWidget::AlarmTreeWidget(QWidget *parent) :
   , m_exceptionsPanel(new ExceptionsPanel)
   , m_location(Settings::instance()->getLocationFilepath())
 {
-    loadUserComments();
-
     addTopLevelItem(new AlarmTreeWidgetItem(tr("CF Alarm")));
     addTopLevelItem(new AlarmTreeWidgetItem(tr("Manually blocked")));
     addTopLevelItem(new AlarmTreeWidgetItem(tr("Halted")));
@@ -24,10 +22,14 @@ AlarmTreeWidget::AlarmTreeWidget(QWidget *parent) :
     topLevelItem(3)->setIcon(0, QIcon(":/icons/folder.svg"));
 
     setupContextMenu();
+
+    loadUserComments();
+    loadExistingAlarms();
 }
 
 AlarmTreeWidget::~AlarmTreeWidget()
 {
+    saveExistingAlarms();
     saveUserComments();
 }
 
@@ -177,6 +179,16 @@ void AlarmTreeWidget::checkForRaisedAlarms(const QVector<Alarm> &alarms)
     }
 }
 
+void AlarmTreeWidget::loadExistingAlarms()
+{
+    processAlarms(Settings::instance()->getExistingAlarms());
+}
+
+void AlarmTreeWidget::saveExistingAlarms()
+{
+    Settings::instance()->setExistingAlarms(currentAlarms());
+}
+
 void AlarmTreeWidget::loadUserComments()
 {
     m_userComments = Settings::instance()->getAlarmComments();
@@ -271,6 +283,15 @@ void AlarmTreeWidget::setupContextMenu()
     addAction(getLocation);
 
     addAction(updateLocations);
+}
+
+QVector<Alarm> AlarmTreeWidget::currentAlarms() const
+{
+    QVector<Alarm> result;
+    for (int i = 0; i < m_alarms.size(); ++i) {
+        result.push_back(m_alarms.at(i).m_alarm);
+    }
+    return result;
 }
 
 bool AlarmTreeWidget::edit(const QModelIndex &index, EditTrigger trigger, QEvent *event)

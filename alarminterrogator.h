@@ -25,12 +25,14 @@ struct RBS{
 };
 
 struct Alarm {
-    enum class State {
+
+    enum class State : int {
         Invalid = -1,
         Normal,
         Raised,
         Cleared
     };
+
     enum class AlarmCategory : int {
         A1 = 0,
         A2,
@@ -58,6 +60,28 @@ struct Alarm {
     bool operator < (const Alarm& other) const {
         return m_object < other.m_object;
     }
+
+    QVariantMap toVariantMap() const {
+        return QVariantMap({std::make_pair("object", m_object),
+                            std::make_pair("description", m_description),
+                            std::make_pair("controller", m_controller),
+                            std::make_pair("controllerTitle", m_controllerTitle),
+                            std::make_pair("raisedTime", m_raisedTime),
+                            std::make_pair("state", static_cast<int>(m_state)),
+                            std::make_pair("category", static_cast<int>(m_category))});
+    }
+
+    static Alarm fromVariantMap(const QVariantMap& d) {
+      Alarm r;
+      r.m_object = d["object"].toString();
+      r.m_description = d["description"].toString();
+      r.m_controller = d["controller"].toString();
+      r.m_controllerTitle = d["controllerTitle"].toString();
+      r.m_raisedTime = d["raisedTime"].toDateTime();
+      r.m_state = static_cast<Alarm::State>(d["state"].toInt());
+      r.m_category = static_cast<Alarm::AlarmCategory>(d["category"].toInt());
+      return r;
+    };
 };
 
 class AlarmInterrogator : public QObject
@@ -112,7 +136,7 @@ private:
     static uint64_t timeDelta;
 
     QTimer *m_timer; // таймер для опроса
-    QTimer *m_defaultTimer; // таймер для поддержания соединения, отслыает
+    QTimer *m_defaultTimer; // таймер для поддержания соединения, отслыает "\r\n" см. Telnet::sendConnect();
 
     const QList<QSharedPointer<Telnet>> &m_controllerList;
     uint32_t m_answerReceived {0};

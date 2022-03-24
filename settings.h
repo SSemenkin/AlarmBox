@@ -8,6 +8,8 @@
 #include <QDateTime>
 #include "network/telnet.h"
 
+struct Alarm;
+
 struct ControllerInfo
 {
     explicit ControllerInfo() = default;
@@ -120,25 +122,27 @@ struct AlarmComment
     QDateTime m_createAt;
 };
 
+
 class Settings : protected QSettings // наследование protected для того чтобы закрыть доступ к методам базового класса
                                      // и оставить такую возможность только для наследников.
 {
     Q_OBJECT
 public:
     static Settings* instance();
+
     void setControllersInfos(const QList<QSharedPointer<Telnet>> &controllersList);
     QList<ControllerInfo> getControllersInfos();
 
     static QString decodeEncodeData(const QString &input, const QString &key = "%31_)*&z;");
 
-    QLocale getLocale() const;
     void setLocale(const QLocale &locale);
+    QLocale getLocale() const;
 
-    bool getIsAutoRefreshEnabled() const;
     void setAutoRefreshEnabled(bool state);
+    bool getIsAutoRefreshEnabled() const;
 
-    uint32_t getRefreshPeriod() const;
     void setRefreshPeriod(uint32_t period);
+    uint32_t getRefreshPeriod() const;
 
     void setAlarmComments(const QMap<QString, QMap<QString, AlarmComment>> &controllerComments);
     QMap<QString, QMap<QString, AlarmComment>> getAlarmComments() const;
@@ -155,8 +159,11 @@ public:
     void setFont(const QFont &font);
     QFont getFont() const;
 
-    QString getLocationFilepath() const;
     void setLocationFilepath(const QString &filepath);
+    QString getLocationFilepath() const;
+
+    void setExistingAlarms(const QVector<Alarm> &alarms);
+    QVector<Alarm> getExistingAlarms() const;
 
 protected:
     explicit Settings(QObject *parent = nullptr);

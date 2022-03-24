@@ -8,6 +8,8 @@
 #include <QRect>
 #include <QFont>
 
+#include "alarminterrogator.h"
+
 Settings::Settings(QObject *parent)
     : QSettings(QStandardPaths::writableLocation(QStandardPaths::StandardLocation::AppConfigLocation) +"/AlarmBox/config.ini",
                 QSettings::IniFormat, parent)
@@ -25,7 +27,6 @@ void Settings::serialize(const T &data, const QString& filename) const
     f.open(QIODevice::WriteOnly | QIODevice::Truncate);
     for (auto it = data.begin(); it != data.end(); ++it) {
         for (auto jt = it.value().begin(); jt != it.value().end(); ++jt) {
-            QJsonValue value;
             array.push_back(QJsonValue::fromVariant((*jt).toVariantMap()));
         }
     }
@@ -215,6 +216,40 @@ QFont Settings::getFont() const
 QString Settings::getLocationFilepath() const
 {
     return value("location_filename", "adresses.txt").toString();
+}
+
+void Settings::setExistingAlarms(const QVector<Alarm> &alarms)
+{
+    QJsonDocument document;
+    QJsonArray array;
+
+    QFile f(QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation) + "/existing_alarms.json");
+    f.open(QIODevice::WriteOnly | QIODevice::Truncate);
+    for (int i = 0; i < alarms.size(); ++i) {
+        array.push_back(QJsonValue::fromVariant(alarms.at(i).toVariantMap()));
+    }
+    document.setArray(array);
+    f.write(document.toJson());
+    f.close();
+}
+
+QVector<Alarm> Settings::getExistingAlarms() const
+{
+
+    QFile f(QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation) + "/existing_alarms.json");
+    f.open(QIODevice::ReadOnly);
+
+    QJsonDocument document = QJsonDocument::fromJson(f.readAll());
+    QJsonArray array = document.array();
+    QVector<Alarm> result;
+
+    for (int i = 0; i < array.size(); ++i) {
+         QVariantMap m = array[i].toObject().toVariantMap();
+         result.push_back(Alarm::fromVariantMap(m));
+    }
+
+    f.close();
+    return result;
 }
 
 void Settings::setLocationFilepath(const QString &filepath)

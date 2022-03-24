@@ -69,6 +69,9 @@ private:
     void checkForClearedAlarms(const QVector<Alarm> &alarms);
     void checkForRaisedAlarms(const QVector<Alarm> &alarms);
 
+    void loadExistingAlarms();
+    void saveExistingAlarms();
+
     void loadUserComments();
     void saveUserComments();
 
@@ -78,13 +81,14 @@ private:
     bool isItemTopLevel(QTreeWidgetItem *item) const;
 
     void setupContextMenu();
+
+    QVector<Alarm> currentAlarms() const;
 private:
     QVector<DisplayAlarm> m_alarms;
     QMap<QString, QMap<QString, AlarmComment>> m_userComments;
     QScopedPointer<ExceptionsPanel> m_exceptionsPanel;
     bool m_isManuallyRefreshed {false};
     RbsLocation m_location;
-
 };
 
 #endif // ALARMTREEWIDGET_H
