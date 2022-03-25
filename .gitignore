@@ -54,3 +54,4 @@ compile_commands.json
 
 #project private files
 adresses.txt
+build*/*
