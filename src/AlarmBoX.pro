@@ -68,7 +68,7 @@ FORMS += \
     settingsdialog.ui
 
 TRANSLATIONS += \
-        translations/AlarmBox_ru.ts
+        ../translations/AlarmBox_ru.ts
 
 
 # Default rules for deployment.
