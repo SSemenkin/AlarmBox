@@ -105,14 +105,13 @@ QTreeWidgetItem *AlarmTreeWidget::createAlarmItem(const Alarm &alarm)
     labels.push_back(alarm.m_object);
     labels.push_back(alarm.m_description);
     labels.push_back(alarm.m_controllerTitle);
-    labels.push_back(alarm.m_raisedTime.toString(Qt::LocaleDate));
-    labels.push_back("");
-
     if (m_userComments.contains(alarm.m_controller)) {
         if (m_userComments[alarm.m_controller].contains(alarm.m_object)) {
             labels.push_back(m_userComments.value(alarm.m_controller).value(alarm.m_object).m_description);
-        }
+        } else labels.push_back("");
     }
+    labels.push_back(alarm.m_raisedTime.toString(Qt::LocaleDate));
+    labels.push_back(alarm.m_clearedTime.toString(Qt::LocaleDate));
 
     QTreeWidgetItem *item = new QTreeWidgetItem(labels);
     item->setFlags(item->flags() ^ Qt::ItemFlag::ItemIsEditable);
@@ -297,6 +296,6 @@ QVector<Alarm> AlarmTreeWidget::currentAlarms() const
 bool AlarmTreeWidget::edit(const QModelIndex &index, EditTrigger trigger, QEvent *event)
 {
     if (index.parent().isValid())
-        return QAbstractItemView::edit(index.model()->index(index.row(), 5, index.parent()), trigger, event);
+        return QAbstractItemView::edit(index.model()->index(index.row(), 3, index.parent()), trigger, event);
     else return QAbstractItemView::edit(index, trigger, event);
 }

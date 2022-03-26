@@ -1,5 +1,6 @@
 #include "rbslocation.h"
 #include <QFile>
+#include <QDebug>
 
 RbsLocation::RbsLocation(const QString &filename)
 {
@@ -24,6 +25,7 @@ void RbsLocation::updateLocations(const QString &filename)
         insert(object, location);
     }
     file.close();
+    qDebug() << m_locations.size();
 }
 
 QString RbsLocation::getLocation(const QString &object)
@@ -47,11 +49,14 @@ void RbsLocation::insert(const QString &object, const QString &location)
         QString prefix = (key.length() == 3 ? "LUG" : "LU");
 
         m_locations.insert(key, location);
-        m_locations.insert(prefix + object, location);
+        m_locations.insert(key + "D", location);
+        m_locations.insert(key + "G", location);
+        m_locations.insert(prefix + key, location);
 
-        static QStringList cellSuffixes {"A", "B", "C", "1", "2", "3", "4", "5", "6"};
+        static QStringList cellSuffixes {"A", "B", "C", "G1", "G2", "G3", "D4", "D5", "D6"};
         for (int j = 0; j < cellSuffixes.size(); ++j) {
             m_locations.insert(prefix + key + cellSuffixes.at(j), location);
+            m_locations.insert(key + cellSuffixes.at(j), location);
         }
     }
 }

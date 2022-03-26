@@ -10,7 +10,7 @@ AlarmDisplayWidget::AlarmDisplayWidget(QWidget *parent) :
 
     ui->treeWidget->setColumnCount(6);
     ui->treeWidget->setHeaderLabels(QStringList {tr("Object"), tr("Alarm"), tr("Controller"),
-                                                 tr("Raised Time"), tr("Cleared Time"),tr("Comment")});
+                                                 tr("Comment"), tr("Raised Time"), tr("Cleared Time")});
     connect(ui->treeWidget, &AlarmTreeWidget::refresh, this, &AlarmDisplayWidget::refreshRequested);
 }
 
