@@ -141,34 +141,26 @@ void AlarmTreeWidget::processNewAlarm(const Alarm &alarm)
 void AlarmTreeWidget::processClearedAlarm(DisplayAlarm &alarm)
 {
     AlarmTreeWidgetItem *parent = static_cast<AlarmTreeWidgetItem*>(alarm.m_alarmItem->parent());
-    delete alarm.m_alarmItem;
-    parent->setText(0, parent->pinnedText() + "(" + QString::number(parent->childCount()) + ")");
+    parent->removeChild(alarm.m_alarmItem);
     m_alarms.removeOne(alarm);
+
+    parent->setText(0, parent->pinnedText() + "(" + QString::number(parent->childCount()) + ")");
 }
 
 void AlarmTreeWidget::checkForClearedAlarms(const QVector<Alarm> &alarms)
 {
     for (int i = 0; i < m_alarms.size(); ++i) {
-        if (!alarms.contains(m_alarms.at(i).m_alarm)) {
-            if (m_isManuallyRefreshed) {
-                m_alarms.at(i).m_alarm.m_state == Alarm::State::Cleared ?
-                            processClearedAlarm(m_alarms[i--]) : markItemLikeCleared(m_alarms[i]);
-                qDebug() << m_alarms[i].m_alarm.m_object;
-                continue;
+        DisplayAlarm &displayAlarm = m_alarms[i];
+        Alarm &alarm = displayAlarm.m_alarm;
+
+        if (!alarms.contains(alarm) || m_exceptionsPanel->isInException(alarm)) {
+            if (alarm.isCleared()) {
+                if (m_isManuallyRefreshed) {
+                    processClearedAlarm(m_alarms[i--]);
+                }
+            } else {
+                markItemLikeCleared(displayAlarm);
             }
-        }
-        // костыль
-        if (m_isManuallyRefreshed && m_alarms.at(i).m_alarm.m_state == Alarm::State::Cleared) {
-            processClearedAlarm(m_alarms[i--]);
-            continue;
-        }
-
-        if (!alarms.contains(m_alarms.at(i).m_alarm)) {
-            markItemLikeCleared(m_alarms[i]);
-        }
-
-        if (m_exceptionsPanel->isInException(m_alarms.at(i).m_alarm)) {
-            markItemLikeCleared(m_alarms[i]);
         }
     }
 }

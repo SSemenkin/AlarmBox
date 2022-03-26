@@ -29,6 +29,8 @@ public:
     QVariantMap toVariantMap() const;
     static Alarm fromVariantMap(const QVariantMap &d);
 
+    bool isCleared() const;
+
     QString   m_object;
     QString   m_description;
     QString   m_controller;

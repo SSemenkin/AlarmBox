@@ -63,3 +63,8 @@ Alarm Alarm::fromVariantMap(const QVariantMap &d)
     r.m_state = static_cast<State>(d["state"].toInt());
     return r;
 }
+
+bool Alarm::isCleared() const
+{
+    return m_state == State::Cleared;
+}
