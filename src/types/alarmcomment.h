@@ -22,10 +22,10 @@ struct AlarmComment
         return dbg;
     }
 
-    QString m_object;
-    QString m_controller;
-    QString m_alarmType;
-    QString m_description;
+    QString   m_object;
+    QString   m_controller;
+    QString   m_alarmType;
+    QString   m_description;
     QDateTime m_createAt;
 };
 

@@ -1,6 +1,5 @@
 #include "rbslocation.h"
 #include <QFile>
-#include <QDebug>
 
 RbsLocation::RbsLocation(const QString &filename)
 {
@@ -25,7 +24,6 @@ void RbsLocation::updateLocations(const QString &filename)
         insert(object, location);
     }
     file.close();
-    qDebug() << m_locations.size();
 }
 
 QString RbsLocation::getLocation(const QString &object)

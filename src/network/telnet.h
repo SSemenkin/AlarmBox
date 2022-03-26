@@ -18,7 +18,7 @@ public:
 
     virtual ~Telnet();
     ///@brief call this method when you need to try connect with network element
-    /// before you need subscribe on SIGNAL loginStatus(const bool state), so you can check
+    /// before you need subscribe on SIGNAL loginStateChanged(bool state), so you can check
     /// your data is valid.
     void connectToNode();
     void reconnect();

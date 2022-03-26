@@ -26,7 +26,7 @@ private:
 
 private:
     Ui::AddControllerDialog *ui;
-    ControllerEditWidget* m_d;
+    ControllerEditWidget    *m_d;
 };
 
 #endif // ADDCONTROLLERDIALOG_H

@@ -4,10 +4,8 @@
 #include <QObject>
 #include <QSettings>
 #include <QCoreApplication>
-#include <QDebug>
-#include <QDateTime>
-#include "network/telnet.h"
 
+#include "network/telnet.h"
 #include "types/types.h"
 
 class Settings : protected QSettings // наследование protected для того чтобы закрыть доступ к методам базового класса

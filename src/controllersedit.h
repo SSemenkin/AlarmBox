@@ -23,8 +23,6 @@ public:
     QPushButton* removeControllerButton() const;
 
     ControllerListWidget* controllerWidget() const;
-
-
 private:
     Ui::ControllersEdit *ui;
 };

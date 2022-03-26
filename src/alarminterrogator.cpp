@@ -199,8 +199,8 @@ void AlarmInterrogator::processRLCRP(const QString &print)
 void AlarmInterrogator::processErrors(const QString &errorText)
 {
     if (Telnet::finishTokens().contains(errorText)) {
-        if (errorText == Telnet::finishTokens().at(1) || // NOT ACCEPTED
-            errorText == Telnet::finishTokens().at(4))   // FUNCTION BUSY
+        if (errorText.contains(Telnet::finishTokens().at(1)) || // NOT ACCEPTED
+            errorText.contains(Telnet::finishTokens().at(4)))   // FUNCTION BUSY
         {
             m_answerReceived--;
             fromController()->executeCommand(fromController()->lastCommand());
@@ -260,7 +260,6 @@ bool AlarmInterrogator::isRBSinAlarm(const QString &cellname) const
             return true;
         }
     }
-
     return false;
 }
 

@@ -30,6 +30,7 @@ void Settings::serialize(const T &data, const QString& filename) const
             array.push_back(QJsonValue::fromVariant((*jt).toVariantMap()));
         }
     }
+
     document.setArray(array);
     f.write(document.toJson());
     f.close();

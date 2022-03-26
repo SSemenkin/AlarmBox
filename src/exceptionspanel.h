@@ -29,6 +29,9 @@ private:
     static QString titleToAlarmTypeIndex(int index);
     static int indexToAlarmTitle(const QString &title);
     static QStringList alarmTitles();
+
+
+
 private:
     QMap<QString, QVector<DisplayException>> m_exceptions;
 };

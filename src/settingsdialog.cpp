@@ -18,7 +18,6 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
         ui->comboBox->setCurrentIndex(1);
     }
 
-
     connect(ui->checkBox, &QCheckBox::stateChanged, ui->spinBox, &QSpinBox::setEnabled);
     connect(ui->buttonBox, &QDialogButtonBox::accepted, this, &SettingsDialog::applySettings);
     connect(ui->fontButton, &QPushButton::clicked, this, &SettingsDialog::chooseFont);
@@ -43,7 +42,6 @@ void SettingsDialog::applySettings()
     m_settings.setAutoRefreshEnabled(ui->checkBox->isChecked());
     m_settings.setRefreshPeriod(ui->spinBox->value());
 
-
     if (m_initValues.language != m_settings.getLocale()) {
         emit localeChanged(m_settings.getLocale());
     }
@@ -55,7 +53,6 @@ void SettingsDialog::applySettings()
     if (m_initValues.refresh != m_settings.getIsAutoRefreshEnabled()) {
         emit autoRefreshChanged(m_settings.getIsAutoRefreshEnabled());
     }
-
 }
 
 void SettingsDialog::chooseFont()

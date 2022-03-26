@@ -29,14 +29,14 @@ public:
     QVariantMap toVariantMap() const;
     static Alarm fromVariantMap(const QVariantMap &d);
 
-    QString m_object;
-    QString m_description;
-    QString m_controller;
-    QString m_controllerTitle;
+    QString   m_object;
+    QString   m_description;
+    QString   m_controller;
+    QString   m_controllerTitle;
     QDateTime m_raisedTime;
     QDateTime m_clearedTime;
-    State m_state {State::Raised};
-    Category m_category;
+    State     m_state {State::Raised};
+    Category  m_category;
 
 private:
     static QString serializeDescription(Category category, const QString &existingDescription);

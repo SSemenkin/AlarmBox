@@ -3,6 +3,8 @@
 
 #include <QDialog>
 #include <QLocale>
+
+
 class Settings;
 namespace Ui {
 class SettingsDialog;
