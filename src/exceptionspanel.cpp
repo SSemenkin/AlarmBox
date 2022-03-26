@@ -62,6 +62,11 @@ bool ExceptionsPanel::isInException(const QString &controller, const QString &ob
     return (*pos).contains(d);
 }
 
+bool ExceptionsPanel::isInException(const Alarm &alarm) const
+{
+    return isInException(alarm.m_controllerTitle, alarm.m_object, QString::number(static_cast<int>(alarm.m_category)));
+}
+
 void ExceptionsPanel::addException(const QString &controller, const QString &object, const QString &alarmType)
 {
     DisplayException exception(object, alarmType, controller);

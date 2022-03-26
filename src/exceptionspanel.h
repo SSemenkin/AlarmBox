@@ -5,6 +5,7 @@
 #include <QWidget>
 
 struct DisplayException;
+class Alarm;
 
 class ExceptionsPanel : public QTableWidget
 {
@@ -14,9 +15,8 @@ public:
     ~ExceptionsPanel();
 
     void execAddExceptionDialog();
-    bool isInException(const QString &controller,
-                       const QString &object,
-                       const QString &alarmType) const;
+    bool isInException(const QString &controller, const QString &object, const QString &alarmType) const;
+    bool isInException(const Alarm &alarm) const;
 
 private:
     void addException(const QString &controller, const QString &object, const QString &alarmType);

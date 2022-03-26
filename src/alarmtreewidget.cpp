@@ -35,7 +35,6 @@ AlarmTreeWidget::~AlarmTreeWidget()
 
 void AlarmTreeWidget::processAlarms(const QVector<Alarm> &alarms)
 {
-
     checkForClearedAlarms(alarms);
     checkForRaisedAlarms(alarms);
     m_isManuallyRefreshed = false;
@@ -82,12 +81,16 @@ void AlarmTreeWidget::markItemLikeCleared(DisplayAlarm &alarm, const QBrush& bru
 {
     alarm.m_alarm.m_clearedTime = QDateTime::currentDateTime();
     alarm.m_alarm.m_state = Alarm::State::Cleared;
-    alarm.m_alarmItem->setText(4, alarm.m_alarm.m_clearedTime.toString(Qt::LocaleDate));
+    alarm.m_alarmItem->setText(5, alarm.m_alarm.m_clearedTime.toString(Qt::LocaleDate));
     markTreeItemByBrush(alarm.m_alarmItem, brush);
 }
 
 void AlarmTreeWidget::markItemLikeNormal(DisplayAlarm &alarm, const QBrush &brush)
 {
+    if (alarm.m_alarm.m_state == Alarm::State::Cleared) {
+        return;
+    }
+
     alarm.m_alarm.m_state = Alarm::State::Normal;
     markTreeItemByBrush(alarm.m_alarmItem, brush);
 }
@@ -123,8 +126,7 @@ void AlarmTreeWidget::processNewAlarm(const Alarm &alarm)
      AlarmTreeWidgetItem *parent = static_cast<AlarmTreeWidgetItem*>(topLevelItem(static_cast<int>(alarm.m_category)));
      // обработка исключений
      // не добавлять те аварии, которые находятся в исключении
-     if (m_exceptionsPanel->isInException(alarm.m_controllerTitle, alarm.m_object,
-                                         QString::number(static_cast<int>(alarm.m_category)))) {
+     if (m_exceptionsPanel->isInException(alarm)) {
          return;
      }
 
@@ -151,10 +153,21 @@ void AlarmTreeWidget::checkForClearedAlarms(const QVector<Alarm> &alarms)
             if (m_isManuallyRefreshed) {
                 m_alarms.at(i).m_alarm.m_state == Alarm::State::Cleared ?
                             processClearedAlarm(m_alarms[i--]) : markItemLikeCleared(m_alarms[i]);
+                qDebug() << m_alarms[i].m_alarm.m_object;
                 continue;
             }
         }
+        // костыль
+        if (m_isManuallyRefreshed && m_alarms.at(i).m_alarm.m_state == Alarm::State::Cleared) {
+            processClearedAlarm(m_alarms[i--]);
+            continue;
+        }
+
         if (!alarms.contains(m_alarms.at(i).m_alarm)) {
+            markItemLikeCleared(m_alarms[i]);
+        }
+
+        if (m_exceptionsPanel->isInException(m_alarms.at(i).m_alarm)) {
             markItemLikeCleared(m_alarms[i]);
         }
     }
