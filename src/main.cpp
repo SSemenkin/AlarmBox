@@ -6,6 +6,7 @@
 #include <QLibraryInfo>
 #include <QStyleFactory>
 
+
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
@@ -16,19 +17,19 @@ int main(int argc, char *argv[])
 
     if (locale != QLocale(QLocale::English)) {
         bool result = translator.load("translations/" + a.applicationName()+ "_" + locale.name());
-        qDebug() << (result ? "Successfull translation" : "Failed Translation");
+        qDebug() << (result ? "AlarmBox Successfull translation" : "AlarmBox Failed Translation");
         a.installTranslator(&translator);
 
-        qtTranslator.load("qt_" + QLocale::system().name(),
+        result = qtTranslator.load("translations/qt_" + locale.name(),
                     QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+        qDebug() << (result ? "Qt Successfull translation" : "Qt Failed Translation");
         a.installTranslator(&qtTranslator);
     }
 
-    MainWindow w;
-
-    w.setGeometry(Settings::instance()->getWindowGeometry());
     a.setFont(Settings::instance()->getFont());
 
+    MainWindow w;
+    w.setGeometry(Settings::instance()->getWindowGeometry());
     w.show();
     return a.exec();
 }

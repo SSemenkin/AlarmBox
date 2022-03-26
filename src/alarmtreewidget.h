@@ -8,22 +8,6 @@
 #include "exceptionspanel.h"
 #include "rbslocation.h"
 
-
-struct DisplayAlarm {
-    DisplayAlarm() = default;
-    DisplayAlarm(const Alarm& alarm, QTreeWidgetItem *alarmItem) : m_alarm(alarm)
-      , m_alarmItem(alarmItem)
-    {
-
-    }
-    Alarm m_alarm;
-    QTreeWidgetItem *m_alarmItem {nullptr};
-
-    bool operator==(const DisplayAlarm& other) const {
-        return m_alarm == other.m_alarm;
-    }
-};
-
 class AlarmTreeWidgetItem : public QTreeWidgetItem
 {
 public:
@@ -33,14 +17,41 @@ public:
     {
 
     }
+
+    AlarmTreeWidgetItem(const QStringList &labels) :
+        QTreeWidgetItem(labels) {}
+
     const QString& pinnedText() const {
         return m_pinnedText;
+    }
+
+    QString comment() const {
+        return text(m_commentColumn);
     }
 
 
 private:
     QString m_pinnedText;
+
+    static int m_commentColumn;
 };
+
+struct DisplayAlarm {
+    DisplayAlarm() = default;
+    DisplayAlarm(const Alarm& alarm, AlarmTreeWidgetItem *alarmItem) : m_alarm(alarm)
+      , m_alarmItem(alarmItem)
+    {
+
+    }
+    Alarm m_alarm;
+    AlarmTreeWidgetItem *m_alarmItem {nullptr};
+
+    bool operator==(const DisplayAlarm& other) const {
+        return m_alarm == other.m_alarm;
+    }
+};
+
+
 
 class AlarmTreeWidget : public QTreeWidget
 {
@@ -62,7 +73,7 @@ private:
     void markItemLikeNormal(DisplayAlarm &alarm, const QBrush& color = Qt::NoBrush);
     void markTreeItemByBrush(QTreeWidgetItem *item, const QBrush& color);
 
-    QTreeWidgetItem* createAlarmItem(const Alarm &alarm);
+    AlarmTreeWidgetItem* createAlarmItem(const Alarm &alarm);
     void processNewAlarm(const Alarm &alarm);
     void processClearedAlarm(DisplayAlarm& alarm);
 

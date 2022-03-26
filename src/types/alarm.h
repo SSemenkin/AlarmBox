@@ -30,6 +30,7 @@ public:
     static Alarm fromVariantMap(const QVariantMap &d);
 
     bool isCleared() const;
+    bool isRaised() const;
 
     QString   m_object;
     QString   m_description;

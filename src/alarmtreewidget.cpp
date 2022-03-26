@@ -4,6 +4,8 @@
 #include <QAbstractItemModel>
 #include <QMessageBox>
 
+int AlarmTreeWidgetItem::m_commentColumn = 3;
+
 AlarmTreeWidget::AlarmTreeWidget(QWidget *parent) :
     QTreeWidget(parent)
   , m_exceptionsPanel(new ExceptionsPanel)
@@ -87,7 +89,7 @@ void AlarmTreeWidget::markItemLikeCleared(DisplayAlarm &alarm, const QBrush& bru
 
 void AlarmTreeWidget::markItemLikeNormal(DisplayAlarm &alarm, const QBrush &brush)
 {
-    if (alarm.m_alarm.m_state == Alarm::State::Cleared) {
+    if (alarm.m_alarm.isCleared()) {
         return;
     }
 
@@ -102,7 +104,7 @@ void AlarmTreeWidget::markTreeItemByBrush(QTreeWidgetItem *item, const QBrush &b
     }
 }
 
-QTreeWidgetItem *AlarmTreeWidget::createAlarmItem(const Alarm &alarm)
+AlarmTreeWidgetItem *AlarmTreeWidget::createAlarmItem(const Alarm &alarm)
 {
     QStringList labels;
     labels.push_back(alarm.m_object);
@@ -116,7 +118,7 @@ QTreeWidgetItem *AlarmTreeWidget::createAlarmItem(const Alarm &alarm)
     labels.push_back(alarm.m_raisedTime.toString(Qt::LocaleDate));
     labels.push_back(alarm.m_clearedTime.toString(Qt::LocaleDate));
 
-    QTreeWidgetItem *item = new QTreeWidgetItem(labels);
+    AlarmTreeWidgetItem *item = new AlarmTreeWidgetItem(labels);
     item->setFlags(item->flags() ^ Qt::ItemFlag::ItemIsEditable);
     return item;
 }
@@ -130,7 +132,7 @@ void AlarmTreeWidget::processNewAlarm(const Alarm &alarm)
          return;
      }
 
-     QTreeWidgetItem *child = createAlarmItem(alarm);
+     AlarmTreeWidgetItem *child = createAlarmItem(alarm);
      parent->addChild(child);
      parent->setText(0, parent->pinnedText() + "(" + QString::number(parent->childCount()) + ")");
 
@@ -202,11 +204,11 @@ void AlarmTreeWidget::saveUserComments()
 {
    for (int i = 0; i < m_alarms.size(); ++i) {
        const DisplayAlarm &d = m_alarms.at(i);
-       if (!d.m_alarmItem->text(5).isEmpty()) {
+       if (!d.m_alarmItem->comment().isEmpty()) {
             AlarmComment a(d.m_alarm.m_object,
                            d.m_alarm.m_controller,
                            d.m_alarm.m_description,
-                           d.m_alarmItem->text(5));
+                           d.m_alarmItem->comment());
 
             if (m_userComments.contains(d.m_alarm.m_controller)) {
                 auto controllerComments = m_userComments.value(d.m_alarm.m_controller);

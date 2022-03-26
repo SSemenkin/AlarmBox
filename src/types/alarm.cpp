@@ -68,3 +68,8 @@ bool Alarm::isCleared() const
 {
     return m_state == State::Cleared;
 }
+
+bool Alarm::isRaised() const
+{
+    return m_state == State::Raised;
+}
