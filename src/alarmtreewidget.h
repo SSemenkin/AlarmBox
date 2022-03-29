@@ -29,7 +29,6 @@ public:
         return text(m_commentColumn);
     }
 
-
 private:
     QString m_pinnedText;
 

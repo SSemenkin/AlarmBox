@@ -66,6 +66,9 @@ private:
     void serialize(const T &data, const QString &filename) const;
 
     template<typename T>
+    void serialize(const QVector<T> &v) const;
+
+    template<typename T>
     QVector<T> deserialize(const QString &filename) const;
 };
 

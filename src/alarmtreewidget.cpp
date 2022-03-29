@@ -89,10 +89,6 @@ void AlarmTreeWidget::markItemLikeCleared(DisplayAlarm &alarm, const QBrush& bru
 
 void AlarmTreeWidget::markItemLikeNormal(DisplayAlarm &alarm, const QBrush &brush)
 {
-    if (alarm.m_alarm.isCleared()) {
-        return;
-    }
-
     alarm.m_alarm.m_state = Alarm::State::Normal;
     markTreeItemByBrush(alarm.m_alarmItem, brush);
 }
