@@ -6,8 +6,9 @@ RbsLocation::RbsLocation(const QString &filename)
     updateLocations(filename);
 }
 
-void RbsLocation::updateLocations(const QString &filename)
+UpdateStatus RbsLocation::updateLocations(const QString &filename)
 {
+    UpdateStatus result;
     if (!m_locations.isEmpty()) {
         m_locations.clear();
     }
@@ -21,9 +22,15 @@ void RbsLocation::updateLocations(const QString &filename)
         const QString &object = columns.first();
         const QString &location = columns.last();
 
-        insert(object, location);
+        insert(object, location, result);
     }
     file.close();
+
+    if (result.m_status == Status::Duplicate) {
+        result.m_description = result.m_description.left(result.m_description.length() - 1) + QObject::tr("\nDuplicates.");
+    }
+
+    return result;
 }
 
 QString RbsLocation::getLocation(const QString &object)
@@ -35,7 +42,7 @@ QString RbsLocation::getLocation(const QString &object)
                 iterator.value();
 }
 
-void RbsLocation::insert(const QString &object, const QString &location)
+void RbsLocation::insert(const QString &object, const QString &location, UpdateStatus &status)
 {
     QStringList results;
 
@@ -45,7 +52,10 @@ void RbsLocation::insert(const QString &object, const QString &location)
         const QString &key = results.at(i);
 
         QString prefix = (key.length() == 3 ? "LUG" : "LU");
-
+        if (m_locations.contains(key)) {
+            status.m_status = Status::Duplicate;
+            status.m_description += key + " ";
+        }
         m_locations.insert(key, location);
         m_locations.insert(key + "D", location);
         m_locations.insert(key + "G", location);

@@ -14,12 +14,12 @@ public:
     AlarmTreeWidgetItem(const QString &pinnedText) :
         QTreeWidgetItem(QStringList(pinnedText))
         , m_pinnedText(pinnedText)
-    {
-
-    }
+    {}
 
     AlarmTreeWidgetItem(const QStringList &labels) :
         QTreeWidgetItem(labels) {}
+
+
 
     const QString& pinnedText() const {
         return m_pinnedText;
@@ -42,12 +42,20 @@ struct DisplayAlarm {
     {
 
     }
-    Alarm m_alarm;
-    AlarmTreeWidgetItem *m_alarmItem {nullptr};
+    Alarm alarm() const {
+        return m_alarm;
+    }
+
+    AlarmTreeWidgetItem *treeWidgetItem() const {
+        return m_alarmItem;
+    }
 
     bool operator==(const DisplayAlarm& other) const {
         return m_alarm == other.m_alarm;
     }
+
+    Alarm m_alarm;
+    AlarmTreeWidgetItem *m_alarmItem {nullptr};
 };
 
 

@@ -22,6 +22,7 @@ public:
 
     QSharedPointer<Telnet> controller(int index) const;
     QSharedPointer<Telnet> controller(const QString &hostname) const;
+
     const QList<QSharedPointer<Telnet>>& controllerList() const;
 
 

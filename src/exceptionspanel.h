@@ -31,7 +31,6 @@ private:
     static QStringList alarmTitles();
 
 
-
 private:
     QMap<QString, QVector<DisplayException>> m_exceptions;
 };

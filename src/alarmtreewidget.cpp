@@ -16,6 +16,11 @@ AlarmTreeWidget::AlarmTreeWidget(QWidget *parent) :
     addTopLevelItem(new AlarmTreeWidgetItem(tr("Halted")));
     addTopLevelItem(new AlarmTreeWidgetItem(tr("Not works")));
 
+    for (int i = 0; i < topLevelItemCount(); ++i) {
+        AlarmTreeWidgetItem *parentItem = static_cast<AlarmTreeWidgetItem*>(topLevelItem(i));
+        parentItem->setText(0, parentItem->pinnedText() + "(0)");
+    }
+
     expandAll();
 
     topLevelItem(0)->setIcon(0, QIcon(":/icons/folder-public.svg"));
@@ -47,7 +52,7 @@ void AlarmTreeWidget::processAlarms(const QVector<Alarm> &alarms)
 void AlarmTreeWidget::onCurrentControllerChanged(const QString &controllerHostname)
 {
     for (int i = 0; i < m_alarms.size(); ++i) {
-        if (m_alarms.at(i).m_alarm.m_state == Alarm::State::Normal) {
+        if (m_alarms.at(i).alarm().m_state == Alarm::State::Normal) {
             markItemLikeNormal(m_alarms[i]);
         }
     }
@@ -271,7 +276,10 @@ void AlarmTreeWidget::setupContextMenu()
 
     connect(getLocation, &QAction::triggered, this, &AlarmTreeWidget::getObjectLocation);
     connect(updateLocations, &QAction::triggered, this, [this] () {
-        m_location.updateLocations(Settings::instance()->getLocationFilepath());
+        UpdateStatus result = m_location.updateLocations(Settings::instance()->getLocationFilepath());
+        if (result.m_status == Status::Duplicate) {
+            QMessageBox::information(this, tr("Duplicates"), result.m_description);
+        }
     });
 
     connect(addExceptionAction, &QAction::triggered, this, &AlarmTreeWidget::execAddExceptionDialog);
@@ -283,7 +291,6 @@ void AlarmTreeWidget::setupContextMenu()
     addAction(refreshAction);
     addAction(addExceptionAction);
     addAction(getLocation);
-
     addAction(updateLocations);
 }
 

@@ -198,10 +198,7 @@ void Telnet::mmlHandler(const QString &responce)
     for (const QString &token : finishTokens()) {
         if (buffer.contains(token)) {
             token == finishTokens().first() ? emit commandExecuted(buffer.left(buffer.indexOf(token) + token.length())) :
-                                            emit errorOccured(buffer.left(buffer.indexOf(token) + token.length()));
-
-
-
+                                              emit errorOccured(buffer.left(buffer.indexOf(token) + token.length()));
             buffer = buffer.right(buffer.length() - buffer.indexOf(token) - token.length());
 
             writeIfStateEnabled();

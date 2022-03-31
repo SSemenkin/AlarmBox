@@ -260,9 +260,3 @@ QString Settings::decodeEncodeData(const QString &input, const QString &key)
     result = QString::fromLatin1(r, inputLength);
     return result;
 }
-
-template<typename T>
-void Settings::serialize(const QVector<T> &v) const
-{
-
-}

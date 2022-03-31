@@ -33,10 +33,11 @@ protected:
 private:
     void addController(Telnet *telnet);
     bool callMethod(void (ControllerListWidget::*method)(const QString&));
+    bool isContextMenuActionsEnabled();
     void askForReconnect(Telnet *controller, const QString &error = QString());
+    void setupContextMenu();
 private:
-    QVector<QString> m_controllersHosts;
-    QHash<QString, int> m_hostToRow;
+    QHash<Telnet*, int> m_hostToRow;
     QIcon m_okIcon;
     QIcon m_noOkIcon;
     QIcon m_undefIcon;

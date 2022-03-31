@@ -18,27 +18,9 @@ ControllerListWidget::ControllerListWidget(QWidget *parent) :
   , m_detailAction(new QAction(QIcon(":/icons/applications-office.svg"), tr("&Details")))
   , m_addAction(new QAction(QIcon(":/icons/zanshin.svg"), tr("Add")))
 {
-
-    m_contextMenu->addAction(m_addAction.data());
-    m_contextMenu->addAction(m_reconnectAction.data());
-    m_contextMenu->addAction(m_editAction.data());
-    m_contextMenu->addAction(m_removeAction.data());
-    m_contextMenu->addSeparator();
-    m_contextMenu->addAction(m_detailAction.data());
-
-    connect(m_addAction.data(), &QAction::triggered, this, &ControllerListWidget::addRequested);
-    connect(m_reconnectAction.data(), &QAction::triggered, this, [this] () {
-        QListWidgetItem *d = item(m_hostToRow[selectedItems().first()->toolTip()]);
-        d->setIcon(m_undefIcon);
-        callMethod(&ControllerListWidget::reconnectRequested);
-    });
-    connect(m_editAction.data(), &QAction::triggered, this, &ControllerListWidget::editRequested);
-    connect(m_removeAction.data(), &QAction::triggered, this, &ControllerListWidget::removeController);
-    connect(m_detailAction.data(), &QAction::triggered, this, [this] (){
-        callMethod(&ControllerListWidget::detailRequested);
-    });
     addItem(tr("All"));
     connect(this, &QListWidget::currentTextChanged, this, &ControllerListWidget::controllerSelectionChanged);
+    setupContextMenu();
 }
 
 void ControllerListWidget::processFailedControllerAuthentication(Telnet *telnet)
@@ -59,17 +41,22 @@ void ControllerListWidget::processControllerMMLError(const QString &errorText, T
 
 void ControllerListWidget::processControllerNoMMLError(const QString &errorText, Telnet *telnet)
 {
-    if (!m_hostToRow.contains(telnet->hostname())) {
-        addController(telnet);
-    }
+    addController(telnet);
     askForReconnect(telnet, errorText);
 }
 
 void ControllerListWidget::removeController()
 {
-    bool r = callMethod(&ControllerListWidget::removeRequested);
+    bool r = isContextMenuActionsEnabled();
+
     if(r) {
-        delete takeItem(row(selectedItems().first()));
+        const QString controllerTitle = item(row(selectedItems().first()))->text();
+        int answer = QMessageBox::question(this, tr("Remove ") + controllerTitle,
+                              tr("Are you sure you want to delete ") + controllerTitle + "?");
+        if (answer == QMessageBox::StandardButton::Yes) {
+            emit removeRequested(selectedItems().first()->toolTip());
+            delete takeItem(row(selectedItems().first()));
+        }
     }
 }
 
@@ -88,13 +75,12 @@ void ControllerListWidget::contextMenuEvent(QContextMenuEvent *event)
 
 void ControllerListWidget::addController(Telnet *telnet)
 {
-    if (!m_controllersHosts.contains(telnet->hostname())) {
+    if (!m_hostToRow.contains(telnet)) {
         addItem(telnet->parsedTitle());
-        m_controllersHosts.push_back(telnet->hostname());
-        m_hostToRow[telnet->hostname()] = count() - 1;
+        m_hostToRow[telnet] = count() - 1;
     }
 
-    QListWidgetItem *d = item(m_hostToRow[telnet->hostname()]);
+    QListWidgetItem *d = item(m_hostToRow[telnet]);
     if (telnet->isLoggedInNode()) {
         d->setIcon(m_okIcon);
     } else {
@@ -106,20 +92,30 @@ void ControllerListWidget::addController(Telnet *telnet)
 
 bool ControllerListWidget::callMethod(void (ControllerListWidget::*method)(const QString &))
 {
+    bool r = isContextMenuActionsEnabled();
+    if (r) {
+        emit (this->*method)(selectedItems().first()->toolTip());
+    }
+    return r;
+}
+
+bool ControllerListWidget::isContextMenuActionsEnabled()
+{
     QList<QListWidgetItem*> d_items = selectedItems();
-    if ((d_items.isEmpty() || d_items.size() > 1)) {
-            QMessageBox::information(this, tr("Select more than one item"), tr("Please select only one item"));
+
+    if (d_items.isEmpty() || d_items.size() > 1) {
+            QMessageBox::information(this, tr("Select more than one item"), tr("Please select only one item."));
             return false;
     } else if (d_items.first()->text() == tr("All")) {
         return false;
+    } else {
+        return true;
     }
-    emit (this->*method)(d_items.first()->toolTip());
-    return true;
 }
 
 void ControllerListWidget::askForReconnect(Telnet *controller, const QString &errorText)
 {
-    QListWidgetItem *d = item(m_hostToRow.value(controller->hostname()));
+    QListWidgetItem *d = item(m_hostToRow.value(controller));
     d->setIcon(m_noOkIcon);
 
     QString messageText = tr("Error: %1\nController: %2!\nDo you want to reconnect?");
@@ -131,8 +127,34 @@ void ControllerListWidget::askForReconnect(Telnet *controller, const QString &er
     int result = QMessageBox::question(this, tr("Error"), messageText.arg(controller->hostname()));
 
     if (result == QMessageBox::StandardButton::Yes) {
-        QListWidgetItem *d = item(m_hostToRow[controller->hostname()]);
+        QListWidgetItem *d = item(m_hostToRow[controller]);
         d->setIcon(m_undefIcon);
         emit reconnectRequested(controller);
     }
+}
+
+void ControllerListWidget::setupContextMenu()
+{
+    m_contextMenu->addAction(m_addAction.data());
+    m_contextMenu->addAction(m_reconnectAction.data());
+    m_contextMenu->addAction(m_editAction.data());
+    m_contextMenu->addAction(m_removeAction.data());
+    m_contextMenu->addSeparator();
+    m_contextMenu->addAction(m_detailAction.data());
+
+    connect(m_addAction.data(), &QAction::triggered, this, &ControllerListWidget::addRequested);
+    connect(m_reconnectAction.data(), &QAction::triggered, this, [this] () {
+        if (!isContextMenuActionsEnabled()) {
+            return;
+        }
+
+        QListWidgetItem *d = item(m_hostToRow[m_hostToRow.key(row(selectedItems().first()))]);
+        d->setIcon(m_undefIcon);
+        callMethod(&ControllerListWidget::reconnectRequested);
+    });
+    connect(m_editAction.data(), &QAction::triggered, this, &ControllerListWidget::editRequested);
+    connect(m_removeAction.data(), &QAction::triggered, this, &ControllerListWidget::removeController);
+    connect(m_detailAction.data(), &QAction::triggered, this, [this] (){
+        callMethod(&ControllerListWidget::detailRequested);
+    });
 }
