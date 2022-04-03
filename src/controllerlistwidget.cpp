@@ -76,7 +76,7 @@ void ControllerListWidget::contextMenuEvent(QContextMenuEvent *event)
 void ControllerListWidget::addController(Telnet *telnet)
 {
     if (!m_hostToRow.contains(telnet)) {
-        addItem(telnet->parsedTitle());
+        addItem(telnet->isLoggedInNode() ? telnet->parsedTitle() : telnet->hostname());
         m_hostToRow[telnet] = count() - 1;
     }
 
@@ -86,7 +86,6 @@ void ControllerListWidget::addController(Telnet *telnet)
     } else {
         d->setIcon(m_noOkIcon);
     }
-    d->setText(telnet->parsedTitle());
     d->setToolTip(telnet->hostname());
 }
 

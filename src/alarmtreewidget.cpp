@@ -240,17 +240,10 @@ void AlarmTreeWidget::resizeColumnsToContents()
 
 void AlarmTreeWidget::getObjectLocation()
 {
-    QList<QTreeWidgetItem*> d = selectedItems();
-
-    if (d.isEmpty()) {
+    if (!isSelectionRight()) {
         return;
     }
-
-    if (isItemTopLevel(d.first())) {
-        return;
-    }
-
-    QString object = d.first()->text(0);
+    QString object = selectedItems().first()->text(0);
 
     QMessageBox::information(this, object + tr(" location"), m_location.getLocation(object));
 }
@@ -271,17 +264,19 @@ void AlarmTreeWidget::setupContextMenu()
 
     QAction *refreshAction = new QAction(QIcon(":/icons/acetoneiso.svg"), tr("Refresh"), this);
     QAction *addExceptionAction = new QAction(QIcon(":/icons/cs-themes.svg"), tr("Exceptions"), this);
-    QAction *getLocation = new QAction(QIcon(":/icons/gpxsee.svg"), tr("Location"), this);
-    QAction *updateLocations = new QAction(QIcon(":/icons/www-browser.svg"), tr("Update locations"), this);
+    QAction *getLocationAction = new QAction(QIcon(":/icons/gpxsee.svg"), tr("Location"), this);
+    QAction *updateLocationsAction = new QAction(QIcon(":/icons/www-browser.svg"), tr("Update locations"), this);
+    QAction *activateRBSAction = new QAction(QIcon(""), tr("Activate RBS(Experimental)"), this);
 
-    connect(getLocation, &QAction::triggered, this, &AlarmTreeWidget::getObjectLocation);
-    connect(updateLocations, &QAction::triggered, this, [this] () {
+    connect(getLocationAction, &QAction::triggered, this, &AlarmTreeWidget::getObjectLocation);
+    connect(updateLocationsAction, &QAction::triggered, this, [this] () {
         UpdateStatus result = m_location.updateLocations(Settings::instance()->getLocationFilepath());
         if (result.m_status == Status::Duplicate) {
             QMessageBox::information(this, tr("Duplicates"), result.m_description);
         }
     });
 
+    connect(activateRBSAction, &QAction::triggered, this, &AlarmTreeWidget::activateRBS);
     connect(addExceptionAction, &QAction::triggered, this, &AlarmTreeWidget::execAddExceptionDialog);
     connect(refreshAction, &QAction::triggered, this, [this](){
         m_isManuallyRefreshed = true;
@@ -290,8 +285,9 @@ void AlarmTreeWidget::setupContextMenu()
 
     addAction(refreshAction);
     addAction(addExceptionAction);
-    addAction(getLocation);
-    addAction(updateLocations);
+    addAction(getLocationAction);
+    addAction(updateLocationsAction);
+    addAction(activateRBSAction);
 }
 
 QVector<Alarm> AlarmTreeWidget::currentAlarms() const
@@ -301,6 +297,44 @@ QVector<Alarm> AlarmTreeWidget::currentAlarms() const
         result.push_back(m_alarms.at(i).m_alarm);
     }
     return result;
+}
+
+void AlarmTreeWidget::activateRBS()
+{
+    if (!isSelectionRight()) {
+        return;
+    }
+
+    QList<QTreeWidgetItem*> d = selectedItems();
+
+    if (d.first()->parent() != topLevelItem(1)) {
+        return;
+    } else {
+        QString object = selectedItems().first()->text(0);
+
+        for (int i = 0; i < m_alarms.size(); ++i) {
+            const DisplayAlarm &alarm = m_alarms.at(i);
+            if (alarm.m_alarmItem == d.first()) {
+                emit activateRBSRequested(alarm.m_alarm.m_object, alarm.m_alarm.m_controller);
+                break;
+            }
+        }
+    }
+}
+
+bool AlarmTreeWidget::isSelectionRight()
+{
+    QList<QTreeWidgetItem*> d = selectedItems();
+
+    if (d.isEmpty()) {
+        return false;
+    }
+
+    if (isItemTopLevel(d.first())) {
+        return false;
+    }
+
+    return true;
 }
 
 bool AlarmTreeWidget::edit(const QModelIndex &index, EditTrigger trigger, QEvent *event)

@@ -20,6 +20,8 @@ public:
     void onControllerAdded();
     void onControllerRemoved();
     void onPeriodChanged(uint32_t delta);
+    void onAutoRefreshChanged(bool state);
+    void onActivateRBSRequested(const QString &object, const QString &controllerHostname);
     void interrogateControllers() const;
 signals:
     void alarmsReceived(const QVector<Alarm> &currentAlarms);
@@ -32,6 +34,7 @@ protected:
     static const QString& rlcrp();
     static const QString& rxtcp();
     static const QStringList& interrogatorCommands();
+    static const QString &rxble();
 private:
     ///@brief обработка всех поступивших принтов команд
     void processOutput(const QString &output);
@@ -68,7 +71,8 @@ private:
     uint32_t m_answerExpected;
 
     QVector<Alarm> m_alarms;
-    QMap<QString, QMap<QString, QString>> m_fromTGtoRBS;
+    QMap<Telnet*, QMap<QString, QString>> m_fromTGtoRBS;
+    bool m_autoRefresh;
 };
 
 #endif // ALARMINTERROGATOR_H

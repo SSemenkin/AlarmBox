@@ -70,6 +70,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_alarmDisplayWidget->alarmTreeWidget(), &AlarmTreeWidget::updated, this, [this] () {
         ui->statusbar->showMessage(tr("Last update : ") + QDateTime::currentDateTime().toString(Qt::DateFormat::LocaleDate));
     });
+    connect(m_alarmDisplayWidget->alarmTreeWidget(), &AlarmTreeWidget::activateRBSRequested,
+            m_interrogator.data(), &AlarmInterrogator::onActivateRBSRequested);
     connect(m_alarmDisplayWidget, &AlarmDisplayWidget::refreshRequested,
             m_interrogator.data(), &AlarmInterrogator::interrogateControllers);
 
@@ -130,6 +132,7 @@ void MainWindow::execSettingsDialog()
     SettingsDialog dialog;
     connect(&dialog, &SettingsDialog::localeChanged, this, &MainWindow::onLanguageChanged);
     connect(&dialog, &SettingsDialog::periodChanged, m_interrogator.data(), &AlarmInterrogator::onPeriodChanged);
+    connect(&dialog, &SettingsDialog::autoRefreshChanged, m_interrogator.data(), &AlarmInterrogator::onAutoRefreshChanged);
     dialog.exec();
 }
 
@@ -148,5 +151,6 @@ void MainWindow::createSplitter()
 void MainWindow::onLanguageChanged(const QLocale &locale)
 {
     Q_UNUSED(locale);
-    QMessageBox::information(this, tr("Language changed"), tr("The language change will take effect after the next launch."));
+    QMessageBox::information(this, tr("Language changed"),
+                             tr("The language change will take effect after the next launch."));
 }

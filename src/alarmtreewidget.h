@@ -59,7 +59,6 @@ struct DisplayAlarm {
 };
 
 
-
 class AlarmTreeWidget : public QTreeWidget
 {
     Q_OBJECT
@@ -72,6 +71,7 @@ public:
 signals:
     void refresh();
     void updated();
+    void activateRBSRequested(const QString &name, const QString &hostname);
 protected:
     virtual bool edit(const QModelIndex &index, EditTrigger trigger, QEvent *event) override;
 private:
@@ -101,6 +101,10 @@ private:
     void setupContextMenu();
 
     QVector<Alarm> currentAlarms() const;
+
+    void activateRBS();
+
+    bool isSelectionRight();
 private:
     QVector<DisplayAlarm> m_alarms;
     QMap<QString, QMap<QString, AlarmComment>> m_userComments;

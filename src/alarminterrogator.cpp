@@ -14,6 +14,7 @@ AlarmInterrogator::AlarmInterrogator(const QList<QSharedPointer<Telnet>> &contro
     , m_defaultTimer(new QTimer(this))
     , m_controllerList(controllerList)
     , m_answerExpected(m_controllerList.size() * interrogatorCommands().size())
+    , m_autoRefresh(Settings::instance()->getIsAutoRefreshEnabled())
 {
 
     for (int i = 0; i < m_controllerList.size(); ++i) {
@@ -21,7 +22,7 @@ AlarmInterrogator::AlarmInterrogator(const QList<QSharedPointer<Telnet>> &contro
     }
 
     connect(m_timer, &QTimer::timeout, this, [this] () {
-        if (Settings::instance()->getIsAutoRefreshEnabled()) {
+        if (m_autoRefresh) {
             interrogateControllers();
         }
     });
@@ -64,10 +65,36 @@ void AlarmInterrogator::onPeriodChanged(uint32_t delta)
     m_timer->start(timeDelta);
 }
 
+void AlarmInterrogator::onAutoRefreshChanged(bool state)
+{
+    m_autoRefresh = state;
+}
+
+void AlarmInterrogator::onActivateRBSRequested(const QString &object, const QString &controllerHostname)
+{
+    for (auto it = m_fromTGtoRBS.begin(); it != m_fromTGtoRBS.end(); ++it) {
+        if (it.key()->hostname() == controllerHostname) {
+
+            QString tg = it.value().key(object);
+            if (!tg.isEmpty()) {
+                it.key()->executeCommand(rxble().arg(tg));
+                qDebug() << "Try to revert mbl.";
+            }
+
+            break;
+        }
+     }
+}
+
 const QStringList& AlarmInterrogator::interrogatorCommands()
 {
     static QStringList commandList {rxasp(), rxmsp(), rxstp(), rlcrp()};
     return commandList;
+}
+
+const QString &AlarmInterrogator::rxble()
+{
+    makeAndReturnStaticQString("rxble:mo=rxotg-%1,subord;")
 }
 
 const QString &AlarmInterrogator::rxasp()
@@ -106,6 +133,10 @@ void AlarmInterrogator::interrogateControllers() const
 
 void AlarmInterrogator::processOutput(const QString &output)
 {
+    if (output.contains(rxble().left(5))) {
+        return;
+    }
+
     if (output.contains(rxtcp())) {
         updateObjectHierarchy(output);
         return;
@@ -158,7 +189,7 @@ void AlarmInterrogator::processRXMSP(const QString &print)
         const QString &row = rows.at(i);
 
         if (row.contains("MBL")) {
-            alarm.m_object = m_fromTGtoRBS[fromController()->hostname()]
+            alarm.m_object = m_fromTGtoRBS[fromController()]
                     [row.split(' ', Qt::SkipEmptyParts).first().split('-').at(1)];
             m_alarms.push_back(alarm);
         }
@@ -193,7 +224,6 @@ void AlarmInterrogator::processRLCRP(const QString &print)
             }
         }
     }
-
 }
 
 void AlarmInterrogator::processErrors(const QString &errorText)
@@ -230,7 +260,7 @@ void AlarmInterrogator::updateObjectHierarchy(const QString &print)
             QStringList rE = row.split(" ", Qt::SkipEmptyParts);
             if (row.contains("RXOTG-")) {
                 if (!tg.isEmpty()) {
-                    m_fromTGtoRBS[fromController()->hostname()][tg] = rbs;
+                    m_fromTGtoRBS[fromController()][tg] = rbs;
                 }
                 tg = rE.first().split('-').at(1);
                 rbs = rE.at(1).left(rE.at(1).length() - 1);
@@ -238,7 +268,7 @@ void AlarmInterrogator::updateObjectHierarchy(const QString &print)
         }
     }
 
-    m_fromTGtoRBS[fromController()->hostname()][tg] = rbs;
+    m_fromTGtoRBS[fromController()][tg] = rbs;
 }
 
 Alarm AlarmInterrogator::createDefaultAlarm(Alarm::Category category) const

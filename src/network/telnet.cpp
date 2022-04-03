@@ -138,7 +138,7 @@ QAbstractSocket::SocketState Telnet::state() const
 const QStringList &Telnet::finishTokens()
 {
     static QStringList tokens =  {"END\n", "NOT ACCEPTED", "UNRESONABLE VALUE",
-                                       "ORDERED", "FUNCTION BUSY", "INHIBITED", "FORMAT ERROR", "TIME OUT"};
+                                  "FUNCTION BUSY", "INHIBITED", "FORMAT ERROR", "TIME OUT"};
     return tokens;
 }
 
@@ -209,12 +209,15 @@ void Telnet::mmlHandler(const QString &responce)
 
 void Telnet::writeIfStateEnabled()
 {
-    if (commands.size() && terminalProgressState == EricssonTerminalProgressState::InMML) {
-        commands.first() != disconnectSymbol && commands.first() != connectSymbol ?
-                telnet->sendData(commands.first().toLatin1() + '\n') :
-                telnet->sendData(commands.first().toLatin1());
-
-        queueState = QueueState::Read;
+    if (!commands.isEmpty() && terminalProgressState == EricssonTerminalProgressState::InMML) {
+        if (commands.first() == connectSymbol || commands.first() == disconnectSymbol) {
+            telnet->sendData(commands.first().toLatin1());
+        } else {
+            if (commands.first().length() > 5 && commands.first().at(4) != 'p') {
+                commands.first() += "\n;";
+            }
+            telnet->sendData(commands.first().toLatin1() + '\n');
+        }
         m_lastCommand = commands.first();
         commands.removeFirst();
     }
@@ -224,7 +227,6 @@ void Telnet::resetState()
 {
     isLogged = false;
     buffer.clear();
-    queueState = QueueState::Write;
     terminalProgressState = EricssonTerminalProgressState::InAuthentication;
     commands.clear();
     if (telnet->isConnected()) {

@@ -81,12 +81,6 @@ private:
         InMML
     };
 
-    enum class QueueState : int8_t {
-        Write,
-        Read
-    };
-
-    QueueState queueState {QueueState::Write};
     EricssonTerminalProgressState terminalProgressState {EricssonTerminalProgressState::InAuthentication};
     AuthenticationData authData;
 
