@@ -2,6 +2,9 @@
 #define ALARM_H
 
 #include "def.h"
+#include <QDebug>
+
+class Telnet;
 
 class Alarm
 {
@@ -40,10 +43,19 @@ public:
     QDateTime m_clearedTime;
     State     m_state {State::Raised};
     Category  m_category;
+    Telnet*   m_source;
+
+    friend QDebug operator << (QDebug debug, const Alarm &a)
+    {
+        debug << "Alarm(Object:" << a.m_object << ";Description:" << a.m_description << ")";
+        return debug;
+    }
 
 private:
     static QString serializeDescription(Category category, const QString &existingDescription);
     static QString deserializeDescription(Category category, const QString &existingDescription = QString());
 };
+
+
 
 #endif // ALARM_H

@@ -19,5 +19,6 @@
         <file>icons/www-browser.svg</file>
         <file>icons/zanshin.svg</file>
         <file>icons/zathura.svg</file>
+        <file>icons/battery.svg</file>
     </qresource>
 </RCC>

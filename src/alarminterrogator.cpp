@@ -78,7 +78,6 @@ void AlarmInterrogator::onActivateRBSRequested(const QString &object, const QStr
             QString tg = it.value().key(object);
             if (!tg.isEmpty()) {
                 it.key()->executeCommand(rxble().arg(tg));
-                qDebug() << "Try to revert mbl.";
             }
 
             break;
@@ -279,6 +278,7 @@ Alarm AlarmInterrogator::createDefaultAlarm(Alarm::Category category) const
     a.m_controllerTitle = fromController()->parsedTitle();
     a.m_category = category;
     a.m_description = Alarm::descriptionFromCategory(category);
+    a.m_source = fromController();
     return a;
 }
 
