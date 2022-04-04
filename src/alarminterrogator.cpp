@@ -82,7 +82,22 @@ void AlarmInterrogator::onActivateRBSRequested(const QString &object, const QStr
 
             break;
         }
-     }
+    }
+}
+
+void AlarmInterrogator::onDeactivateRBSRequested(const QString &object, const QString &controllerHostname)
+{
+    for (auto it = m_fromTGtoRBS.begin(); it != m_fromTGtoRBS.end(); ++it) {
+        if (it.key()->hostname() == controllerHostname) {
+
+            QString tg = it.value().key(object);
+            if (!tg.isEmpty()) {
+                it.key()->executeCommand(rxbli().arg(tg));
+            }
+
+            break;
+        }
+    }
 }
 
 const QStringList& AlarmInterrogator::interrogatorCommands()
@@ -93,7 +108,12 @@ const QStringList& AlarmInterrogator::interrogatorCommands()
 
 const QString &AlarmInterrogator::rxble()
 {
-    makeAndReturnStaticQString("rxble:mo=rxotg-%1,subord;")
+    makeAndReturnStaticQString("rxble:mo=rxotg-%1,subord;");
+}
+
+const QString &AlarmInterrogator::rxbli()
+{
+    makeAndReturnStaticQString("rxbli:mo=rxotg-%1,subord,force;");
 }
 
 const QString &AlarmInterrogator::rxasp()
@@ -130,12 +150,16 @@ void AlarmInterrogator::interrogateControllers() const
     }
 }
 
+QHash<Telnet *, QMap<QString, QString> > AlarmInterrogator::objectsHierarchy() const
+{
+    return m_fromTGtoRBS;
+}
+
 void AlarmInterrogator::processOutput(const QString &output)
 {
-    if (output.contains(rxble().left(5))) {
+    if (output.contains(rxble().left(5)) || output.contains(rxbli().left(5))) {
         return;
     }
-
     if (output.contains(rxtcp())) {
         updateObjectHierarchy(output);
         return;
@@ -227,7 +251,14 @@ void AlarmInterrogator::processRLCRP(const QString &print)
 
 void AlarmInterrogator::processErrors(const QString &errorText)
 {
-    if (Telnet::finishTokens().contains(errorText)) {
+    bool isContainsFinishToken {false};
+    for (const QString &token : Telnet::finishTokens()) {
+        if(errorText.contains(token)) {
+            isContainsFinishToken = true;
+            break;
+        }
+    }
+    if (isContainsFinishToken) {
         if (errorText.contains(Telnet::finishTokens().at(1)) || // NOT ACCEPTED
             errorText.contains(Telnet::finishTokens().at(4)))   // FUNCTION BUSY
         {
@@ -268,6 +299,10 @@ void AlarmInterrogator::updateObjectHierarchy(const QString &print)
     }
 
     m_fromTGtoRBS[fromController()][tg] = rbs;
+
+    if (m_fromTGtoRBS.keys().size() == m_controllerList.size()) {
+        emit hierarchyUpdated();
+    }
 }
 
 Alarm AlarmInterrogator::createDefaultAlarm(Alarm::Category category) const

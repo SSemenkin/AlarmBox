@@ -20,5 +20,6 @@
         <file>icons/zanshin.svg</file>
         <file>icons/zathura.svg</file>
         <file>icons/battery.svg</file>
+        <file>icons/apper.svg</file>
     </qresource>
 </RCC>

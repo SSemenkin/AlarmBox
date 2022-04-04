@@ -5,6 +5,9 @@
 #include "settingsdialog.h"
 #include "alarmtreewidget.h"
 
+#include "inheritanceview.h"
+#include "inheritancetreewidget.h"
+
 #include <QListWidgetItem>
 #include <QMessageBox>
 #include <QPushButton>
@@ -70,8 +73,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_alarmDisplayWidget->alarmTreeWidget(), &AlarmTreeWidget::updated, this, [this] () {
         ui->statusbar->showMessage(tr("Last update : ") + QDateTime::currentDateTime().toString(Qt::DateFormat::LocaleDate));
     });
+
     connect(m_alarmDisplayWidget->alarmTreeWidget(), &AlarmTreeWidget::activateRBSRequested,
-            m_interrogator.data(), &AlarmInterrogator::onActivateRBSRequested);
+            m_interrogator.data(), &AlarmInterrogator::onActivateRBSRequested);    
     connect(m_alarmDisplayWidget, &AlarmDisplayWidget::refreshRequested,
             m_interrogator.data(), &AlarmInterrogator::interrogateControllers);
 
@@ -90,6 +94,15 @@ MainWindow::MainWindow(QWidget *parent)
             m_controllersEdit->controllerWidget(), &ControllerListWidget::processControllerNoMMLError);
     connect(m_interrogator.data(), &AlarmInterrogator::MMLError,
             m_controllersEdit->controllerWidget(), &ControllerListWidget::processControllerMMLError);
+
+    connect(m_interrogator.data(), &AlarmInterrogator::hierarchyUpdated, this, [this] () {
+        auto hierarchy = m_interrogator.data()->objectsHierarchy();
+        InheritanceView *view = new InheritanceView(hierarchy, this);
+        m_splitter->addWidget(view);
+
+        connect(view->inheritanceTreeWidget(), &InheritanceTreeWidget::deactivateRBSRequested,
+                m_interrogator.data(), &AlarmInterrogator::onDeactivateRBSRequested);
+    });
 
     ///
 

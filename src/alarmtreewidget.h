@@ -71,7 +71,7 @@ public:
 signals:
     void refresh();
     void updated();
-    void activateRBSRequested(const QString &name, const QString &hostname);
+    void activateRBSRequested(const QString &name, const QString &controllerHostname);
 protected:
     virtual bool edit(const QModelIndex &index, EditTrigger trigger, QEvent *event) override;
 private:

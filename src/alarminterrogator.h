@@ -21,12 +21,18 @@ public:
     void onControllerRemoved();
     void onPeriodChanged(uint32_t delta);
     void onAutoRefreshChanged(bool state);
+
     void onActivateRBSRequested(const QString &object, const QString &controllerHostname);
+    void onDeactivateRBSRequested(const QString &object, const QString &controllerHostname);
+
     void interrogateControllers() const;
+
+    QHash<Telnet*, QMap<QString, QString>> objectsHierarchy() const;
 signals:
     void alarmsReceived(const QVector<Alarm> &currentAlarms);
     void noMMLError(const QString &text, Telnet *controller);
     void MMLError(const QString &text, Telnet *controller);
+    void hierarchyUpdated();
 protected:
     static const QString& rxasp();
     static const QString& rxmsp();
@@ -34,7 +40,8 @@ protected:
     static const QString& rlcrp();
     static const QString& rxtcp();
     static const QStringList& interrogatorCommands();
-    static const QString &rxble();
+    static const QString &rxble(); // activate
+    static const QString &rxbli(); // deactivate
 private:
     ///@brief обработка всех поступивших принтов команд
     void processOutput(const QString &output);
@@ -59,7 +66,6 @@ private:
 
     void supportConnection() const;
     void calcExpectedAnswers();
-
 private:
     static uint64_t timeDelta;
 
@@ -71,7 +77,7 @@ private:
     uint32_t m_answerExpected;
 
     QVector<Alarm> m_alarms;
-    QMap<Telnet*, QMap<QString, QString>> m_fromTGtoRBS;
+    QHash<Telnet*, QMap<QString, QString>> m_fromTGtoRBS;
     bool m_autoRefresh;
 };
 

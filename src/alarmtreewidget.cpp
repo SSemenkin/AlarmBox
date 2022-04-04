@@ -310,8 +310,6 @@ void AlarmTreeWidget::activateRBS()
     if (d.first()->parent() != topLevelItem(1)) {
         return;
     } else {
-
-
         for (int i = 0; i < m_alarms.size(); ++i) {
             const DisplayAlarm &alarm = m_alarms.at(i);
             if (alarm.m_alarmItem == d.first()) {
