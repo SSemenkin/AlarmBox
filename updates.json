@@ -2,7 +2,7 @@
   "updates": {
     "windows": {
       "open-url": "",
-      "latest-version": "1.0",
+      "latest-version": "1.1",
       "download-url": "https://github.com/SSemenkin/AlarmBox/blob/main/build/AlarmBox",
       "changelog": "This is an example changelog for Windows. Go on...",
       "mandatory": true
