@@ -262,10 +262,7 @@ void AlarmInterrogator::processErrors(const QString &errorText)
         if (errorText.contains(Telnet::finishTokens().at(1)) || // NOT ACCEPTED
             errorText.contains(Telnet::finishTokens().at(3)))   // FUNCTION BUSY
         {
-            fromController()->executeCommand(fromController()->lastCommand());
             processOutput("");
-            qDebug() << "repeat command " << fromController()->lastCommand() <<
-                        "\nReceived answer: " << errorText;
             return;
         }
         emit MMLError(errorText, fromController());
