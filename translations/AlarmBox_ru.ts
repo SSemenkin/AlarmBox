@@ -734,17 +734,22 @@ Duplicates.</source>
         <translation>Язык:</translation>
     </message>
     <message>
-        <location filename="../src/settingsdialog.ui" line="43"/>
+        <location filename="../src/settingsdialog.ui" line="69"/>
         <source>Alarm auto refresh</source>
         <translation>Обновлять</translation>
     </message>
     <message>
-        <location filename="../src/settingsdialog.ui" line="59"/>
+        <location filename="../src/settingsdialog.ui" line="76"/>
+        <source>Check for Updates</source>
+        <translation>Проверить обновления</translation>
+    </message>
+    <message>
+        <location filename="../src/settingsdialog.ui" line="49"/>
         <source>Period(mins) :</source>
         <translation>Период(мин):</translation>
     </message>
     <message>
-        <location filename="../src/settingsdialog.ui" line="69"/>
+        <location filename="../src/settingsdialog.ui" line="56"/>
         <source>Choose font</source>
         <translation>Выберите шрифт</translation>
     </message>
@@ -753,12 +758,12 @@ Duplicates.</source>
         <translation type="vanished">Каждые:</translation>
     </message>
     <message>
-        <location filename="../src/settingsdialog.cpp" line="15"/>
+        <location filename="../src/settingsdialog.cpp" line="19"/>
         <source>English</source>
         <translation>Английский</translation>
     </message>
     <message>
-        <location filename="../src/settingsdialog.cpp" line="15"/>
+        <location filename="../src/settingsdialog.cpp" line="19"/>
         <source>Russian</source>
         <translation>Русский</translation>
     </message>
@@ -883,27 +888,27 @@ Duplicates.</source>
 <context>
     <name>Updater</name>
     <message>
-        <location filename="../3rd_party/QSimpleUpdater/src/Updater.cpp" line="430"/>
+        <location filename="../3rd_party/QSimpleUpdater/src/Updater.cpp" line="431"/>
         <source>Would you like to download the update now?</source>
         <translation>Загрузить обновление сейчас?</translation>
     </message>
     <message>
-        <location filename="../3rd_party/QSimpleUpdater/src/Updater.cpp" line="433"/>
+        <location filename="../3rd_party/QSimpleUpdater/src/Updater.cpp" line="434"/>
         <source>Would you like to download the update now? This is a mandatory update, exiting now will close the application</source>
         <translation>Загрузить обновление сейчас? Это обязательное обновление, выход из которого закроет приложение</translation>
     </message>
     <message>
-        <location filename="../3rd_party/QSimpleUpdater/src/Updater.cpp" line="438"/>
+        <location filename="../3rd_party/QSimpleUpdater/src/Updater.cpp" line="439"/>
         <source>Version %1 of %2 has been released!</source>
         <translation>Версия %1 модуля %2 была выпущена!</translation>
     </message>
     <message>
-        <location filename="../3rd_party/QSimpleUpdater/src/Updater.cpp" line="473"/>
+        <location filename="../3rd_party/QSimpleUpdater/src/Updater.cpp" line="474"/>
         <source>No updates are available for the moment</source>
         <translation>Нет доступных обновлений</translation>
     </message>
     <message>
-        <location filename="../3rd_party/QSimpleUpdater/src/Updater.cpp" line="475"/>
+        <location filename="../3rd_party/QSimpleUpdater/src/Updater.cpp" line="476"/>
         <source>Congratulations! You are running the latest version of %1</source>
         <translation>Вы используете последнюю версию %1</translation>
     </message>
