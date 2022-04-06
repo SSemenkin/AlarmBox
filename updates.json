@@ -3,7 +3,7 @@
     "windows": {
       "open-url": "",
       "latest-version": "1.0",
-      "download-url": "https://raw.githubusercontent.com/SSemenkin/AlarmBox/main/build/data.txt",
+      "download-url": "https://raw.githubusercontent.com/SSemenkin/AlarmBox/build/data.txt",
       "changelog": "This is an example changelog for Windows. Go on...",
       "mandatory": true
     }
