@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include "version.h"
 
 #include <QApplication>
 #include <QTranslator>
@@ -10,6 +11,7 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+    a.setApplicationVersion(APPLICATION_VERSION);
     a.setStyle(QStyleFactory::create("fusion"));
     QLocale locale = Settings::instance()->getLocale();
     QTranslator translator;
@@ -20,8 +22,7 @@ int main(int argc, char *argv[])
         qDebug() << (result ? "AlarmBox Successfull translation" : "AlarmBox Failed Translation");
         a.installTranslator(&translator);
 
-        result = qtTranslator.load("translations/qt_" + locale.name(),
-                    QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+        result = qtTranslator.load("translations/qt_" + locale.name());
         qDebug() << (result ? "Qt Successfull translation" : "Qt Failed Translation");
         a.installTranslator(&qtTranslator);
     }

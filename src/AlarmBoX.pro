@@ -61,7 +61,8 @@ HEADERS += \
     types/controllerinfo.h \
     types/def.h \
     types/displayexception.h \
-    types/types.h
+    types/types.h \
+    version.h
 
 FORMS += \
     addcontrollerdialog.ui \

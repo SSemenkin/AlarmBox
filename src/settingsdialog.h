@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QLocale>
 
+class QSimpleUpdater;
 
 class Settings;
 namespace Ui {
@@ -30,11 +31,13 @@ signals:
     void autoRefreshChanged(bool state);
 private:
     void applySettings();
-    void chooseFont();
+    void chooseFont() const;
+    void setupUpdater();
 private:
     Ui::SettingsDialog *ui;
     Settings& m_settings;
     InitialValues m_initValues;
+    QSimpleUpdater *m_updater;
 };
 
 #endif // SETTINGSDIALOG_H

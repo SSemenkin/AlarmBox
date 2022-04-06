@@ -10,6 +10,10 @@
 
 #include "alarminterrogator.h"
 
+// static
+QString Settings::UPDATES_URL = "https://raw.githubusercontent.com/SSemenkin/AlarmBox/main/updates.json";
+
+
 Settings::Settings(QObject *parent)
     : QSettings(QStandardPaths::writableLocation(QStandardPaths::StandardLocation::AppConfigLocation) +"/AlarmBox/config.ini",
                 QSettings::IniFormat, parent)
