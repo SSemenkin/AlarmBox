@@ -260,7 +260,7 @@ void AlarmInterrogator::processErrors(const QString &errorText)
     }
     if (isContainsFinishToken) {
         if (errorText.contains(Telnet::finishTokens().at(1)) || // NOT ACCEPTED
-            errorText.contains(Telnet::finishTokens().at(4)))   // FUNCTION BUSY
+            errorText.contains(Telnet::finishTokens().at(3)))   // FUNCTION BUSY
         {
             fromController()->executeCommand(fromController()->lastCommand());
             processOutput("");
