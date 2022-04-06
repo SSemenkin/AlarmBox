@@ -1,0 +1,3 @@
+[submodule "3rd_party/QSimpleUpdater"]
+	path = 3rd_party/QSimpleUpdater
+	url = https://github.com/SSemenkin/QSimpleUpdater.git
