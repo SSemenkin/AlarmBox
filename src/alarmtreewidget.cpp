@@ -266,7 +266,7 @@ void AlarmTreeWidget::setupContextMenu()
     QAction *addExceptionAction = new QAction(QIcon(":/icons/cs-themes.svg"), tr("Exceptions"), this);
     QAction *getLocationAction = new QAction(QIcon(":/icons/gpxsee.svg"), tr("Location"), this);
     QAction *updateLocationsAction = new QAction(QIcon(":/icons/www-browser.svg"), tr("Update locations"), this);
-    QAction *activateRBSAction = new QAction(QIcon(":/icons/battery.svg"), tr("Activate RBS(Experimental)"), this);
+    QAction *activateRBSAction = new QAction(QIcon(":/icons/battery.svg"), tr("Activate RBS"), this);
 
     connect(getLocationAction, &QAction::triggered, this, &AlarmTreeWidget::getObjectLocation);
     connect(updateLocationsAction, &QAction::triggered, this, [this] () {
@@ -310,6 +310,12 @@ void AlarmTreeWidget::activateRBS()
     if (d.first()->parent() != topLevelItem(1)) {
         return;
     } else {
+        int choice = QMessageBox::question(this, tr("Activate RBS"), tr("Are you sure you want to unblock ") +
+                              d.first()->text(0) + "?");
+
+        if (choice != QMessageBox::Yes) {
+            return;
+        }
         for (int i = 0; i < m_alarms.size(); ++i) {
             const DisplayAlarm &alarm = m_alarms.at(i);
             if (alarm.m_alarmItem == d.first()) {
@@ -317,6 +323,7 @@ void AlarmTreeWidget::activateRBS()
                     QMessageBox::information(this, tr("Error"), tr("Alarm already cleared. Object is not manually blocked."));
                     return;
                 }
+
                 emit activateRBSRequested(alarm.m_alarm.m_object, alarm.m_alarm.m_controller);
                 break;
             }
