@@ -1,4 +1,18 @@
 {
   "updates": {
+	"windows": {
+      "open-url": "",
+      "latest-version": "1.1",
+      "download-url": "https://raw.githubusercontent.com/SSemenkin/AlarmBox/main/releases/AlarmBox.exe",
+      "changelog": "Пример изменений",
+      "mandatory": true
+    }
+	"example": {
+      "open-url": "",
+      "latest-version": "1.0",
+      "download-url": "https://raw.githubusercontent.com/SSemenkin/AlarmBox/main/releases/AlarmBox.exe",
+      "changelog": "Пример изменений",
+      "mandatory": true
+    }
   }
 }
