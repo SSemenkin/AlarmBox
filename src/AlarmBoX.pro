@@ -7,9 +7,9 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++14
 
-#win32* {
-#  RC_ICONS =$$PWD/icons/app.ico
-#}
+win32* {
+  RC_ICONS =$$PWD/icons/app.ico
+}
 
 
 # You can make your code fail to compile if it uses deprecated APIs.
@@ -82,7 +82,7 @@ FORMS += \
     settingsdialog.ui
 
 TRANSLATIONS += \
-        $$PWD/translations/AlarmBox_ru.ts
+        $$PWD/translations/AlarmBoX_ru.ts
 
 
 # Default rules for deployment.

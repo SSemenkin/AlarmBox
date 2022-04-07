@@ -97,6 +97,7 @@ void SettingsDialog::setupUpdater()
     m_updater->setModuleVersion(m_settings.TRANSLATIONS_RU_URL, APPLICATION_VERSION);
     m_updater->setNotifyOnFinish(m_settings.TRANSLATIONS_RU_URL, true);
     m_updater->setDownloaderEnabled(m_settings.TRANSLATIONS_RU_URL, true);
+    m_updater->setUseCustomInstallProcedures(m_settings.TRANSLATIONS_RU_URL, true); // не открывать файл после завершения установки
     m_updater->setDownloadDirectory(m_settings.TRANSLATIONS_RU_URL, qApp->applicationDirPath() + "/translations/");
 
     // executable file
