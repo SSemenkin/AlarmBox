@@ -22,5 +22,6 @@
         <file>icons/battery.svg</file>
         <file>icons/apper.svg</file>
         <file>icons/dolphin-emu.svg</file>
+        <file>icons/app.ico</file>
     </qresource>
 </RCC>

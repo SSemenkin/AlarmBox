@@ -12,6 +12,7 @@
 
 class AlarmDisplayWidget;
 class QSplitter;
+class InheritanceView;
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -25,15 +26,18 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    void onLanguageChanged(const QLocale& locale);
-
 private:
+    void onLanguageChanged(const QLocale& locale);
+    void onThemeChanged();
+
     void execAddControllerDialog();
     void execEditControllerDialog();
     void execSettingsDialog();
     void createSplitter();
     void aboutProgram();
+    QPalette generateDarkPalette() const;
 
+    void restartApplication();
 private:
     Ui::MainWindow *ui;
     ControllerOwnership m_controllerOwner;
@@ -42,5 +46,6 @@ private:
 
     ControllersEdit *m_controllersEdit;
     AlarmDisplayWidget *m_alarmDisplayWidget;
+    InheritanceView *m_inheritanceView;
 };
 #endif // MAINWINDOW_H

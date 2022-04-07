@@ -14,7 +14,7 @@ AlarmTreeWidget::AlarmTreeWidget(QWidget *parent) :
     addTopLevelItem(new AlarmTreeWidgetItem(tr("CF Alarm")));
     addTopLevelItem(new AlarmTreeWidgetItem(tr("Manually blocked")));
     addTopLevelItem(new AlarmTreeWidgetItem(tr("Halted")));
-    addTopLevelItem(new AlarmTreeWidgetItem(tr("Not works")));
+    addTopLevelItem(new AlarmTreeWidgetItem({tr("Not works")}));
 
     for (int i = 0; i < topLevelItemCount(); ++i) {
         AlarmTreeWidgetItem *parentItem = static_cast<AlarmTreeWidgetItem*>(topLevelItem(i));

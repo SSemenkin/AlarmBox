@@ -4,6 +4,7 @@
 #include "version.h"
 
 #include <QSimpleUpdater.h>
+#include <Updater.h>
 
 #include <QApplication>
 #include <QFontDialog>
@@ -15,6 +16,8 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
   , m_updater(QSimpleUpdater::getInstance())
 {
     ui->setupUi(this);
+    ui->themeCombo->addItems({tr("Light"), tr("Dark")});
+    ui->themeCombo->setCurrentIndex(m_settings.getThemeIndex());
     setupUpdater();
     setWindowFlag(Qt::WindowContextHelpButtonHint, false);
     ui->comboBox->addItems(QStringList{tr("English"), tr("Russian")});
@@ -29,19 +32,23 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
 
     connect(ui->checkForUpdatesButton, &QPushButton::clicked, this, [this] () {
         m_updater->checkForUpdates(m_settings.TRANSLATIONS_RU_URL);
-        m_updater->checkForUpdates(m_settings.EXECUTABLE_URL);
     });
     connect(m_updater, &QSimpleUpdater::checkingFinished, this, [this] (const QString &url) {
-        m_settings.setLastUpdates(m_updater->getChangelog(url));
+        if (m_updater->getUpdater(url)->moduleName() == "translations") {
+            m_updater->checkForUpdates(m_settings.EXECUTABLE_URL);
+        } else {
+            m_settings.setLastUpdates(m_updater->getChangelog(url));
+        }
     });
 
 
     ui->checkBox->setChecked(m_settings.getIsAutoRefreshEnabled());
     ui->spinBox->setValue(m_settings.getRefreshPeriod());
 
-    m_initValues.language = m_settings.getLocale();
-    m_initValues.period   = m_settings.getRefreshPeriod();
-    m_initValues.refresh  = m_settings.getIsAutoRefreshEnabled();
+    m_initValues.language   = m_settings.getLocale();
+    m_initValues.period     = m_settings.getRefreshPeriod();
+    m_initValues.refresh    = m_settings.getIsAutoRefreshEnabled();
+    m_initValues.themeIndex = m_settings.getThemeIndex();
 
 }
 
@@ -55,6 +62,7 @@ void SettingsDialog::applySettings()
     m_settings.setLocale(ui->comboBox->currentIndex() == 0 ? QLocale(QLocale::English) : QLocale(QLocale::Russian));
     m_settings.setAutoRefreshEnabled(ui->checkBox->isChecked());
     m_settings.setRefreshPeriod(ui->spinBox->value());
+    m_settings.setThemeIndex(ui->themeCombo->currentIndex());
 
     if (m_initValues.language != m_settings.getLocale()) {
         emit localeChanged(m_settings.getLocale());
@@ -66,6 +74,10 @@ void SettingsDialog::applySettings()
 
     if (m_initValues.refresh != m_settings.getIsAutoRefreshEnabled()) {
         emit autoRefreshChanged(m_settings.getIsAutoRefreshEnabled());
+    }
+
+    if (m_initValues.themeIndex != m_settings.getThemeIndex()) {
+        emit themeChanged();
     }
 }
 
@@ -80,8 +92,10 @@ void SettingsDialog::chooseFont() const
 
 void SettingsDialog::setupUpdater()
 {
+    // translations file
     m_updater->setModuleName(m_settings.TRANSLATIONS_RU_URL, "translations");
     m_updater->setModuleVersion(m_settings.TRANSLATIONS_RU_URL, APPLICATION_VERSION);
+    m_updater->setNotifyOnFinish(m_settings.TRANSLATIONS_RU_URL, true);
     m_updater->setDownloaderEnabled(m_settings.TRANSLATIONS_RU_URL, true);
     m_updater->setDownloadDirectory(m_settings.TRANSLATIONS_RU_URL, qApp->applicationDirPath() + "/translations/");
 

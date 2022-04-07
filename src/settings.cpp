@@ -253,6 +253,16 @@ QString Settings::getLastUpdates() const
     return result;
 }
 
+void Settings::setThemeIndex(int index)
+{
+    setValue("theme_index", index);
+}
+
+int Settings::getThemeIndex() const
+{
+    return value("theme_index", 0).toInt();
+}
+
 void Settings::setLocationFilepath(const QString &filepath)
 {
     setValue("location_filename", filepath);

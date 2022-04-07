@@ -15,6 +15,7 @@ struct InitialValues {
     QLocale language;
     bool refresh;
     uint32_t period;
+    int themeIndex;
 };
 
 class SettingsDialog : public QDialog
@@ -29,6 +30,7 @@ signals:
     void localeChanged(const QLocale& locale);
     void periodChanged(uint32_t period);
     void autoRefreshChanged(bool state);
+    void themeChanged();
 private:
     void applySettings();
     void chooseFont() const;

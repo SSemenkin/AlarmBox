@@ -53,6 +53,10 @@ public:
     void setLastUpdates(const QString &content);
     QString getLastUpdates() const;
 
+    void setThemeIndex(int index);
+    int getThemeIndex() const;
+
+
 protected:
     explicit Settings(QObject *parent = nullptr);
 

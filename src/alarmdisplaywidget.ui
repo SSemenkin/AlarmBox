@@ -25,6 +25,12 @@
      </item>
      <item>
       <widget class="AlarmTreeWidget" name="treeWidget">
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
+       <property name="alternatingRowColors">
+        <bool>false</bool>
+       </property>
        <column>
         <property name="text">
          <string notr="true">1</string>

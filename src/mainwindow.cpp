@@ -13,6 +13,8 @@
 #include <QPushButton>
 #include <QSplitter>
 #include <QTranslator>
+#include <QDesktopServices>
+#include <QUrl>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -21,8 +23,21 @@ MainWindow::MainWindow(QWidget *parent)
     , m_splitter(new QSplitter(Qt::Horizontal))
     , m_controllersEdit(new ControllersEdit(this))
     , m_alarmDisplayWidget(new AlarmDisplayWidget(this))
+    , m_inheritanceView(nullptr)
 {
     ui->setupUi(this);
+
+    /// apply saved style
+    if (Settings::instance()->getThemeIndex() != 0) {
+        qApp->setPalette(generateDarkPalette());
+    }
+    qApp->setStyleSheet(
+        "QToolTip { color: #ffffff; background-color: #2a82da; border: 1px "
+        "solid white; }"
+        "QMenu::separator { height: 1px; background-color: rgb(90, 90, 90); margin-left: 2px; "
+        "margin-right: 2px; }");
+
+    ////
 
     ///Buttons
     connect(m_controllersEdit->addControllerButton(), &QPushButton::clicked,
@@ -98,15 +113,15 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(m_interrogator.data(), &AlarmInterrogator::hierarchyUpdated, this, [this] () {
         auto hierarchy = m_interrogator.data()->objectsHierarchy();
-        InheritanceView *view = new InheritanceView(hierarchy, this);
-        m_splitter->addWidget(view);
+        m_inheritanceView = new InheritanceView(hierarchy, this);
+        m_splitter->addWidget(m_inheritanceView);
 
         QList<int> sizes = Settings::instance()->getSplitterSizes();
         if(!sizes.isEmpty()) {
             m_splitter->setSizes(sizes);
         }
 
-        connect(view->inheritanceTreeWidget(), &InheritanceTreeWidget::deactivateRBSRequested,
+        connect(m_inheritanceView->inheritanceTreeWidget(), &InheritanceTreeWidget::deactivateRBSRequested,
                 m_interrogator.data(), &AlarmInterrogator::onDeactivateRBSRequested);
     });
 
@@ -152,6 +167,7 @@ void MainWindow::execSettingsDialog()
     connect(&dialog, &SettingsDialog::localeChanged, this, &MainWindow::onLanguageChanged);
     connect(&dialog, &SettingsDialog::periodChanged, m_interrogator.data(), &AlarmInterrogator::onPeriodChanged);
     connect(&dialog, &SettingsDialog::autoRefreshChanged, m_interrogator.data(), &AlarmInterrogator::onAutoRefreshChanged);
+    connect(&dialog, &SettingsDialog::themeChanged, this, &MainWindow::onThemeChanged);
     dialog.exec();
 }
 
@@ -179,9 +195,66 @@ void MainWindow::aboutProgram()
     box.exec();
 }
 
+
+void MainWindow::restartApplication()
+{
+    QDesktopServices::openUrl(QUrl(qApp->applicationFilePath()));
+    qApp->quit();
+}
+
+QPalette MainWindow::generateDarkPalette() const
+{
+    QPalette darkPalette;
+    darkPalette.setColor(QPalette::Window, QColor(53, 53, 53));
+    darkPalette.setColor(QPalette::WindowText, Qt::white);
+    darkPalette.setColor(QPalette::Base, QColor(25, 25, 25));
+    darkPalette.setColor(QPalette::AlternateBase, QColor(53, 53, 53));
+    darkPalette.setColor(QPalette::ToolTipBase, Qt::white);
+    darkPalette.setColor(QPalette::ToolTipText, Qt::white);
+    darkPalette.setColor(QPalette::Text, Qt::white);
+    darkPalette.setColor(QPalette::Button, QColor(53, 53, 53));
+    darkPalette.setColor(QPalette::ButtonText, Qt::white);
+    darkPalette.setColor(QPalette::BrightText, Qt::red);
+    darkPalette.setColor(QPalette::Link, QColor(42, 130, 218));
+    darkPalette.setColor(QPalette::Highlight, QColor(42, 130, 218));
+    darkPalette.setColor(QPalette::HighlightedText, Qt::black);
+
+    QColor light_gray{160, 160, 160};
+    QColor dark_gray{90, 90, 90};
+    QColor darker_gray{80, 80, 80};
+    darkPalette.setColor(QPalette::Disabled, QPalette::Window, dark_gray);
+    darkPalette.setColor(QPalette::Disabled, QPalette::WindowText, light_gray);
+    darkPalette.setColor(QPalette::Disabled, QPalette::Base, darker_gray);
+    darkPalette.setColor(QPalette::Disabled, QPalette::AlternateBase, dark_gray);
+    darkPalette.setColor(QPalette::Disabled, QPalette::ToolTipBase, dark_gray);
+    darkPalette.setColor(QPalette::Disabled, QPalette::ToolTipText, light_gray);
+    darkPalette.setColor(QPalette::Disabled, QPalette::Text, light_gray);
+    darkPalette.setColor(QPalette::Disabled, QPalette::Button, darker_gray);
+    darkPalette.setColor(QPalette::Disabled, QPalette::ButtonText, light_gray);
+    darkPalette.setColor(QPalette::Disabled, QPalette::BrightText, light_gray);
+    darkPalette.setColor(QPalette::Disabled, QPalette::Link, light_gray);
+    darkPalette.setColor(QPalette::Disabled, QPalette::Highlight, dark_gray);
+
+    return darkPalette;
+}
+
+
 void MainWindow::onLanguageChanged(const QLocale &locale)
 {
     Q_UNUSED(locale);
-    QMessageBox::information(this, tr("Language changed"),
-                             tr("The language change will take effect after the next launch."));
+    int choice = QMessageBox::question(this, tr("Language changed"),
+                             tr("The language change will take effect after the next launch.\nRestart application?"));
+
+    if (choice == QMessageBox::Yes) {
+        restartApplication();
+    }
+}
+
+void MainWindow::onThemeChanged()
+{
+    int choice = QMessageBox::question(this, tr("Theme changed"),
+                                 tr("The theme change will take effect after the next launch.\nRestart application?"));
+    if (choice == QMessageBox::Yes) {
+        restartApplication();
+    }
 }
