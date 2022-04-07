@@ -4,7 +4,6 @@
 #include <QObject>
 #include <QString>
 #include <QQueue>
-#include <QFile>
 
 #include "QTelnet.h"
 
@@ -98,7 +97,6 @@ private:
     bool isLogged {false};
 
     QAbstractSocket::SocketState m_state {QAbstractSocket::SocketState::UnconnectedState};
-    QFile m_file;
 
 
 private Q_SLOTS:

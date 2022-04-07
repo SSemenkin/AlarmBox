@@ -6,10 +6,8 @@ Telnet::Telnet(const QString &nodeTitle, const QString &hostname, const QString 
                const QString &password, const uint8_t port, QObject *parent) :
     QObject(parent),
     authData(nodeTitle, hostname, username, password, port),
-    telnet(new QTelnet(this)),
-    m_file(hostname + ".txt")
+    telnet(new QTelnet(this))
 {
-    m_file.open(QIODevice::Text | QIODevice::Append);
 
     QObject::connect(telnet, &QTelnet::newData,      this, &Telnet::receiveData);
     QObject::connect(telnet, &QTelnet::stateChanged, this, [this] (QAbstractSocket::SocketState state){
@@ -28,8 +26,6 @@ Telnet::~Telnet()
     if (telnet->isConnected()) {
         telnet->disconnectFromHost();
     }
-    qDebug() << "Destroyed telnet " << hostname();
-    m_file.close();
 }
 
 void Telnet::connectToNode()
@@ -160,7 +156,6 @@ void Telnet::receiveData(const char *data, int length)
             mmlHandler(responce);
         break;
     }
-    m_file.write(responce.toUtf8());
 }
 
 void Telnet::authenticationHandler(const QString &responce)

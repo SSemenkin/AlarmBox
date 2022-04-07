@@ -1,6 +1,7 @@
 #include "settingsdialog.h"
 #include "ui_settingsdialog.h"
 #include "settings.h"
+#include "version.h"
 
 #include <QSimpleUpdater.h>
 
@@ -75,7 +76,7 @@ void SettingsDialog::chooseFont() const
 
 void SettingsDialog::setupUpdater()
 {
-    m_updater->setModuleVersion(m_settings.UPDATES_URL, qApp->applicationVersion());
+    m_updater->setModuleVersion(m_settings.UPDATES_URL, APPLICATION_VERSION);
     m_updater->setNotifyOnFinish(m_settings.UPDATES_URL, true);
     m_updater->setNotifyOnUpdate(m_settings.UPDATES_URL, true);
     m_updater->setUseCustomAppcast(m_settings.UPDATES_URL, false);

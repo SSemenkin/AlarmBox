@@ -10,6 +10,7 @@
 
 int main(int argc, char *argv[])
 {
+    static int count = 0;
     QApplication a(argc, argv);
     a.setApplicationVersion(APPLICATION_VERSION);
     a.setApplicationDisplayName(a.applicationName() +"v"+ APPLICATION_VERSION);

@@ -7,6 +7,7 @@
 #include <QJsonArray>
 #include <QRect>
 #include <QFont>
+#include <QFile>
 
 #include "alarminterrogator.h"
 
