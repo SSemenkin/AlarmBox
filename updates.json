@@ -3,7 +3,7 @@
     "windows": {
       "open-url": "",
       "latest-version": "1.1",
-      "download-url": "https://raw.githubusercontent.com/SSemenkin/AlarmBox/main/releases/1.1/AlarmBox.bak",
+      "download-url": "https://github.com/SSemenkin/AlarmBox/blob/main/releases/1.1/AlarmBoX.bak?raw=true",
       "changelog": "Пример изменений",
       "mandatory": true
     }
