@@ -639,6 +639,11 @@ Do you want try again?</source>
         <translation>Форма</translation>
     </message>
     <message>
+        <location filename="../src/inheritanceview.ui" line="20"/>
+        <source>For example: LUG112/112...</source>
+        <translation>Например: LUG112/112...</translation>
+    </message>
+    <message>
         <location filename="../src/inheritanceview.cpp" line="10"/>
         <source>Objects</source>
         <translation>Объекты</translation>
@@ -916,27 +921,27 @@ Duplicates.</source>
 <context>
     <name>Updater</name>
     <message>
-        <location filename="../3rd_party/QSimpleUpdater/src/Updater.cpp" line="437"/>
+        <location filename="../3rd_party/QSimpleUpdater/src/Updater.cpp" line="442"/>
         <source>Would you like to download the update now?</source>
         <translation>Загрузить обновление сейчас?</translation>
     </message>
     <message>
-        <location filename="../3rd_party/QSimpleUpdater/src/Updater.cpp" line="440"/>
+        <location filename="../3rd_party/QSimpleUpdater/src/Updater.cpp" line="445"/>
         <source>Would you like to download the update now? This is a mandatory update, exiting now will close the application</source>
         <translation>Загрузить обновление сейчас? Это обязательное обновление, выход из которого закроет приложение</translation>
     </message>
     <message>
-        <location filename="../3rd_party/QSimpleUpdater/src/Updater.cpp" line="445"/>
+        <location filename="../3rd_party/QSimpleUpdater/src/Updater.cpp" line="450"/>
         <source>Version %1 of %2 has been released!</source>
         <translation>Версия %1 модуля %2 была выпущена!</translation>
     </message>
     <message>
-        <location filename="../3rd_party/QSimpleUpdater/src/Updater.cpp" line="481"/>
+        <location filename="../3rd_party/QSimpleUpdater/src/Updater.cpp" line="486"/>
         <source>No updates are available for the moment</source>
         <translation>Нет доступных обновлений</translation>
     </message>
     <message>
-        <location filename="../3rd_party/QSimpleUpdater/src/Updater.cpp" line="483"/>
+        <location filename="../3rd_party/QSimpleUpdater/src/Updater.cpp" line="488"/>
         <source>Congratulations! You are running the latest version of %1</source>
         <translation>Вы используете последнюю версию %1</translation>
     </message>
