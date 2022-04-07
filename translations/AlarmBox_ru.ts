@@ -369,14 +369,14 @@ Do you want try again?</source>
     <name>Downloader</name>
     <message>
         <location filename="../3rd_party/QSimpleUpdater/src/Downloader.ui" line="23"/>
-        <location filename="../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="249"/>
+        <location filename="../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="259"/>
         <source>Updater</source>
         <translation>Обновление</translation>
     </message>
     <message>
         <location filename="../3rd_party/QSimpleUpdater/src/Downloader.ui" line="90"/>
         <location filename="../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="108"/>
-        <location filename="../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="331"/>
+        <location filename="../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="342"/>
         <source>Downloading updates</source>
         <translation>Загрузка обновлений</translation>
     </message>
@@ -398,7 +398,7 @@ Do you want try again?</source>
     </message>
     <message>
         <location filename="../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="109"/>
-        <location filename="../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="411"/>
+        <location filename="../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="422"/>
         <source>Time remaining</source>
         <translation>Времени осталось</translation>
     </message>
@@ -408,126 +408,126 @@ Do you want try again?</source>
         <translation>неизвестно</translation>
     </message>
     <message>
-        <location filename="../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="183"/>
+        <location filename="../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="193"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location filename="../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="183"/>
+        <location filename="../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="193"/>
         <source>Cannot find downloaded update!</source>
         <translation>Не удалось найти загруженное обновление!</translation>
     </message>
     <message>
-        <location filename="../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="201"/>
+        <location filename="../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="211"/>
         <source>Close</source>
         <translation>Закрыть</translation>
     </message>
     <message>
-        <location filename="../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="202"/>
+        <location filename="../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="212"/>
         <source>Download complete!</source>
         <translation>Загрузка завершена!</translation>
     </message>
     <message>
-        <location filename="../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="203"/>
+        <location filename="../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="213"/>
         <source>The installer will open separately</source>
         <translation>Установщик будет открыт отдельно</translation>
     </message>
     <message>
-        <location filename="../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="210"/>
+        <location filename="../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="220"/>
         <source>Click &quot;OK&quot; to begin installing the update</source>
         <translation>Нажмите «ОК», чтобы начать установку обновления</translation>
     </message>
     <message>
-        <location filename="../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="212"/>
+        <location filename="../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="222"/>
         <source>In order to install the update, you may need to quit the application.</source>
         <translation>Для установки обновления может потребоваться выйти из приложения.</translation>
     </message>
     <message>
-        <location filename="../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="216"/>
+        <location filename="../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="226"/>
         <source>In order to install the update, you may need to quit the application. This is a mandatory update, exiting now will close the application</source>
         <translation>Для установки обновления может потребоваться выйти из приложения. Это обязательное обновление, выход из которого закроет приложение</translation>
     </message>
     <message>
-        <location filename="../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="235"/>
+        <location filename="../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="245"/>
         <source>Click the &quot;Open&quot; button to apply the update</source>
         <translation>Нажмите кнопку «Открыть», чтобы применить обновление</translation>
     </message>
     <message>
-        <location filename="../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="253"/>
+        <location filename="../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="263"/>
         <source>Are you sure you want to cancel the download?</source>
         <translation>Вы уверены, что хотите отменить загрузку?</translation>
     </message>
     <message>
-        <location filename="../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="256"/>
+        <location filename="../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="266"/>
         <source>Are you sure you want to cancel the download? This is a mandatory update, exiting now will close the application</source>
         <translatorcomment>Вы уверены, что хотите отменить загрузку? Это обязательное обновление, выход из которого закроет приложение.</translatorcomment>
         <translation></translation>
     </message>
     <message>
-        <location filename="../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="314"/>
-        <location filename="../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="323"/>
+        <location filename="../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="325"/>
+        <location filename="../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="334"/>
         <source>%1 bytes</source>
         <translation>%1 байт</translation>
     </message>
     <message>
-        <location filename="../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="317"/>
-        <location filename="../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="326"/>
+        <location filename="../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="328"/>
+        <location filename="../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="337"/>
         <source>%1 KB</source>
         <translation>%1 KB</translation>
     </message>
     <message>
-        <location filename="../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="320"/>
-        <location filename="../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="329"/>
+        <location filename="../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="331"/>
+        <location filename="../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="340"/>
         <source>%1 MB</source>
         <translation>%1 MB</translation>
     </message>
     <message>
-        <location filename="../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="331"/>
+        <location filename="../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="342"/>
         <source>of</source>
         <translation>из</translation>
     </message>
     <message>
-        <location filename="../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="357"/>
+        <location filename="../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="368"/>
         <source>Downloading Updates</source>
         <translation>Загрузка обновлений</translation>
     </message>
     <message>
-        <location filename="../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="358"/>
+        <location filename="../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="369"/>
         <source>Time Remaining</source>
         <translation>Времени осталось</translation>
     </message>
     <message>
-        <location filename="../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="358"/>
+        <location filename="../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="369"/>
         <source>Unknown</source>
         <translation>Неизвестно</translation>
     </message>
     <message>
-        <location filename="../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="385"/>
+        <location filename="../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="396"/>
         <source>about %1 hours</source>
         <translation>около %1 часов</translation>
     </message>
     <message>
-        <location filename="../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="387"/>
+        <location filename="../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="398"/>
         <source>about one hour</source>
         <translation>около часа</translation>
     </message>
     <message>
-        <location filename="../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="396"/>
+        <location filename="../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="407"/>
         <source>%1 minutes</source>
         <translation>%1 минут</translation>
     </message>
     <message>
-        <location filename="../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="398"/>
+        <location filename="../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="409"/>
         <source>1 minute</source>
         <translation>1 минута</translation>
     </message>
     <message>
-        <location filename="../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="406"/>
+        <location filename="../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="417"/>
         <source>%1 seconds</source>
         <translation>%1 секунд</translation>
     </message>
     <message>
-        <location filename="../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="408"/>
+        <location filename="../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="419"/>
         <source>1 second</source>
         <translation>1 секунда</translation>
     </message>
@@ -652,12 +652,21 @@ Do you want try again?</source>
         <translation>Главное окно</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="38"/>
-        <source>&amp;File</source>
-        <translation>&amp;Файл</translation>
+        <location filename="../src/mainwindow.ui" line="43"/>
+        <source>toolBar</source>
+        <translation>Панель иструментов</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.ui" line="51"/>
+        <location filename="../src/mainwindow.ui" line="72"/>
+        <source>About program</source>
+        <translation>О программе</translation>
+    </message>
+    <message>
+        <source>&amp;File</source>
+        <translation type="vanished">&amp;Файл</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.ui" line="63"/>
         <source>&amp;Settings</source>
         <translation>&amp;Опции</translation>
     </message>
@@ -667,22 +676,41 @@ Do you want try again?</source>
         <translation>Последнее обновление : </translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="132"/>
+        <location filename="../src/mainwindow.cpp" line="133"/>
         <source>No items selected</source>
         <translation>Выберите хотя бы один элемент</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="132"/>
+        <location filename="../src/mainwindow.cpp" line="133"/>
         <source>Please select item.</source>
         <translation>Выберите хотя бы один элемент.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="167"/>
+        <location filename="../src/mainwindow.cpp" line="169"/>
+        <source>About program </source>
+        <translation>О программе </translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="170"/>
+        <source>AlarmBox is a tool designed to simplify the monitoring of Ericsson objects in a 2G network.
+Version </source>
+        <translation>AlarmBox — это инструмент, предназначенный для упрощения мониторинга объектов Ericsson в сети 2G.
+Версия </translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="171"/>
+        <source>
+LastUpdates: </source>
+        <translation>
+Последние обновления: </translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="180"/>
         <source>Language changed</source>
         <translation>Язык изменён</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="168"/>
+        <location filename="../src/mainwindow.cpp" line="181"/>
         <source>The language change will take effect after the next launch.</source>
         <translation>Изменение языка вступит в силу после следующего запуска.</translation>
     </message>
@@ -758,12 +786,12 @@ Duplicates.</source>
         <translation type="vanished">Каждые:</translation>
     </message>
     <message>
-        <location filename="../src/settingsdialog.cpp" line="19"/>
+        <location filename="../src/settingsdialog.cpp" line="20"/>
         <source>English</source>
         <translation>Английский</translation>
     </message>
     <message>
-        <location filename="../src/settingsdialog.cpp" line="19"/>
+        <location filename="../src/settingsdialog.cpp" line="20"/>
         <source>Russian</source>
         <translation>Русский</translation>
     </message>
@@ -775,112 +803,112 @@ Duplicates.</source>
         <translation type="vanished">Таймаут подключения.</translation>
     </message>
     <message>
-        <location filename="../src/network/telnet.cpp" line="41"/>
+        <location filename="../src/network/telnet.cpp" line="36"/>
         <source>Hostname of node is empty.</source>
         <translation>Имя хоста не указано.</translation>
     </message>
     <message>
-        <location filename="../src/network/telnet.cpp" line="170"/>
+        <location filename="../src/network/telnet.cpp" line="164"/>
         <source>login incorrect</source>
         <translation>Неправильный логин</translation>
     </message>
     <message>
-        <location filename="../src/network/telnet.cpp" line="243"/>
+        <location filename="../src/network/telnet.cpp" line="237"/>
         <source>The address specified to QAbstractSocket::bind() is already in use and was set to be exclusive.</source>
         <translation>Адрес, указанный в QAbstractSocket::bind(), уже используется и был установлен как монопольный.</translation>
     </message>
     <message>
-        <location filename="../src/network/telnet.cpp" line="248"/>
+        <location filename="../src/network/telnet.cpp" line="242"/>
         <source>The connection was refused by the peer (or timed out).</source>
         <translation>Соединение было отклонено узлом (или истекло время ожидания).</translation>
     </message>
     <message>
-        <location filename="../src/network/telnet.cpp" line="253"/>
+        <location filename="../src/network/telnet.cpp" line="247"/>
         <source>The datagram was larger than the operating system&apos;s limit (which can be as low as 8192 bytes).</source>
         <translation>Размер дейтаграммы превышает ограничение операционной системы (которое может составлять всего 8192 байта).</translation>
     </message>
     <message>
-        <location filename="../src/network/telnet.cpp" line="258"/>
+        <location filename="../src/network/telnet.cpp" line="252"/>
         <source>The host address was not found.</source>
         <translation>Адрес хоста не найден.</translation>
     </message>
     <message>
-        <location filename="../src/network/telnet.cpp" line="263"/>
+        <location filename="../src/network/telnet.cpp" line="257"/>
         <source>An error occurred with the network (e.g., the network cable was accidentally plugged out).</source>
         <translation>Произошла ошибка с сетью (например, сетевой кабель был случайно отключен).</translation>
     </message>
     <message>
-        <location filename="../src/network/telnet.cpp" line="268"/>
+        <location filename="../src/network/telnet.cpp" line="262"/>
         <source>An operation was attempted while the socket was in a state that did not permit it.</source>
         <translation>Была предпринята попытка выполнения операции, когда сокет находился в недопустимом состоянии.</translation>
     </message>
     <message>
-        <location filename="../src/network/telnet.cpp" line="273"/>
+        <location filename="../src/network/telnet.cpp" line="267"/>
         <source>The socket is using a proxy, and the proxy requires authentication.</source>
         <translation>Сокет использует прокси, а прокси требует аутентификации.</translation>
     </message>
     <message>
-        <location filename="../src/network/telnet.cpp" line="278"/>
+        <location filename="../src/network/telnet.cpp" line="272"/>
         <source>The connection to the proxy server was closed unexpectedly (before the connection to the final peer was established).</source>
         <translation>Соединение с прокси-сервером было неожиданно закрыто (до того, как было установлено соединение с конечным узлом).</translation>
     </message>
     <message>
-        <location filename="../src/network/telnet.cpp" line="283"/>
+        <location filename="../src/network/telnet.cpp" line="277"/>
         <source>Could not contact the proxy server because the connection to that server was denied.</source>
         <translation>Не удалось связаться с прокси-сервером, так как соединение с этим сервером было отклонено.</translation>
     </message>
     <message>
-        <location filename="../src/network/telnet.cpp" line="288"/>
+        <location filename="../src/network/telnet.cpp" line="282"/>
         <source>The connection to the proxy server timed out or the proxy server stopped responding in the authentication phase.</source>
         <translation>Время ожидания соединения с прокси-сервером истекло, или прокси-сервер перестал отвечать на этапе аутентификации.</translation>
     </message>
     <message>
-        <location filename="../src/network/telnet.cpp" line="293"/>
+        <location filename="../src/network/telnet.cpp" line="287"/>
         <source>The proxy address set with setProxy() (or the application proxy) was not found.</source>
         <translation>Адрес прокси, установленный с помощью setProxy() (или прокси приложения), не найден.</translation>
     </message>
     <message>
-        <location filename="../src/network/telnet.cpp" line="298"/>
+        <location filename="../src/network/telnet.cpp" line="292"/>
         <source>The connection negotiation with the proxy server failed, because the response from the proxy server could not be understood.</source>
         <translation>Не удалось согласовать соединение с прокси-сервером, так как не удалось понять ответ от прокси-сервера.</translation>
     </message>
     <message>
-        <location filename="../src/network/telnet.cpp" line="303"/>
+        <location filename="../src/network/telnet.cpp" line="297"/>
         <source>The remote host closed the connection.</source>
         <translation>Удаленный хост закрыл соединение.</translation>
     </message>
     <message>
-        <location filename="../src/network/telnet.cpp" line="308"/>
+        <location filename="../src/network/telnet.cpp" line="302"/>
         <source>The socket operation failed because the application lacked the required privileges.</source>
         <translation>Операция сокета завершилась неудачно, так как у приложения не было необходимых прав.</translation>
     </message>
     <message>
-        <location filename="../src/network/telnet.cpp" line="313"/>
+        <location filename="../src/network/telnet.cpp" line="307"/>
         <source>The address specified to QAbstractSocket::bind() does not belong to the host.</source>
         <translation>Адрес, указанный в QAbstractSocket::bind(), не принадлежит хосту.</translation>
     </message>
     <message>
-        <location filename="../src/network/telnet.cpp" line="318"/>
+        <location filename="../src/network/telnet.cpp" line="312"/>
         <source>The local system ran out of resources (e.g., too many sockets).</source>
         <translation>В локальной системе закончились ресурсы (например, слишком много сокетов).</translation>
     </message>
     <message>
-        <location filename="../src/network/telnet.cpp" line="323"/>
+        <location filename="../src/network/telnet.cpp" line="317"/>
         <source>The socket operation timed out.</source>
         <translation>Время ожидания операции сокета истекло.</translation>
     </message>
     <message>
-        <location filename="../src/network/telnet.cpp" line="328"/>
+        <location filename="../src/network/telnet.cpp" line="322"/>
         <source>A temporary error occurred (e.g., operation would block and socket is non-blocking).</source>
         <translation>Произошла временная ошибка (например, операция блокируется, а сокет не блокируется).</translation>
     </message>
     <message>
-        <location filename="../src/network/telnet.cpp" line="333"/>
+        <location filename="../src/network/telnet.cpp" line="327"/>
         <source>An unidentified error occurred.</source>
         <translation>Произошла неизвестная ошибка.</translation>
     </message>
     <message>
-        <location filename="../src/network/telnet.cpp" line="338"/>
+        <location filename="../src/network/telnet.cpp" line="332"/>
         <source>The requested socket operation is not supported by the local operating system (e.g., lack of IPv6 support).</source>
         <translation>Запрошенная операция сокета не поддерживается локальной операционной системой (например, отсутствие поддержки IPv6).</translation>
     </message>
@@ -888,27 +916,27 @@ Duplicates.</source>
 <context>
     <name>Updater</name>
     <message>
-        <location filename="../3rd_party/QSimpleUpdater/src/Updater.cpp" line="431"/>
+        <location filename="../3rd_party/QSimpleUpdater/src/Updater.cpp" line="437"/>
         <source>Would you like to download the update now?</source>
         <translation>Загрузить обновление сейчас?</translation>
     </message>
     <message>
-        <location filename="../3rd_party/QSimpleUpdater/src/Updater.cpp" line="434"/>
+        <location filename="../3rd_party/QSimpleUpdater/src/Updater.cpp" line="440"/>
         <source>Would you like to download the update now? This is a mandatory update, exiting now will close the application</source>
         <translation>Загрузить обновление сейчас? Это обязательное обновление, выход из которого закроет приложение</translation>
     </message>
     <message>
-        <location filename="../3rd_party/QSimpleUpdater/src/Updater.cpp" line="439"/>
+        <location filename="../3rd_party/QSimpleUpdater/src/Updater.cpp" line="445"/>
         <source>Version %1 of %2 has been released!</source>
         <translation>Версия %1 модуля %2 была выпущена!</translation>
     </message>
     <message>
-        <location filename="../3rd_party/QSimpleUpdater/src/Updater.cpp" line="474"/>
+        <location filename="../3rd_party/QSimpleUpdater/src/Updater.cpp" line="481"/>
         <source>No updates are available for the moment</source>
         <translation>Нет доступных обновлений</translation>
     </message>
     <message>
-        <location filename="../3rd_party/QSimpleUpdater/src/Updater.cpp" line="476"/>
+        <location filename="../3rd_party/QSimpleUpdater/src/Updater.cpp" line="483"/>
         <source>Congratulations! You are running the latest version of %1</source>
         <translation>Вы используете последнюю версию %1</translation>
     </message>
