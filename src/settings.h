@@ -60,7 +60,8 @@ protected:
 
 private:
 
-    static QString UPDATES_URL;
+    static QString EXECUTABLE_URL;
+    static QString TRANSLATIONS_RU_URL;
     ///@brief Метод сериализации данных в JSON формат.
     /// @param data контейнер данных
     /// накладывает на объект, такие требование что получаемый при итерации объект должен быть сам итерируем

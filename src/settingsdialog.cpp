@@ -28,7 +28,8 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     connect(ui->fontButton, &QPushButton::clicked, this, &SettingsDialog::chooseFont);
 
     connect(ui->checkForUpdatesButton, &QPushButton::clicked, this, [this] () {
-        m_updater->checkForUpdates(m_settings.UPDATES_URL);
+        m_updater->checkForUpdates(m_settings.TRANSLATIONS_RU_URL);
+        m_updater->checkForUpdates(m_settings.EXECUTABLE_URL);
     });
     connect(m_updater, &QSimpleUpdater::checkingFinished, this, [this] (const QString &url) {
         m_settings.setLastUpdates(m_updater->getChangelog(url));
@@ -79,9 +80,15 @@ void SettingsDialog::chooseFont() const
 
 void SettingsDialog::setupUpdater()
 {
-    m_updater->setModuleVersion(m_settings.UPDATES_URL, APPLICATION_VERSION);
-    m_updater->setNotifyOnFinish(m_settings.UPDATES_URL, true);
-    m_updater->setNotifyOnUpdate(m_settings.UPDATES_URL, true);
-    m_updater->setDownloaderEnabled(m_settings.UPDATES_URL, true);
-    m_updater->setMandatoryUpdate(m_settings.UPDATES_URL, true);
+    m_updater->setModuleName(m_settings.TRANSLATIONS_RU_URL, "translations");
+    m_updater->setModuleVersion(m_settings.TRANSLATIONS_RU_URL, APPLICATION_VERSION);
+    m_updater->setDownloaderEnabled(m_settings.TRANSLATIONS_RU_URL, true);
+    m_updater->setDownloadDirectory(m_settings.TRANSLATIONS_RU_URL, qApp->applicationDirPath() + "/translations/");
+
+    // executable file
+    m_updater->setModuleVersion(m_settings.EXECUTABLE_URL, APPLICATION_VERSION);
+    m_updater->setNotifyOnFinish(m_settings.EXECUTABLE_URL, true);
+    m_updater->setNotifyOnUpdate(m_settings.EXECUTABLE_URL, true);
+    m_updater->setDownloaderEnabled(m_settings.EXECUTABLE_URL, true);
+    m_updater->setMandatoryUpdate(m_settings.EXECUTABLE_URL, true);
 }

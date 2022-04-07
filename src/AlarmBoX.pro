@@ -87,4 +87,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 RESOURCES += \
     res.qrc
 
-OTHER_FILES += $$PWD/../updates.json
+OTHER_FILES += $$PWD/../updates.json\
+               $$PWD/../updates_translations.json
