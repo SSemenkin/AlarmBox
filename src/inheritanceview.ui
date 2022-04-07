@@ -15,7 +15,11 @@
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
-    <widget class="QLineEdit" name="inputLine"/>
+    <widget class="QLineEdit" name="inputLine">
+     <property name="placeholderText">
+      <string>For example: LUG112/112...</string>
+     </property>
+    </widget>
    </item>
    <item row="1" column="0">
     <widget class="InheritanceTreeWidget" name="treeWidget">
