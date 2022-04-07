@@ -101,6 +101,11 @@ MainWindow::MainWindow(QWidget *parent)
         InheritanceView *view = new InheritanceView(hierarchy, this);
         m_splitter->addWidget(view);
 
+        QList<int> sizes = Settings::instance()->getSplitterSizes();
+        if(!sizes.isEmpty()) {
+            m_splitter->setSizes(sizes);
+        }
+
         connect(view->inheritanceTreeWidget(), &InheritanceTreeWidget::deactivateRBSRequested,
                 m_interrogator.data(), &AlarmInterrogator::onDeactivateRBSRequested);
     });

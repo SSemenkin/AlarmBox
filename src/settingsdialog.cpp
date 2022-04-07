@@ -29,7 +29,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
 
     connect(ui->checkForUpdatesButton, &QPushButton::clicked, this, [this] () {
         m_updater->checkForUpdates(m_settings.TRANSLATIONS_RU_URL);
-        m_updater->checkForUpdates(m_settings.EXECUTABLE_URL);
+        //m_updater->checkForUpdates(m_settings.EXECUTABLE_URL);
     });
     connect(m_updater, &QSimpleUpdater::checkingFinished, this, [this] (const QString &url) {
         m_settings.setLastUpdates(m_updater->getChangelog(url));
