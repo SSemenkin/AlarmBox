@@ -1,12 +1,5 @@
 {
 "updates": {
-    "windows": {
-      "open-url": "",
-      "latest-version": "1.1",
-      "download-url": "https://github.com/SSemenkin/AlarmBox/blob/main/releases/1.1/AlarmBoX.exe?raw=true",
-      "changelog": "Новый тест и переводы...",
-      "mandatory": true
-    },
     "example": {
       "open-url": "",
       "latest-version": "1.1",
