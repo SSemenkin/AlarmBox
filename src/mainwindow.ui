@@ -33,15 +33,27 @@
      <height>25</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menu_File">
-    <property name="title">
-     <string>&amp;File</string>
-    </property>
-    <addaction name="action_Settings"/>
-   </widget>
-   <addaction name="menu_File"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QToolBar" name="toolBar">
+   <property name="contextMenuPolicy">
+    <enum>Qt::NoContextMenu</enum>
+   </property>
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <property name="movable">
+    <bool>false</bool>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="action_Settings"/>
+   <addaction name="actionAbout_program"/>
+  </widget>
   <action name="action_Settings">
    <property name="icon">
     <iconset resource="res.qrc">
@@ -49,6 +61,15 @@
    </property>
    <property name="text">
     <string>&amp;Settings</string>
+   </property>
+  </action>
+  <action name="actionAbout_program">
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/icons/dolphin-emu.svg</normaloff>:/icons/dolphin-emu.svg</iconset>
+   </property>
+   <property name="text">
+    <string>About program</string>
    </property>
   </action>
  </widget>

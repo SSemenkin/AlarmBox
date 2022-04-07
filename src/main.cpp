@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     removeOldExecutableFile();
     a.setApplicationVersion(APPLICATION_VERSION);
-    a.setApplicationDisplayName(a.applicationName() +"v"+ APPLICATION_VERSION);
+    a.setApplicationDisplayName(a.applicationName());
     a.setStyle(QStyleFactory::create("fusion"));
     QLocale locale = Settings::instance()->getLocale();
     QTranslator translator;

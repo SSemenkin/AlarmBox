@@ -30,6 +30,9 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     connect(ui->checkForUpdatesButton, &QPushButton::clicked, this, [this] () {
         m_updater->checkForUpdates(m_settings.UPDATES_URL);
     });
+    connect(m_updater, &QSimpleUpdater::checkingFinished, this, [this] (const QString &url) {
+        m_settings.setLastUpdates(m_updater->getChangelog(url));
+    });
 
 
     ui->checkBox->setChecked(m_settings.getIsAutoRefreshEnabled());

@@ -50,6 +50,9 @@ public:
     void setExistingAlarms(const QVector<Alarm> &alarms);
     QVector<Alarm> getExistingAlarms() const;
 
+    void setLastUpdates(const QString &content);
+    QString getLastUpdates() const;
+
 protected:
     explicit Settings(QObject *parent = nullptr);
 

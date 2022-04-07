@@ -233,6 +233,26 @@ QVector<Alarm> Settings::getExistingAlarms() const
     return deserialize<Alarm>("existing_alarms.json");
 }
 
+void Settings::setLastUpdates(const QString &content)
+{
+    QFile f(QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation) + "/changelog");
+    if (f.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+        f.write(content.toUtf8());
+        f.close();
+    }
+}
+
+QString Settings::getLastUpdates() const
+{
+    QString result;
+    QFile f(QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation) + "/changelog");
+    if (f.open(QIODevice::ReadOnly)) {
+        result = f.readAll();
+        f.close();
+    }
+    return result;
+}
+
 void Settings::setLocationFilepath(const QString &filepath)
 {
     setValue("location_filename", filepath);

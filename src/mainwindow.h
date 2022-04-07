@@ -32,6 +32,7 @@ private:
     void execEditControllerDialog();
     void execSettingsDialog();
     void createSplitter();
+    void aboutProgram();
 
 private:
     Ui::MainWindow *ui;

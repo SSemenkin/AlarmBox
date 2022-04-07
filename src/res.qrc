@@ -21,5 +21,6 @@
         <file>icons/zathura.svg</file>
         <file>icons/battery.svg</file>
         <file>icons/apper.svg</file>
+        <file>icons/dolphin-emu.svg</file>
     </qresource>
 </RCC>
