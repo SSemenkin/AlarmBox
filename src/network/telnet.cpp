@@ -8,7 +8,6 @@ Telnet::Telnet(const QString &nodeTitle, const QString &hostname, const QString 
     authData(nodeTitle, hostname, username, password, port),
     telnet(new QTelnet(this))
 {
-
     QObject::connect(telnet, &QTelnet::newData,      this, &Telnet::receiveData);
     QObject::connect(telnet, &QTelnet::stateChanged, this, [this] (QAbstractSocket::SocketState state){
         m_state = state;

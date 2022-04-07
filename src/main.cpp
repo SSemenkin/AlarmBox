@@ -6,12 +6,23 @@
 #include <QLocale>
 #include <QLibraryInfo>
 #include <QStyleFactory>
+#include <QDir>
+#include <QMessageBox>
 
+void removeOldExecutableFile()
+{
+    QDir dir = qApp->applicationDirPath();
+    QString filename = dir.filePath(qApp->applicationName() + ".exe.bak");
+
+    if (QFile::exists(filename)) {
+        QFile::remove(filename);
+    }
+}
 
 int main(int argc, char *argv[])
 {
-    static int count = 0;
     QApplication a(argc, argv);
+    removeOldExecutableFile();
     a.setApplicationVersion(APPLICATION_VERSION);
     a.setApplicationDisplayName(a.applicationName() +"v"+ APPLICATION_VERSION);
     a.setStyle(QStyleFactory::create("fusion"));
