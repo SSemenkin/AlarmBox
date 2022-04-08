@@ -8,6 +8,8 @@
 #include "inheritanceview.h"
 #include "inheritancetreewidget.h"
 
+#include "QSimpleUpdater.h"
+
 #include <QListWidgetItem>
 #include <QMessageBox>
 #include <QPushButton>
@@ -24,13 +26,18 @@ MainWindow::MainWindow(QWidget *parent)
     , m_controllersEdit(new ControllersEdit(this))
     , m_alarmDisplayWidget(new AlarmDisplayWidget(this))
     , m_inheritanceView(nullptr)
+    , m_lightPalette(palette())
+    , m_darkPalette(generateDarkPalette())
 {
     ui->setupUi(this);
 
+    ui->updateButton->setVisible(false);
+
     /// apply saved style
     if (Settings::instance()->getThemeIndex() != 0) {
-        qApp->setPalette(generateDarkPalette());
+        qApp->setPalette(m_darkPalette);
     }
+
     qApp->setStyleSheet(
         "QToolTip { color: #ffffff; background-color: #2a82da; border: 1px "
         "solid white; }"
@@ -125,7 +132,13 @@ MainWindow::MainWindow(QWidget *parent)
                 m_interrogator.data(), &AlarmInterrogator::onDeactivateRBSRequested);
     });
 
-    ///
+    QTimer *timer = new QTimer(this);
+    connect(timer, &QTimer::timeout, this, &MainWindow::checkForUpdates);
+    timer->start(60000);
+    checkForUpdates();
+
+
+    connect(QSimpleUpdater::getInstance(), &QSimpleUpdater::checkingFinished, this, &MainWindow::checkForUpdatesFinished);
 
     createSplitter();
 }
@@ -195,6 +208,16 @@ void MainWindow::aboutProgram()
     box.exec();
 }
 
+void MainWindow::checkForUpdates()
+{
+
+}
+
+void MainWindow::checkForUpdatesFinished(const QString &url)
+{
+
+}
+
 
 void MainWindow::restartApplication()
 {
@@ -252,9 +275,12 @@ void MainWindow::onLanguageChanged(const QLocale &locale)
 
 void MainWindow::onThemeChanged()
 {
-    int choice = QMessageBox::question(this, tr("Theme changed"),
-                                 tr("The theme change will take effect after the next launch.\nRestart application?"));
-    if (choice == QMessageBox::Yes) {
-        restartApplication();
+
+    int theme = Settings::instance()->getThemeIndex();
+
+    if (theme == 0) {
+        qApp->setPalette(m_lightPalette);
+    } else {
+        qApp->setPalette(m_darkPalette);
     }
 }

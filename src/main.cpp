@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include "version.h"
+#include "customapplication.h"
 
-#include <QApplication>
 #include <QTranslator>
 #include <QLocale>
 #include <QLibraryInfo>
@@ -21,7 +21,7 @@ void removeOldExecutableFile()
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
+    CustomApplication a(argc, argv);
     removeOldExecutableFile();
     a.setApplicationVersion(APPLICATION_VERSION);
     a.setApplicationDisplayName(a.applicationName());

@@ -22,6 +22,25 @@
     <item row="0" column="0">
      <layout class="QHBoxLayout" name="horizontalLayout"/>
     </item>
+    <item row="1" column="0">
+     <widget class="QPushButton" name="updateButton">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>50</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(170, 85, 255);</string>
+      </property>
+      <property name="text">
+       <string>Update</string>
+      </property>
+      <property name="flat">
+       <bool>false</bool>
+      </property>
+     </widget>
+    </item>
    </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -30,7 +49,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>26</height>
+     <height>25</height>
     </rect>
    </property>
   </widget>

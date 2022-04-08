@@ -35,8 +35,10 @@ private:
     void execSettingsDialog();
     void createSplitter();
     void aboutProgram();
-    QPalette generateDarkPalette() const;
+    void checkForUpdates();
+    void checkForUpdatesFinished(const QString &url);
 
+    QPalette generateDarkPalette() const;
     void restartApplication();
 private:
     Ui::MainWindow *ui;
@@ -47,5 +49,8 @@ private:
     ControllersEdit *m_controllersEdit;
     AlarmDisplayWidget *m_alarmDisplayWidget;
     InheritanceView *m_inheritanceView;
+
+    QPalette m_lightPalette;
+    QPalette m_darkPalette;    
 };
 #endif // MAINWINDOW_H
