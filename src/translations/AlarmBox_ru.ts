@@ -657,17 +657,22 @@ Do you want try again?</source>
         <translation>Главное окно</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="43"/>
+        <location filename="../mainwindow.ui" line="38"/>
+        <source>Update</source>
+        <translation>Обновить</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="67"/>
         <source>toolBar</source>
         <translation>Панель иструментов</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="67"/>
+        <location filename="../mainwindow.ui" line="91"/>
         <source>toolBar_2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="98"/>
+        <location filename="../mainwindow.ui" line="122"/>
         <source>About program</source>
         <translation>О программе</translation>
     </message>
@@ -676,66 +681,64 @@ Do you want try again?</source>
         <translation type="vanished">&amp;Файл</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="89"/>
+        <location filename="../mainwindow.ui" line="113"/>
         <source>&amp;Settings</source>
         <translation>&amp;Опции</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="89"/>
+        <location filename="../mainwindow.cpp" line="96"/>
         <source>Last update : </source>
         <translation>Последнее обновление : </translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="153"/>
+        <location filename="../mainwindow.cpp" line="164"/>
         <source>No items selected</source>
         <translation>Выберите хотя бы один элемент</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="153"/>
+        <location filename="../mainwindow.cpp" line="164"/>
         <source>Please select item.</source>
         <translation>Выберите хотя бы один элемент.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="190"/>
+        <location filename="../mainwindow.cpp" line="203"/>
         <source>About program </source>
         <translation>О программе </translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="191"/>
+        <location filename="../mainwindow.cpp" line="204"/>
         <source>AlarmBox is a tool designed to simplify the monitoring of Ericsson objects in a 2G network.
 Version </source>
         <translation>AlarmBox — это инструмент, предназначенный для упрощения мониторинга объектов Ericsson в сети 2G.
 Версия </translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="192"/>
+        <location filename="../mainwindow.cpp" line="205"/>
         <source>
 LastUpdates: </source>
         <translation>
 Последние обновления: </translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="245"/>
+        <location filename="../mainwindow.cpp" line="262"/>
         <source>Language changed</source>
         <translation>Язык изменён</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="246"/>
+        <location filename="../mainwindow.cpp" line="263"/>
         <source>The language change will take effect after the next launch.
 Restart application?</source>
         <translation>Изменение языка интерфейса вступит в силу после следующего запуска приложения.
 Перезапустить приложение?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="255"/>
         <source>Theme changed</source>
-        <translation>Тема изменена</translation>
+        <translation type="vanished">Тема изменена</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="256"/>
         <source>The theme change will take effect after the next launch.
 Restart application?</source>
-        <translation>Изменение темы вступит в силу после следующего запуска приложения.
+        <translation type="vanished">Изменение темы вступит в силу после следующего запуска приложения.
 Перезапустить приложение?</translation>
     </message>
     <message>
@@ -805,12 +808,11 @@ Duplicates.</source>
         <translation>Шрифт приложения:</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.ui" line="95"/>
         <source>Check for Updates</source>
-        <translation>Проверить обновления</translation>
+        <translation type="vanished">Проверить обновления</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.ui" line="73"/>
+        <location filename="../settingsdialog.ui" line="75"/>
         <source>Period(mins) :</source>
         <translation>Период(мин):</translation>
     </message>
@@ -824,22 +826,22 @@ Duplicates.</source>
         <translation type="vanished">Каждые:</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="19"/>
+        <location filename="../settingsdialog.cpp" line="14"/>
         <source>Light</source>
         <translation>Светлая</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="19"/>
+        <location filename="../settingsdialog.cpp" line="14"/>
         <source>Dark</source>
         <translation>Тёмная</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="23"/>
+        <location filename="../settingsdialog.cpp" line="17"/>
         <source>English</source>
         <translation>Английский</translation>
     </message>
     <message>
-        <location filename="../settingsdialog.cpp" line="23"/>
+        <location filename="../settingsdialog.cpp" line="17"/>
         <source>Russian</source>
         <translation>Русский</translation>
     </message>
@@ -964,27 +966,27 @@ Duplicates.</source>
 <context>
     <name>Updater</name>
     <message>
-        <location filename="../../3rd_party/QSimpleUpdater/src/Updater.cpp" line="442"/>
+        <location filename="../../3rd_party/QSimpleUpdater/src/Updater.cpp" line="452"/>
         <source>Would you like to download the update now?</source>
         <translation>Загрузить обновление сейчас?</translation>
     </message>
     <message>
-        <location filename="../../3rd_party/QSimpleUpdater/src/Updater.cpp" line="445"/>
+        <location filename="../../3rd_party/QSimpleUpdater/src/Updater.cpp" line="455"/>
         <source>Would you like to download the update now? This is a mandatory update, exiting now will close the application</source>
         <translation>Загрузить обновление сейчас? Это обязательное обновление, выход из которого закроет приложение</translation>
     </message>
     <message>
-        <location filename="../../3rd_party/QSimpleUpdater/src/Updater.cpp" line="450"/>
+        <location filename="../../3rd_party/QSimpleUpdater/src/Updater.cpp" line="460"/>
         <source>Version %1 of %2 has been released!</source>
         <translation>Версия %1 модуля %2 была выпущена!</translation>
     </message>
     <message>
-        <location filename="../../3rd_party/QSimpleUpdater/src/Updater.cpp" line="486"/>
+        <location filename="../../3rd_party/QSimpleUpdater/src/Updater.cpp" line="496"/>
         <source>No updates are available for the moment</source>
         <translation>Нет доступных обновлений</translation>
     </message>
     <message>
-        <location filename="../../3rd_party/QSimpleUpdater/src/Updater.cpp" line="488"/>
+        <location filename="../../3rd_party/QSimpleUpdater/src/Updater.cpp" line="498"/>
         <source>Congratulations! You are running the latest version of %1</source>
         <translation>Вы используете последнюю версию %1</translation>
     </message>

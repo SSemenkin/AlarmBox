@@ -23,5 +23,6 @@
         <file>icons/apper.svg</file>
         <file>icons/dolphin-emu.svg</file>
         <file>icons/app.ico</file>
+        <file>icons/com.gnome.software.svg</file>
     </qresource>
 </RCC>

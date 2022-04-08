@@ -11,9 +11,6 @@
 
 #include "alarminterrogator.h"
 
-// static
-QString Settings::EXECUTABLE_URL = "https://raw.githubusercontent.com/SSemenkin/AlarmBox/main/updates.json";
-QString Settings::TRANSLATIONS_RU_URL = "https://raw.githubusercontent.com/SSemenkin/AlarmBox/main/updates_translations.json";
 
 Settings::Settings(QObject *parent)
     : QSettings(QStandardPaths::writableLocation(QStandardPaths::StandardLocation::AppConfigLocation) +"/AlarmBox/config.ini",

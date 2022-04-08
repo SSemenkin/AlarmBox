@@ -63,9 +63,6 @@ protected:
     Q_DISABLE_COPY_MOVE(Settings);
 
 private:
-
-    static QString EXECUTABLE_URL;
-    static QString TRANSLATIONS_RU_URL;
     ///@brief Метод сериализации данных в JSON формат.
     /// @param data контейнер данных
     /// накладывает на объект, такие требование что получаемый при итерации объект должен быть сам итерируем
@@ -77,8 +74,6 @@ private:
 
     template<typename T>
     QVector<T> deserialize(const QString &filename) const;
-
-    friend class SettingsDialog;
 };
 
 #endif // SETTINGS_H

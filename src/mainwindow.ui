@@ -31,10 +31,15 @@
        </size>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: rgb(170, 85, 255);</string>
+       <string notr="true">background-color: rgb(85, 170, 255);
+color:black;</string>
       </property>
       <property name="text">
        <string>Update</string>
+      </property>
+      <property name="icon">
+       <iconset resource="res.qrc">
+        <normaloff>:/icons/com.gnome.software.svg</normaloff>:/icons/com.gnome.software.svg</iconset>
       </property>
       <property name="flat">
        <bool>false</bool>

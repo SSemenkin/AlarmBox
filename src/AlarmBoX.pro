@@ -41,7 +41,8 @@ SOURCES += \
     types/alarm.cpp \
     types/alarmcomment.cpp \
     types/controllerinfo.cpp \
-    types/displayexception.cpp
+    types/displayexception.cpp \
+    updatechecker.cpp
 
 HEADERS += \
     addcontrollerdialog.h \
@@ -70,6 +71,7 @@ HEADERS += \
     types/def.h \
     types/displayexception.h \
     types/types.h \
+    updatechecker.h \
     version.h
 
 FORMS += \

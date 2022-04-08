@@ -9,6 +9,7 @@
 #include "editcontrollerdialog.h"
 #include "controllersedit.h"
 #include "alarminterrogator.h"
+#include "updatechecker.h"
 
 class AlarmDisplayWidget;
 class QSplitter;
@@ -35,8 +36,7 @@ private:
     void execSettingsDialog();
     void createSplitter();
     void aboutProgram();
-    void checkForUpdates();
-    void checkForUpdatesFinished(const QString &url);
+    void updateButtonClicked();
 
     QPalette generateDarkPalette() const;
     void restartApplication();
@@ -49,6 +49,8 @@ private:
     ControllersEdit *m_controllersEdit;
     AlarmDisplayWidget *m_alarmDisplayWidget;
     InheritanceView *m_inheritanceView;
+
+    UpdateChecker m_updater;
 
     QPalette m_lightPalette;
     QPalette m_darkPalette;    

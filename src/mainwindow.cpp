@@ -132,13 +132,11 @@ MainWindow::MainWindow(QWidget *parent)
                 m_interrogator.data(), &AlarmInterrogator::onDeactivateRBSRequested);
     });
 
-    QTimer *timer = new QTimer(this);
-    connect(timer, &QTimer::timeout, this, &MainWindow::checkForUpdates);
-    timer->start(60000);
-    checkForUpdates();
+    //updater
+    connect(&m_updater, &UpdateChecker::updateAvaliable, ui->updateButton, &QPushButton::setVisible);
+    connect(ui->updateButton, &QPushButton::clicked, this, &MainWindow::updateButtonClicked);
 
-
-    connect(QSimpleUpdater::getInstance(), &QSimpleUpdater::checkingFinished, this, &MainWindow::checkForUpdatesFinished);
+    m_updater.startChecking();
 
     createSplitter();
 }
@@ -166,9 +164,11 @@ void MainWindow::execEditControllerDialog()
         QMessageBox::information(this, tr("No items selected"), tr("Please select item."));
         return;
     }
+
     if (m_controllersEdit->controllerWidget()->row(d_items.first()) == 0) {
         return;
     }
+
     QSharedPointer<Telnet> controller = m_controllerOwner.controller(d_items.first()->toolTip());
     EditControllerDialog dialog(controller);
     dialog.exec();
@@ -198,7 +198,7 @@ void MainWindow::createSplitter()
 
 void MainWindow::aboutProgram()
 {
-    QMessageBox box(this);
+    QMessageBox box(this); // используется только для передачи
     box.setIcon(QMessageBox::Information);
     box.setWindowTitle(tr("About program "));
     box.setText(tr("AlarmBox is a tool designed to simplify the monitoring of Ericsson objects in a 2G network.\nVersion ")
@@ -208,16 +208,10 @@ void MainWindow::aboutProgram()
     box.exec();
 }
 
-void MainWindow::checkForUpdates()
+void MainWindow::updateButtonClicked()
 {
-
+    m_updater.update();
 }
-
-void MainWindow::checkForUpdatesFinished(const QString &url)
-{
-
-}
-
 
 void MainWindow::restartApplication()
 {

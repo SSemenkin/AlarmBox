@@ -20,7 +20,7 @@ InheritanceTreeWidget::InheritanceTreeWidget(const QHash<Telnet*, QMap<QString, 
     setupContextMenu();
 }
 
-QHash<Telnet *, QMap<QString, QString> > InheritanceTreeWidget::objectsHierarchy() const
+QHash<Telnet *, QMap<QString, QString>> InheritanceTreeWidget::objectsHierarchy() const
 {
     return m_hierarchy;
 }
