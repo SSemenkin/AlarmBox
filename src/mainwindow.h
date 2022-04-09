@@ -29,7 +29,8 @@ public:
 
 private:
     void onLanguageChanged(const QLocale& locale);
-    void onThemeChanged();
+    void onThemeChanged(int themeIndex);
+    void onFontChanged(const QFont &font);
 
     void execAddControllerDialog();
     void execEditControllerDialog();

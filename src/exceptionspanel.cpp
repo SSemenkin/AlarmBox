@@ -102,10 +102,7 @@ void ExceptionsPanel::removeException()
 
     qDebug() << (r ? "Exception removed." : "Exception dont removed.");
 
-    for (int i = 0; i < 3; i++) {
-        delete takeItem(row, i);
-    }
-    setRowCount(rowCount() - 1);
+    removeRow(row);
 }
 
 bool ExceptionsPanel::isDuplicate(const DisplayException &exception) const

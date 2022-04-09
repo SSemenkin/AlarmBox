@@ -32,6 +32,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
     m_initValues.period     = m_settings.getRefreshPeriod();
     m_initValues.refresh    = m_settings.getIsAutoRefreshEnabled();
     m_initValues.themeIndex = m_settings.getThemeIndex();
+    m_initValues.font       = m_settings.getFont();
 
 }
 
@@ -60,15 +61,20 @@ void SettingsDialog::applySettings()
     }
 
     if (m_initValues.themeIndex != m_settings.getThemeIndex()) {
-        emit themeChanged();
+        emit themeChanged(m_settings.getThemeIndex());
+    }
+
+    if (m_initValues.font != m_settings.getFont()) {
+        m_settings.setFont(m_initValues.font);
+        emit fontChanged(m_settings.getFont());
     }
 }
 
-void SettingsDialog::chooseFont() const
+void SettingsDialog::chooseFont()
 {
     QFontDialog dialog(qApp->font());
-    connect(&dialog, &QFontDialog::fontSelected, this, [](const QFont& font){
-        qApp->setFont(font);
+    connect(&dialog, &QFontDialog::fontSelected, this,[this](const QFont &font) -> void {
+        this->m_initValues.font = font;
     });
     dialog.exec();
 }

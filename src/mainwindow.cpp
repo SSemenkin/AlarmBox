@@ -38,12 +38,6 @@ MainWindow::MainWindow(QWidget *parent)
         qApp->setPalette(m_darkPalette);
     }
 
-    qApp->setStyleSheet(
-        "QToolTip { color: #ffffff; background-color: #2a82da; border: 1px "
-        "solid white; }"
-        "QMenu::separator { height: 1px; background-color: rgb(90, 90, 90); margin-left: 2px; "
-        "margin-right: 2px; }");
-
     ////
 
     ///Buttons
@@ -145,7 +139,6 @@ MainWindow::~MainWindow()
 {
     Settings::instance()->setWindowGeometry(geometry());
     Settings::instance()->setSplitterSizes(m_splitter->sizes());
-    Settings::instance()->setFont(qApp->font());
     delete ui;
 }
 
@@ -181,6 +174,7 @@ void MainWindow::execSettingsDialog()
     connect(&dialog, &SettingsDialog::periodChanged, m_interrogator.data(), &AlarmInterrogator::onPeriodChanged);
     connect(&dialog, &SettingsDialog::autoRefreshChanged, m_interrogator.data(), &AlarmInterrogator::onAutoRefreshChanged);
     connect(&dialog, &SettingsDialog::themeChanged, this, &MainWindow::onThemeChanged);
+    connect(&dialog, &SettingsDialog::fontChanged, this, &MainWindow::onFontChanged);
     dialog.exec();
 }
 
@@ -198,7 +192,7 @@ void MainWindow::createSplitter()
 
 void MainWindow::aboutProgram()
 {
-    QMessageBox box(this); // используется только для передачи
+    QMessageBox box(this); // используется только для того чтобы передать иконку приложения
     box.setIcon(QMessageBox::Information);
     box.setWindowTitle(tr("About program "));
     box.setText(tr("AlarmBox is a tool designed to simplify the monitoring of Ericsson objects in a 2G network.\nVersion ")
@@ -267,14 +261,16 @@ void MainWindow::onLanguageChanged(const QLocale &locale)
     }
 }
 
-void MainWindow::onThemeChanged()
+void MainWindow::onThemeChanged(int themeIndex)
 {
-
-    int theme = Settings::instance()->getThemeIndex();
-
-    if (theme == 0) {
+    if (themeIndex == 0) {
         qApp->setPalette(m_lightPalette);
     } else {
         qApp->setPalette(m_darkPalette);
     }
+}
+
+void MainWindow::onFontChanged(const QFont &font)
+{
+    qApp->setFont(font);
 }

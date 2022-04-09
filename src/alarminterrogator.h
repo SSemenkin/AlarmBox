@@ -40,6 +40,7 @@ protected:
     static const QString& rlcrp();
     static const QString& rxtcp();
     static const QStringList& interrogatorCommands();
+
     static const QString &rxble(); // activate
     static const QString &rxbli(); // deactivate
 private:

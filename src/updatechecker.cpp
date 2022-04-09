@@ -51,9 +51,6 @@ bool UpdateChecker::isCheckingForUpdates() const
 
 void UpdateChecker::update()
 {
-    m_updater->setDownloaderEnabled(TRANSLATIONS_RU_URL, true);
-    m_updater->setDownloaderEnabled(EXECUTABLE_URL, true);
-
     m_updater->getUpdater(TRANSLATIONS_RU_URL)->manualUpdate();
     m_updater->getUpdater(EXECUTABLE_URL)->manualUpdate();
 }
@@ -79,7 +76,7 @@ void UpdateChecker::setupUpdater()
     m_updater->setModuleVersion(TRANSLATIONS_RU_URL, APPLICATION_VERSION);
     m_updater->setNotifyOnUpdate(TRANSLATIONS_RU_URL, false);
     m_updater->setNotifyOnFinish(TRANSLATIONS_RU_URL, false);
-    m_updater->setDownloaderEnabled(TRANSLATIONS_RU_URL, false);
+    m_updater->setDownloaderEnabled(TRANSLATIONS_RU_URL, true);
     m_updater->setUseCustomInstallProcedures(TRANSLATIONS_RU_URL, true); // не открывать файл после завершения установки
     m_updater->setDownloadDirectory(TRANSLATIONS_RU_URL, qApp->applicationDirPath() + "/translations/");
 
@@ -87,7 +84,7 @@ void UpdateChecker::setupUpdater()
     m_updater->setModuleVersion(EXECUTABLE_URL, APPLICATION_VERSION);
     m_updater->setNotifyOnFinish(EXECUTABLE_URL, false);
     m_updater->setNotifyOnUpdate(EXECUTABLE_URL, false);
-    m_updater->setDownloaderEnabled(EXECUTABLE_URL, false);
+    m_updater->setDownloaderEnabled(EXECUTABLE_URL, true);
     m_updater->setMandatoryUpdate(EXECUTABLE_URL, true);
 }
 

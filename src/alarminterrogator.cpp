@@ -150,7 +150,7 @@ void AlarmInterrogator::interrogateControllers() const
     }
 }
 
-QHash<Telnet *, QMap<QString, QString> > AlarmInterrogator::objectsHierarchy() const
+QHash<Telnet *, QMap<QString, QString>> AlarmInterrogator::objectsHierarchy() const
 {
     return m_fromTGtoRBS;
 }
