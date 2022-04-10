@@ -4,39 +4,39 @@
 
 ControllerEditWidget::ControllerEditWidget(QSharedPointer<Telnet> telnet, QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::ControllerEditWidget)
+    m_ui(new Ui::ControllerEditWidget)
 {
-    ui->setupUi(this);
+    m_ui->setupUi(this);
     if (telnet) {
-        ui->hostname->setText(telnet->hostname());
-        ui->username->setText(telnet->username());
-        ui->password->setText(telnet->password());
+        m_ui->hostname->setText(telnet->hostname());
+        m_ui->username->setText(telnet->username());
+        m_ui->password->setText(telnet->password());
     }
 }
 
 ControllerEditWidget::ControllerEditWidget(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::ControllerEditWidget)
+    m_ui(new Ui::ControllerEditWidget)
 {
-    ui->setupUi(this);
+    m_ui->setupUi(this);
 }
 
 ControllerEditWidget::~ControllerEditWidget()
 {
-    delete ui;
+    delete m_ui;
 }
 
 QString ControllerEditWidget::hostname() const
 {
-    return ui->hostname->text();
+    return m_ui->hostname->text();
 }
 
 QString ControllerEditWidget::username() const
 {
-    return ui->username->text();
+    return m_ui->username->text();
 }
 
 QString ControllerEditWidget::password() const
 {
-    return ui->password->text();
+    return m_ui->password->text();
 }

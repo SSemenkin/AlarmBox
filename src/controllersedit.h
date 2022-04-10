@@ -24,7 +24,7 @@ public:
 
     ControllerListWidget* controllerWidget() const;
 private:
-    Ui::ControllersEdit *ui;
+    Ui::ControllersEdit *m_ui;
 };
 
 #endif // CONTROLLERSEDIT_H

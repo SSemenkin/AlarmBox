@@ -6,33 +6,33 @@
 
 AddExceptionDialog::AddExceptionDialog(const QList<QSharedPointer<Telnet>> &controllerList, QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::AddExceptionDialog)
+    m_ui(new Ui::AddExceptionDialog)
   , m_controllers(controllerList)
   , m_settings(Settings::instance())
 {
-    ui->setupUi(this);
+    m_ui->setupUi(this);
     setWindowFlag(Qt::WindowContextHelpButtonHint, false);
-    ui->alarmTypeCombo->addItems({tr("CF Alarm"), tr("Manually blocked"), tr("Halted"), tr("Not works")});
+    m_ui->alarmTypeCombo->addItems({tr("CF Alarm"), tr("Manually blocked"), tr("Halted"), tr("Not works")});
 
     for (int i = 0; i < m_controllers.size(); ++i) {
         const QSharedPointer<Telnet> &controller = m_controllers.at(i);
-        ui->controllerCombo->addItem(controller->isLoggedInNode() ? controller->parsedTitle() : controller->hostname());
+        m_ui->controllerCombo->addItem(controller->isLoggedInNode() ? controller->parsedTitle() : controller->hostname());
     }
 }
 
 AddExceptionDialog::~AddExceptionDialog()
 {
-    delete ui;
+    delete m_ui;
 }
 
 void AddExceptionDialog::accept()
 {
-    if (ui->object->text().isEmpty()) {
+    if (m_ui->object->text().isEmpty()) {
         QMessageBox::information(this, tr("Error"), tr("Cannot add exception. Object is empty."));
         return;
     }
-    emit exceptionAdded(ui->controllerCombo->currentText(),
-                        ui->object->text(),
-                        QString::number(ui->alarmTypeCombo->currentIndex()));
+    emit exceptionAdded(m_ui->controllerCombo->currentText(),
+                        m_ui->object->text(),
+                        QString::number(m_ui->alarmTypeCombo->currentIndex()));
     QDialog::accept();
 }

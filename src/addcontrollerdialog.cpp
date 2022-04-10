@@ -6,20 +6,20 @@
 
 AddControllerDialog::AddControllerDialog(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::AddControllerDialog),
+    m_ui(new Ui::AddControllerDialog),
     m_d(new ControllerEditWidget(this))
 
 {
-    ui->setupUi(this);
+    m_ui->setupUi(this);
     setWindowFlag(Qt::WindowContextHelpButtonHint, false);
-    ui->verticalLayout->addWidget(m_d);
+    m_ui->verticalLayout->addWidget(m_d);
 
-    connect(ui->buttonBox, &QDialogButtonBox::accepted, this, &AddControllerDialog::onAcceptPressed);
+    connect(m_ui->buttonBox, &QDialogButtonBox::accepted, this, &AddControllerDialog::onAcceptPressed);
 }
 
 AddControllerDialog::~AddControllerDialog()
 {
-    delete ui;
+    delete m_ui;
 }
 
 void AddControllerDialog::onAcceptPressed()

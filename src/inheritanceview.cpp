@@ -3,23 +3,23 @@
 
 InheritanceView::InheritanceView(const QHash<Telnet *, QMap<QString, QString>> &objectsHierarchy, QWidget *parent) :
     QWidget(parent)
-  , ui(new Ui::InheritanceView)
+  , m_ui(new Ui::InheritanceView)
 {
-    ui->setupUi(this);
-    ui->treeWidget->setObjectsHierarchy(objectsHierarchy);
-    ui->treeWidget->setHeaderLabels({tr("Objects")});
+    m_ui->setupUi(this);
+    m_ui->treeWidget->setObjectsHierarchy(objectsHierarchy);
+    m_ui->treeWidget->setHeaderLabels({tr("Objects")});
 
-    connect(ui->inputLine, &QLineEdit::returnPressed, this, [this] () {
-       ui->treeWidget->find(ui->inputLine->text());
+    connect(m_ui->inputLine, &QLineEdit::returnPressed, this, [this] () {
+       m_ui->treeWidget->find(m_ui->inputLine->text());
     });
 }
 
 InheritanceView::~InheritanceView()
 {
-    delete ui;
+    delete m_ui;
 }
 
 InheritanceTreeWidget *InheritanceView::inheritanceTreeWidget() const
 {
-    return ui->treeWidget;
+    return m_ui->treeWidget;
 }

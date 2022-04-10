@@ -4,32 +4,32 @@
 
 AlarmDisplayWidget::AlarmDisplayWidget(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::AlarmDisplayWidget)
+    m_ui(new Ui::AlarmDisplayWidget)
 {
-    ui->setupUi(this);
+    m_ui->setupUi(this);
 
-    ui->treeWidget->setColumnCount(6);
-    ui->treeWidget->setHeaderLabels(QStringList {tr("Object"), tr("Alarm"), tr("Controller"),
+    m_ui->treeWidget->setColumnCount(6);
+    m_ui->treeWidget->setHeaderLabels(QStringList {tr("Object"), tr("Alarm"), tr("Controller"),
                                                  tr("Comment"), tr("Raised Time"), tr("Cleared Time")});
-    connect(ui->treeWidget, &AlarmTreeWidget::refresh, this, &AlarmDisplayWidget::refreshRequested);
+    connect(m_ui->treeWidget, &AlarmTreeWidget::refresh, this, &AlarmDisplayWidget::refreshRequested);
 }
 
 AlarmDisplayWidget::~AlarmDisplayWidget()
 {
-    delete ui;
+    delete m_ui;
 }
 
 void AlarmDisplayWidget::processAlarms(const QVector<Alarm> &alarms)
 {
-    ui->treeWidget->processAlarms(alarms);
+    m_ui->treeWidget->processAlarms(alarms);
 }
 
 void AlarmDisplayWidget::onControllerChanged(const QString &hostname)
 {
-    ui->treeWidget->onCurrentControllerChanged(hostname);
+    m_ui->treeWidget->onCurrentControllerChanged(hostname);
 }
 
 const AlarmTreeWidget *AlarmDisplayWidget::alarmTreeWidget() const
 {
-    return ui->treeWidget;
+    return m_ui->treeWidget;
 }

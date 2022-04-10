@@ -42,7 +42,7 @@ private:
     QPalette generateDarkPalette() const;
     void restartApplication();
 private:
-    Ui::MainWindow *ui;
+    Ui::MainWindow *m_ui;
     ControllerOwnership m_controllerOwner;
     QScopedPointer<AlarmInterrogator> m_interrogator;
     QScopedPointer<QSplitter> m_splitter;

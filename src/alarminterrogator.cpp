@@ -94,7 +94,6 @@ void AlarmInterrogator::onDeactivateRBSRequested(const QString &object, const QS
             if (!tg.isEmpty()) {
                 it.key()->executeCommand(rxbli().arg(tg));
             }
-
             break;
         }
     }

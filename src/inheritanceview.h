@@ -22,7 +22,7 @@ public:
     InheritanceTreeWidget *inheritanceTreeWidget() const;
 
 private:
-    Ui::InheritanceView *ui;
+    Ui::InheritanceView *m_ui;
 };
 
 #endif // INHERITANCEVIEW_H

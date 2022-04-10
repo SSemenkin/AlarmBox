@@ -5,20 +5,20 @@
 
 EditControllerDialog::EditControllerDialog(QSharedPointer<Telnet> telnet, QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::EditControllerDialog),
+    m_ui(new Ui::EditControllerDialog),
     m_d(new ControllerEditWidget(telnet, this)),
     m_telnet(telnet)
 {
-    ui->setupUi(this);
+    m_ui->setupUi(this);
     setWindowFlag(Qt::WindowContextHelpButtonHint, false);
-    ui->verticalLayout->addWidget(m_d);
+    m_ui->verticalLayout->addWidget(m_d);
 
-    connect(ui->buttonBox, &QDialogButtonBox::accepted, this, &EditControllerDialog::onAcceptPressed);
+    connect(m_ui->buttonBox, &QDialogButtonBox::accepted, this, &EditControllerDialog::onAcceptPressed);
 }
 
 EditControllerDialog::~EditControllerDialog()
 {
-    delete ui;
+    delete m_ui;
 }
 
 void EditControllerDialog::onAcceptPressed()

@@ -20,7 +20,7 @@
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
+    , m_ui(new Ui::MainWindow)
     , m_interrogator(new AlarmInterrogator(m_controllerOwner.controllerList()))
     , m_splitter(new QSplitter(Qt::Horizontal))
     , m_controllersEdit(new ControllersEdit(this))
@@ -29,9 +29,9 @@ MainWindow::MainWindow(QWidget *parent)
     , m_lightPalette(palette())
     , m_darkPalette(generateDarkPalette())
 {
-    ui->setupUi(this);
+    m_ui->setupUi(this);
 
-    ui->updateButton->setVisible(false);
+    m_ui->updateButton->setVisible(false);
 
     /// apply saved style
     if (Settings::instance()->getThemeIndex() != 0) {
@@ -87,7 +87,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     /// AlarmDisplayWidget
     connect(m_alarmDisplayWidget->alarmTreeWidget(), &AlarmTreeWidget::updated, this, [this] () {
-        ui->statusbar->showMessage(tr("Last update : ") + QDateTime::currentDateTime().toString(Qt::DateFormat::LocaleDate));
+        m_ui->statusbar->showMessage(tr("Last update : ") + QDateTime::currentDateTime().toString(Qt::DateFormat::LocaleDate));
     });
 
     connect(m_alarmDisplayWidget->alarmTreeWidget(), &AlarmTreeWidget::activateRBSRequested,
@@ -98,8 +98,8 @@ MainWindow::MainWindow(QWidget *parent)
     ///
 
     /// Action
-    connect(ui->action_Settings, &QAction::triggered, this, &MainWindow::execSettingsDialog);
-    connect(ui->actionAbout_program, &QAction::triggered, this, &MainWindow::aboutProgram);
+    connect(m_ui->action_Settings, &QAction::triggered, this, &MainWindow::execSettingsDialog);
+    connect(m_ui->actionAbout_program, &QAction::triggered, this, &MainWindow::aboutProgram);
 
     ///
 
@@ -127,8 +127,8 @@ MainWindow::MainWindow(QWidget *parent)
     });
 
     //updater
-    connect(&m_updater, &UpdateChecker::updateAvaliable, ui->updateButton, &QPushButton::setVisible);
-    connect(ui->updateButton, &QPushButton::clicked, this, &MainWindow::updateButtonClicked);
+    connect(&m_updater, &UpdateChecker::updateAvaliable, m_ui->updateButton, &QPushButton::setVisible);
+    connect(m_ui->updateButton, &QPushButton::clicked, this, &MainWindow::updateButtonClicked);
 
     m_updater.startChecking();
 
@@ -139,7 +139,7 @@ MainWindow::~MainWindow()
 {
     Settings::instance()->setWindowGeometry(geometry());
     Settings::instance()->setSplitterSizes(m_splitter->sizes());
-    delete ui;
+    delete m_ui;
 }
 
 void MainWindow::execAddControllerDialog()
@@ -182,7 +182,7 @@ void MainWindow::createSplitter()
 {
     m_splitter->addWidget(m_controllersEdit);
     m_splitter->addWidget(m_alarmDisplayWidget);
-    ui->horizontalLayout->addWidget(m_splitter.data());
+    m_ui->horizontalLayout->addWidget(m_splitter.data());
 
     QList<int> sizes = Settings::instance()->getSplitterSizes();
     if(!sizes.isEmpty()) {

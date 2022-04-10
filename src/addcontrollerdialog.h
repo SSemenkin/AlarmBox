@@ -25,7 +25,7 @@ private:
     void onAcceptPressed();
 
 private:
-    Ui::AddControllerDialog *ui;
+    Ui::AddControllerDialog *m_ui;
     ControllerEditWidget    *m_d;
 };
 

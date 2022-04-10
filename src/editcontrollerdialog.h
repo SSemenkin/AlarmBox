@@ -21,7 +21,7 @@ public:
 private:
     void onAcceptPressed();
 private:
-    Ui::EditControllerDialog *ui;
+    Ui::EditControllerDialog *m_ui;
     ControllerEditWidget *m_d;
     QSharedPointer<Telnet> m_telnet;
 };

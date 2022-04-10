@@ -26,7 +26,7 @@ public:
 signals:
     void refreshRequested();
 private:
-    Ui::AlarmDisplayWidget *ui;
+    Ui::AlarmDisplayWidget *m_ui;
 };
 
 #endif // ALARMDISPLAYWIDGET_H

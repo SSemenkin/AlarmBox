@@ -9,6 +9,8 @@
 #include <QDir>
 #include <QMessageBox>
 
+//TODO сделать логгер сообщений.
+
 void removeOldExecutableFile()
 {
     QDir dir = qApp->applicationDirPath();

@@ -3,32 +3,32 @@
 
 ControllersEdit::ControllersEdit(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::ControllersEdit)
+    m_ui(new Ui::ControllersEdit)
 {
-    ui->setupUi(this);
+    m_ui->setupUi(this);
 }
 
 ControllersEdit::~ControllersEdit()
 {
-    delete ui;
+    delete m_ui;
 }
 
 QPushButton *ControllersEdit::addControllerButton() const
 {
-    return ui->addController;
+    return m_ui->addController;
 }
 
 QPushButton *ControllersEdit::editControllerButton() const
 {
-    return ui->editController;
+    return m_ui->editController;
 }
 
 QPushButton *ControllersEdit::removeControllerButton() const
 {
-    return ui->removeController;
+    return m_ui->removeController;
 }
 
 ControllerListWidget *ControllersEdit::controllerWidget() const
 {
-    return ui->controllerWidget;
+    return m_ui->controllerWidget;
 }

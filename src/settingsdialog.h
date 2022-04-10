@@ -37,7 +37,7 @@ private:
     void applySettings();
     void chooseFont();
 private:
-    Ui::SettingsDialog *ui;
+    Ui::SettingsDialog *m_ui;
     QFont m_font;
     Settings& m_settings;
     InitialValues m_initValues;

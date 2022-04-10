@@ -22,7 +22,7 @@ public:
     QString password() const;
 
 private:
-    Ui::ControllerEditWidget *ui;
+    Ui::ControllerEditWidget *m_ui;
 };
 
 #endif // CONTROLLEREDITWIDGET_H

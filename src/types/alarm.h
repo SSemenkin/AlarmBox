@@ -47,8 +47,9 @@ public:
 
     friend QDebug operator << (QDebug debug, const Alarm &a)
     {
+        debug.nospace();
         debug << "Alarm(Object:" << a.m_object << ";Description:" << a.m_description << ")";
-        return debug;
+        return debug.maybeSpace();
     }
 
 private:
