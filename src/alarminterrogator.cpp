@@ -172,7 +172,7 @@ void AlarmInterrogator::processOutput(const QString &output)
     } else if (output.contains(rlcrp())) {
         processRLCRP(output);
     } else {
-        qDebug() << output;
+        qDebug() << "Undefined Telnet printout " + output;
         Q_ASSERT(false && "Undefinded output");
     }
     ++m_answerReceived;

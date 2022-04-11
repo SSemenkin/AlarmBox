@@ -9,7 +9,7 @@ enum class Status : int {
 };
 
 struct UpdateStatus {
-    Status m_status {Status::NoError};
+    Status  m_status {Status::NoError};
     QString m_description;
 };
 
@@ -22,7 +22,7 @@ public:
     QString getLocation(const QString &object);
 
 private:
-    void insert(const QString& object, const QString &location, UpdateStatus& status);
+    void insert(const QString &object, const QString &location, UpdateStatus &status);
 private:
     QMap<QString, QString> m_locations;
 };

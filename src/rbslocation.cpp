@@ -13,8 +13,10 @@ UpdateStatus RbsLocation::updateLocations(const QString &filename)
         m_locations.clear();
     }
     QFile file(filename);
-    file.open(QIODevice::ReadOnly |
-              QIODevice::Text);
+    if(!file.open(QIODevice::ReadOnly |
+              QIODevice::Text)) {
+        return UpdateStatus{} ;
+    }
 
     QStringList rows = QString(file.readAll()).split("\n", Qt::SkipEmptyParts);
     for (int i = 0; i < rows.size(); ++i) {

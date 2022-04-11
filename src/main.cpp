@@ -9,7 +9,26 @@
 #include <QDir>
 #include <QMessageBox>
 
-//TODO сделать логгер сообщений.
+#include <QJsonObject>
+#include <QJsonDocument>
+#include <QJsonValue>
+
+struct Update
+{
+    bool m_mandatory {true};
+    QString m_changelog {"changelog"};
+    QString m_downloadUrl;
+    QString m_version;
+    QString m_openUrl;
+
+    QVariantMap toVariantMap() const {
+        return QVariantMap {std::make_pair("open-url", m_openUrl),
+                            std::make_pair("latest-version", m_version),
+                            std::make_pair("download-url", m_downloadUrl),
+                            std::make_pair("changelog", m_changelog),
+                            std::make_pair("mandatory", m_mandatory)};
+    }
+};
 
 void removeOldExecutableFile()
 {
@@ -21,8 +40,29 @@ void removeOldExecutableFile()
     }
 }
 
+void makeJSonFile(const QString &changelog, const QString &downloadUrl,
+                  const QString &version = APPLICATION_VERSION, const QString& openUrl = "", bool mandatory = true)
+{
+    QFile f("upd.json");
+    f.open(QIODevice::WriteOnly);
+    QJsonDocument document;
+    Update u {mandatory, changelog, downloadUrl, version, openUrl};
+    QJsonObject obj;
+    QJsonObject platform;
+    platform.insert("windows", QJsonValue::fromVariant(u.toVariantMap()));
+    obj.insert("updates", platform);
+    document.setObject(obj);
+    f.write(document.toJson());
+    f.close();
+}
+
 int main(int argc, char *argv[])
 {
+#ifdef UPDATE
+    makeJSonFile("some changes", QString("https://https://github.com/SSemenkin/AlarmBox/blob/main/releases/%1/AlarmBoX.exe?raw=true")
+                 .arg(APPLICATION_VERSION), APPLICATION_VERSION);
+#endif
+
     CustomApplication a(argc, argv);
     removeOldExecutableFile();
     a.setApplicationVersion(APPLICATION_VERSION);

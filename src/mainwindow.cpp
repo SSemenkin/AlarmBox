@@ -29,6 +29,7 @@ MainWindow::MainWindow(QWidget *parent)
     , m_lightPalette(palette())
     , m_darkPalette(generateDarkPalette())
 {
+    m_lightPalette.setBrush(QPalette::ColorRole::Highlight, QColor("#FFAB88"));
     m_ui->setupUi(this);
 
     m_ui->updateButton->setVisible(false);

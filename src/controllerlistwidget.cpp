@@ -103,8 +103,8 @@ bool ControllerListWidget::isContextMenuActionsEnabled()
     QList<QListWidgetItem*> d_items = selectedItems();
 
     if (d_items.isEmpty() || d_items.size() > 1) {
-            QMessageBox::information(this, tr("Select more than one item"), tr("Please select only one item."));
-            return false;
+        QMessageBox::information(this, tr("Select more than one item"), tr("Please select only one item."));
+        return false;
     } else if (d_items.first()->text() == tr("All")) {
         return false;
     } else {
