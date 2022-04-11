@@ -82,7 +82,7 @@ int main(int argc, char *argv[])
 #ifdef UPDATE
     makeJSonFile("v.1.1.1\n.-Добавлена возможность(нужно было сразу) переключения темы без перезапуска приложения."
                  "\n-Теперь приложение будет автоматически проверять наличие обновлений."
-                 "\nv.1.2\n -Добавлен лог аварий (alarms.log)", QString("https://https://github.com/SSemenkin/AlarmBox/blob/main/releases/%1/AlarmBoX.exe?raw=true")
+                 "\nv.1.2\n -Добавлен лог аварий (alarms.log)", QString("https://github.com/SSemenkin/AlarmBox/blob/main/releases/%1/AlarmBoX.exe?raw=true")
                  .arg(APPLICATION_VERSION), APPLICATION_VERSION);
 #endif
 
