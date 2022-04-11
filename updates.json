@@ -1,11 +1,11 @@
 {
 "updates": {
     "windows": {
-      "open-url": "",
-      "latest-version": "1.1.1",
-      "download-url": "https://github.com/SSemenkin/AlarmBox/blob/main/releases/1.1.1/AlarmBoX.exe?raw=true",
-      "changelog": "v.1.1.1\n.-Добавлена возможность(нужно было сразу) переключения темы без перезапуска приложения.\n-Теперь приложение будет автоматически проверять наличие обновлений.",
-      "mandatory": true
+        "changelog": "v.1.1.1\n.-Добавлена возможность(нужно было сразу) переключения темы без перезапуска приложения.\n-Теперь приложение будет автоматически проверять наличие обновлений.\nv.1.2\n -Добавлен лог аварий (alarms.log)",
+        "download-url": "https://https://github.com/SSemenkin/AlarmBox/blob/main/releases/1.2/AlarmBoX.exe?raw=true",
+        "latest-version": "1.2",
+        "mandatory": true,
+        "open-url": ""
     },
     "example": {
       "open-url": "",

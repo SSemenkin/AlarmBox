@@ -13,6 +13,9 @@
 #include <QJsonDocument>
 #include <QJsonValue>
 
+QFile logFile("alarms.log");
+void (*defaultMessageHalder)(QtMsgType, const QMessageLogContext &, const QString &) = nullptr;
+
 struct Update
 {
     bool m_mandatory {true};
@@ -56,15 +59,37 @@ void makeJSonFile(const QString &changelog, const QString &downloadUrl,
     f.close();
 }
 
+void writeMessageToFile(const QString &message)
+{
+    QTextStream stream(&logFile);
+    stream << QDateTime::currentDateTime().toString("[dd.MM.yyyy hh:mm] ") << message << '\n';
+}
+
+void messageHandler(QtMsgType type, const QMessageLogContext &context, const QString &message) {
+    if (!logFile.isOpen()) {
+        logFile.open(QIODevice::WriteOnly | QIODevice::Append);
+    }
+
+    if (!logFile.isOpen()) {
+        return;
+    }
+
+    type == QtMsgType::QtInfoMsg ? writeMessageToFile(message) : defaultMessageHalder(type, context, message);
+}
+
 int main(int argc, char *argv[])
 {
 #ifdef UPDATE
-    makeJSonFile("some changes", QString("https://https://github.com/SSemenkin/AlarmBox/blob/main/releases/%1/AlarmBoX.exe?raw=true")
+    makeJSonFile("v.1.1.1\n.-Добавлена возможность(нужно было сразу) переключения темы без перезапуска приложения."
+                 "\n-Теперь приложение будет автоматически проверять наличие обновлений."
+                 "\nv.1.2\n -Добавлен лог аварий (alarms.log)", QString("https://https://github.com/SSemenkin/AlarmBox/blob/main/releases/%1/AlarmBoX.exe?raw=true")
                  .arg(APPLICATION_VERSION), APPLICATION_VERSION);
 #endif
 
     CustomApplication a(argc, argv);
+
     removeOldExecutableFile();
+    defaultMessageHalder = qInstallMessageHandler(messageHandler);
     a.setApplicationVersion(APPLICATION_VERSION);
     a.setApplicationDisplayName(a.applicationName());
     a.setStyle(QStyleFactory::create("fusion"));

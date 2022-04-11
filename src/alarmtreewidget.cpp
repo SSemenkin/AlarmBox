@@ -127,6 +127,8 @@ AlarmTreeWidgetItem *AlarmTreeWidget::createAlarmItem(const Alarm &alarm)
 
 void AlarmTreeWidget::processNewAlarm(const Alarm &alarm)
 {
+    qInfo() << "[Alarm Raised] " << alarm;
+
      AlarmTreeWidgetItem *parent = static_cast<AlarmTreeWidgetItem*>(topLevelItem(static_cast<int>(alarm.m_category)));
      // обработка исключений
      // не добавлять те аварии, которые находятся в исключении
@@ -144,6 +146,7 @@ void AlarmTreeWidget::processNewAlarm(const Alarm &alarm)
 
 void AlarmTreeWidget::processClearedAlarm(DisplayAlarm &alarm)
 {
+    qInfo() << "[Alarm Ceased] " << alarm.m_alarm;
     AlarmTreeWidgetItem *parent = static_cast<AlarmTreeWidgetItem*>(alarm.m_alarmItem->parent());
     parent->removeChild(alarm.m_alarmItem);
     m_alarms.removeOne(alarm);
