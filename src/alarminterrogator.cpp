@@ -13,12 +13,12 @@ AlarmInterrogator::AlarmInterrogator(const QList<QSharedPointer<Telnet>> &contro
     , m_timer(new QTimer(this))
     , m_defaultTimer(new QTimer(this))
     , m_controllerList(controllerList)
-    , m_answerExpected(m_controllerList.size() * interrogatorCommands().size())
     , m_autoRefresh(Settings::instance()->getIsAutoRefreshEnabled())
 {
-
     for (int i = 0; i < m_controllerList.size(); ++i) {
-        connectController(m_controllerList.at(i));
+        QSharedPointer<Telnet> controller = m_controllerList.at(i);
+        connectController(controller);
+        m_receivedAnswers[controller.data()] = 0;
     }
 
     connect(m_timer, &QTimer::timeout, this, [this] () {
@@ -27,7 +27,6 @@ AlarmInterrogator::AlarmInterrogator(const QList<QSharedPointer<Telnet>> &contro
         }
     });
     connect(m_defaultTimer, &QTimer::timeout, this, &AlarmInterrogator::supportConnection);
-    m_answerExpected = m_controllerList.size() * interrogatorCommands().size();
 
     interrogateControllers();
     m_timer->start(timeDelta);
@@ -49,13 +48,12 @@ QString AlarmInterrogator::joinLastN(const QStringList &input, int count, const 
 void AlarmInterrogator::onControllerAdded()
 {
     connectController(m_controllerList.last());
-    calcExpectedAnswers();
     interrogateControllers();
 }
 
-void AlarmInterrogator::onControllerRemoved()
+void AlarmInterrogator::onControllerRemoved(Telnet *t)
 {
-    calcExpectedAnswers();
+    m_receivedAnswers.remove(t);
 }
 
 void AlarmInterrogator::onPeriodChanged(uint32_t delta)
@@ -74,7 +72,6 @@ void AlarmInterrogator::onActivateRBSRequested(const QString &object, const QStr
 {
     for (auto it = m_fromTGtoRBS.begin(); it != m_fromTGtoRBS.end(); ++it) {
         if (it.key()->hostname() == controllerHostname) {
-
             QString tg = it.value().key(object);
             if (!tg.isEmpty()) {
                 it.key()->executeCommand(rxble().arg(tg));
@@ -89,7 +86,6 @@ void AlarmInterrogator::onDeactivateRBSRequested(const QString &object, const QS
 {
     for (auto it = m_fromTGtoRBS.begin(); it != m_fromTGtoRBS.end(); ++it) {
         if (it.key()->hostname() == controllerHostname) {
-
             QString tg = it.value().key(object);
             if (!tg.isEmpty()) {
                 it.key()->executeCommand(rxbli().arg(tg));
@@ -142,11 +138,24 @@ const QString &AlarmInterrogator::rxtcp()
 
 void AlarmInterrogator::interrogateControllers() const
 {
+    if (!isCanUpdate()) {
+        return;
+    }
     for (int i = 0; i < m_controllerList.size(); ++i) {
         for (int j = 0; j < interrogatorCommands().size(); ++j) {
             m_controllerList.at(i)->executeCommand(interrogatorCommands().at(j));
         }
     }
+}
+
+bool AlarmInterrogator::isCanUpdate() const
+{
+    for (auto it = m_receivedAnswers.begin(); it != m_receivedAnswers.end(); ++it) {
+        if (it.value() != 0) {
+            return false;
+        }
+    }
+    return true;
 }
 
 QHash<Telnet *, QMap<QString, QString>> AlarmInterrogator::objectsHierarchy() const
@@ -175,13 +184,16 @@ void AlarmInterrogator::processOutput(const QString &output)
         qDebug() << "Undefined Telnet printout " + output;
         Q_ASSERT(false && "Undefinded output");
     }
-    ++m_answerReceived;
 
-    if (m_answerReceived == m_answerExpected) {
+     ++m_receivedAnswers[fromController()];
+    if (isAllCommandsReceived()) {
         std::sort(m_alarms.begin(), m_alarms.end());
         emit alarmsReceived(m_alarms);
         m_alarms.clear();
-        m_answerReceived = 0;
+
+        for (auto it = m_receivedAnswers.begin(); it != m_receivedAnswers.end(); ++it) {
+            *it = 0;
+        }
     }
 }
 
@@ -296,7 +308,7 @@ void AlarmInterrogator::updateObjectHierarchy(const QString &print)
 
     m_fromTGtoRBS[fromController()][tg] = rbs;
 
-    if (m_fromTGtoRBS.keys().size() == m_controllerList.size()) {
+    if (m_fromTGtoRBS.size() == m_controllerList.size()) {
         emit hierarchyUpdated();
     }
 }
@@ -336,7 +348,6 @@ void AlarmInterrogator::processControllerAuthentication(bool state)
 {
     if (state) {
         fromController()->executeCommand(rxtcp());
-        calcExpectedAnswers();
         interrogateControllers();
     }
 }
@@ -352,8 +363,12 @@ void AlarmInterrogator::supportConnection() const
     }
 }
 
-void AlarmInterrogator::calcExpectedAnswers()
+bool AlarmInterrogator::isAllCommandsReceived() const
 {
-    m_answerReceived = 0;
-    m_answerExpected = m_controllerList.size() * interrogatorCommands().size();
+    for (auto it = m_receivedAnswers.begin(); it != m_receivedAnswers.end(); ++it) {
+        if (it.value() != (uint)interrogatorCommands().size()) {
+            return false;
+        }
+    }
+    return true;
 }

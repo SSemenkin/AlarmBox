@@ -18,7 +18,7 @@ public:
     static QString joinLastN(const QStringList &input, int count, const char* separator = "");
 
     void onControllerAdded();
-    void onControllerRemoved();
+    void onControllerRemoved(Telnet *t);
     void onPeriodChanged(uint32_t delta);
     void onAutoRefreshChanged(bool state);
 
@@ -26,6 +26,7 @@ public:
     void onDeactivateRBSRequested(const QString &object, const QString &controllerHostname);
 
     void interrogateControllers() const;
+    bool isCanUpdate() const;
 
     QHash<Telnet*, QMap<QString, QString>> objectsHierarchy() const;
 signals:
@@ -66,7 +67,7 @@ private:
     void processControllerAuthentication(bool state);
 
     void supportConnection() const;
-    void calcExpectedAnswers();
+    bool isAllCommandsReceived() const;
 private:
     static uint64_t timeDelta;
 
@@ -74,11 +75,10 @@ private:
     QTimer *m_defaultTimer; // таймер для поддержания соединения, отслыает "\r\n" см. Telnet::sendConnect();
 
     const QList<QSharedPointer<Telnet>> &m_controllerList;
-    uint32_t m_answerReceived {0};
-    uint32_t m_answerExpected;
 
     QVector<Alarm> m_alarms;
     QHash<Telnet*, QMap<QString, QString>> m_fromTGtoRBS;
+    QHash<Telnet*, uint> m_receivedAnswers;
     bool m_autoRefresh;
 };
 

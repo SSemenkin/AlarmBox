@@ -64,8 +64,8 @@ private:
     /// @brief struct contains info about network element and info to authentication to him.
     struct AuthenticationData{
         AuthenticationData(const QString &node, const QString &host,
-                            const QString &user, const QString &password,
-                            const uint8_t port) : nodeTitle (node),
+                           const QString &user, const QString &password,
+                           const uint8_t port) : nodeTitle (node),
                             hostname (host), username(user), password(password),
                             port(port) {}
         QString nodeTitle;

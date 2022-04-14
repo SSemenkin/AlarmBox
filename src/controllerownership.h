@@ -33,7 +33,7 @@ public:
 
 signals:
     void controllerAdded();
-    void controllerRemoved();
+    void controllerRemoved(Telnet *controller);
     void controllerAuthenticationFailed(Telnet *conroller);
     void controllerAuthenticationSuccessfull(Telnet *controller);
     void controllerInfo(QSharedPointer<Telnet> controller);
