@@ -3,8 +3,13 @@
 #include <QAction>
 #include <QAbstractItemModel>
 #include <QMessageBox>
+#include <QDropEvent>
+#include <QDataStream>
+#include <QMimeData>
+#include <QDrag>
 
 int AlarmTreeWidgetItem::m_commentColumn = 3;
+QString AlarmTreeWidget::m_mimeDataFormat = "application/alarms";
 
 AlarmTreeWidget::AlarmTreeWidget(QWidget *parent) :
     QTreeWidget(parent)
@@ -32,6 +37,8 @@ AlarmTreeWidget::AlarmTreeWidget(QWidget *parent) :
 
     loadUserComments();
     loadExistingAlarms();
+
+    setDragDropMode(QAbstractItemView::DragDropMode::DragDrop);
 }
 
 AlarmTreeWidget::~AlarmTreeWidget()
@@ -192,7 +199,9 @@ void AlarmTreeWidget::checkForRaisedAlarms(const QVector<Alarm> &alarms)
 
 void AlarmTreeWidget::loadExistingAlarms()
 {
-    processAlarms(Settings::instance()->getExistingAlarms());
+    auto alarms = Settings::instance()->getExistingAlarms();
+    std::sort(alarms.begin(), alarms.end());
+    processAlarms(alarms);
 }
 
 void AlarmTreeWidget::saveExistingAlarms()
@@ -348,6 +357,95 @@ bool AlarmTreeWidget::isSelectionRight()
     }
 
     return true;
+}
+
+void AlarmTreeWidget::dragEnterEvent(QDragEnterEvent *event)
+{
+    if (event->mimeData()->hasFormat(m_mimeDataFormat)) {
+        event->acceptProposedAction();
+    } else QWidget::dragEnterEvent(event);
+}
+
+void AlarmTreeWidget::dragMoveEvent(QDragMoveEvent *event)
+{
+    if (event->mimeData()->hasFormat(m_mimeDataFormat)) {
+        event->acceptProposedAction();
+    } else QWidget::dragMoveEvent(event);
+}
+
+void AlarmTreeWidget::startDrag(Qt::DropActions supportedActions)
+{
+    Q_UNUSED(supportedActions);
+    QList<QTreeWidgetItem*> d_items = selectedItems();
+    if (d_items.isEmpty() || d_items.size() > 1 ) {
+        return;
+    }
+
+    if (isItemTopLevel(d_items.first())) {
+        return;
+    }
+
+    QDrag *drag = new QDrag(this);
+    QMimeData *mimeData = new QMimeData;
+
+
+    if (AlarmTreeWidgetItem* a_item = dynamic_cast<AlarmTreeWidgetItem*>(d_items.first())) {
+        mimeData->setData(m_mimeDataFormat, a_item->comment().toUtf8());
+
+
+        AlarmTreeWidgetItem *category_parent = nullptr;
+        QTreeWidgetItem *tmp = a_item->parent();
+        for (;;) {
+            if (tmp->parent()) {
+                tmp = tmp->parent();
+            } else {
+                break;
+            }
+        }
+        category_parent = static_cast<AlarmTreeWidgetItem*>(tmp);
+
+        m_dragParent = category_parent;
+    }
+
+
+    QRect itemRect = visualItemRect(d_items.first());
+    itemRect = itemRect.adjusted(0, itemRect.height() * 1.25 , 0, itemRect.height() * 1.25);
+
+    drag->setMimeData(mimeData);
+    drag->setPixmap(grab(itemRect));
+
+    drag->exec();
+}
+
+void AlarmTreeWidget::dropEvent(QDropEvent *event)
+{
+    const QMimeData *data = event->mimeData();
+
+    if (!data->hasFormat(m_mimeDataFormat)) {
+        QTreeWidget::dropEvent(event);
+        return;
+    }
+
+    QTreeWidgetItem *dropOnItem = itemAt(event->pos());
+
+    if (!dropOnItem) {
+        qDebug() << "drop to widget not on item";
+        return;
+    }
+
+    if (isItemTopLevel(dropOnItem)) {
+        qDebug() << "drop to top level item";
+
+    }
+
+    if (m_dragParent != dropOnItem->parent()) {
+        if (m_dragParent != dropOnItem) {
+            qDebug() << "Parents are different";
+            return;
+        }
+    }
+
+    QTreeWidget::dropEvent(event);
 }
 
 bool AlarmTreeWidget::edit(const QModelIndex &index, EditTrigger trigger, QEvent *event)

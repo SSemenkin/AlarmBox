@@ -41,7 +41,6 @@ ExceptionsPanel::ExceptionsPanel(QWidget *parent) :
 
 ExceptionsPanel::~ExceptionsPanel()
 {
-
     Settings::instance()->setDisplayExceptions(m_exceptions);
 }
 
@@ -128,20 +127,24 @@ void ExceptionsPanel::setupContextMenu()
     addAction(removeException);
 }
 
+
+// static
 QString ExceptionsPanel::titleToAlarmTypeIndex(int index)
 {
     Q_ASSERT_X(index >= 0 && index < alarmTitles().size(), Q_FUNC_INFO, "Index out of range.");
     return alarmTitles().at(index);
 }
 
+// static
 int ExceptionsPanel::indexToAlarmTitle(const QString &title)
 {
     return alarmTitles().indexOf(title);
 }
 
+// static
 QStringList ExceptionsPanel::alarmTitles()
 {
     static QStringList d {tr("CF Alarm"), tr("Manually blocked"),
-                          tr("Halted"), tr("Not works")};
+                          tr("Halted"),   tr("Not works")};
     return d;
 }

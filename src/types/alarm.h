@@ -44,6 +44,7 @@ public:
     State     m_state {State::Raised};
     Category  m_category;
     Telnet*   m_source;
+    int       m_number {0};
 
     friend QDebug operator << (QDebug debug, const Alarm &a)
     {
@@ -55,6 +56,7 @@ public:
 private:
     static QString serializeDescription(Category category, const QString &existingDescription);
     static QString deserializeDescription(Category category, const QString &existingDescription = QString());
+    static int getNumber(const QString &source);
 };
 
 

@@ -157,53 +157,53 @@
         <translation>Не в работе</translation>
     </message>
     <message>
-        <location filename="../alarmtreewidget.cpp" line="248"/>
+        <location filename="../alarmtreewidget.cpp" line="254"/>
         <source> location</source>
         <translation> местоположение</translation>
     </message>
     <message>
-        <location filename="../alarmtreewidget.cpp" line="265"/>
+        <location filename="../alarmtreewidget.cpp" line="271"/>
         <source>Refresh</source>
         <translation>Обновить</translation>
     </message>
     <message>
-        <location filename="../alarmtreewidget.cpp" line="266"/>
+        <location filename="../alarmtreewidget.cpp" line="272"/>
         <source>Exceptions</source>
         <translation>Исключения</translation>
     </message>
     <message>
-        <location filename="../alarmtreewidget.cpp" line="267"/>
+        <location filename="../alarmtreewidget.cpp" line="273"/>
         <source>Location</source>
         <translation>Местоположение</translation>
     </message>
     <message>
-        <location filename="../alarmtreewidget.cpp" line="268"/>
+        <location filename="../alarmtreewidget.cpp" line="274"/>
         <source>Update locations</source>
         <translation>Обновить местоположения</translation>
     </message>
     <message>
-        <location filename="../alarmtreewidget.cpp" line="269"/>
-        <location filename="../alarmtreewidget.cpp" line="313"/>
+        <location filename="../alarmtreewidget.cpp" line="275"/>
+        <location filename="../alarmtreewidget.cpp" line="319"/>
         <source>Activate RBS</source>
         <translation>Активировать РБС</translation>
     </message>
     <message>
-        <location filename="../alarmtreewidget.cpp" line="275"/>
+        <location filename="../alarmtreewidget.cpp" line="281"/>
         <source>Duplicates</source>
         <translation>Дубликаты</translation>
     </message>
     <message>
-        <location filename="../alarmtreewidget.cpp" line="313"/>
+        <location filename="../alarmtreewidget.cpp" line="319"/>
         <source>Are you sure you want to unblock </source>
         <translation>Вы уверенны, что хотите разблокировать </translation>
     </message>
     <message>
-        <location filename="../alarmtreewidget.cpp" line="323"/>
+        <location filename="../alarmtreewidget.cpp" line="329"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location filename="../alarmtreewidget.cpp" line="323"/>
+        <location filename="../alarmtreewidget.cpp" line="329"/>
         <source>Alarm already cleared. Object is not manually blocked.</source>
         <translation>Авария ушла. Объект не заблокирован.</translation>
     </message>
@@ -563,32 +563,32 @@ Do you want try again?</source>
         <translation>Авария</translation>
     </message>
     <message>
-        <location filename="../exceptionspanel.cpp" line="74"/>
+        <location filename="../exceptionspanel.cpp" line="73"/>
         <source>Duplicate</source>
         <translation>Дубликат</translation>
     </message>
     <message>
-        <location filename="../exceptionspanel.cpp" line="74"/>
+        <location filename="../exceptionspanel.cpp" line="73"/>
         <source>This is duplicate of existing exception. Cannot add duplicate.</source>
         <translation>Уже существует такое исключение.</translation>
     </message>
     <message>
-        <location filename="../exceptionspanel.cpp" line="95"/>
+        <location filename="../exceptionspanel.cpp" line="94"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location filename="../exceptionspanel.cpp" line="95"/>
+        <location filename="../exceptionspanel.cpp" line="94"/>
         <source>Please select row.</source>
         <translation>Пожалуйста выберите строку.</translation>
     </message>
     <message>
-        <location filename="../exceptionspanel.cpp" line="124"/>
+        <location filename="../exceptionspanel.cpp" line="120"/>
         <source>Add exception</source>
         <translation>Добавить исключени</translation>
     </message>
     <message>
-        <location filename="../exceptionspanel.cpp" line="125"/>
+        <location filename="../exceptionspanel.cpp" line="121"/>
         <source>Remove exception</source>
         <translation>Удалить исключение</translation>
     </message>
@@ -686,46 +686,46 @@ Do you want try again?</source>
         <translation>&amp;Опции</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="96"/>
+        <location filename="../mainwindow.cpp" line="89"/>
         <source>Last update : </source>
         <translation>Последнее обновление : </translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="164"/>
+        <location filename="../mainwindow.cpp" line="156"/>
         <source>No items selected</source>
         <translation>Выберите хотя бы один элемент</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="164"/>
+        <location filename="../mainwindow.cpp" line="156"/>
         <source>Please select item.</source>
         <translation>Выберите хотя бы один элемент.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="203"/>
+        <location filename="../mainwindow.cpp" line="196"/>
         <source>About program </source>
         <translation>О программе </translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="204"/>
+        <location filename="../mainwindow.cpp" line="197"/>
         <source>AlarmBox is a tool designed to simplify the monitoring of Ericsson objects in a 2G network.
 Version </source>
         <translation>AlarmBox — это инструмент, предназначенный для упрощения мониторинга объектов Ericsson в сети 2G.
 Версия </translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="205"/>
+        <location filename="../mainwindow.cpp" line="198"/>
         <source>
 LastUpdates: </source>
         <translation>
 Последние обновления: </translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="262"/>
+        <location filename="../mainwindow.cpp" line="255"/>
         <source>Language changed</source>
         <translation>Язык изменён</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="263"/>
+        <location filename="../mainwindow.cpp" line="256"/>
         <source>The language change will take effect after the next launch.
 Restart application?</source>
         <translation>Изменение языка интерфейса вступит в силу после следующего запуска приложения.
@@ -753,14 +753,14 @@ Restart application?</source>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../rbslocation.cpp" line="30"/>
+        <location filename="../rbslocation.cpp" line="32"/>
         <source>
 Duplicates.</source>
         <translation>
 Дубликаты.</translation>
     </message>
     <message>
-        <location filename="../rbslocation.cpp" line="41"/>
+        <location filename="../rbslocation.cpp" line="43"/>
         <source>Object location is unknown.</source>
         <translation>Местоположение неизвестно.</translation>
     </message>

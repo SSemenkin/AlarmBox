@@ -12,6 +12,8 @@ AlarmDisplayWidget::AlarmDisplayWidget(QWidget *parent) :
     m_ui->treeWidget->setHeaderLabels(QStringList {tr("Object"), tr("Alarm"), tr("Controller"),
                                                  tr("Comment"), tr("Raised Time"), tr("Cleared Time")});
     connect(m_ui->treeWidget, &AlarmTreeWidget::refresh, this, &AlarmDisplayWidget::refreshRequested);
+
+    m_ui->treeWidget->sortItems(0, Qt::SortOrder::AscendingOrder);
 }
 
 AlarmDisplayWidget::~AlarmDisplayWidget()

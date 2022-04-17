@@ -10,7 +10,7 @@ bool Alarm::operator ==(const Alarm &other) const
 
 bool Alarm::operator<(const Alarm &other) const
 {
-    return m_object < other.m_object;
+    return m_raisedTime < other.m_raisedTime;
 }
 
 // static
@@ -29,6 +29,19 @@ QString Alarm::descriptionFromCategory(Category category)
 QString Alarm::deserializeDescription(Category category, const QString &existingDescription)
 {
     return category == Category::A1 ? existingDescription : alarmLabels().at(static_cast<int>(category) - 1);
+}
+
+// static
+int Alarm::getNumber(const QString &source)
+{
+    QString s;
+    for (int i = 0; i < source.length(); ++i) {
+        if (source.at(i).isDigit()) {
+            s += source[i];
+        }
+    }
+    qDebug() << source << s;
+    return s.toInt();
 }
 
 //static

@@ -8,6 +8,7 @@
 #include "exceptionspanel.h"
 #include "rbslocation.h"
 
+
 class AlarmTreeWidgetItem : public QTreeWidgetItem
 {
 public:
@@ -74,6 +75,7 @@ signals:
     void activateRBSRequested(const QString &name, const QString &controllerHostname);
 protected:
     virtual bool edit(const QModelIndex &index, EditTrigger trigger, QEvent *event) override;
+
 private:
     void markItemLikeRaised(DisplayAlarm &alarm, const QBrush& color = Qt::red);
     void markItemLikeCleared(DisplayAlarm &alarm, const QBrush& color = Qt::green);
@@ -103,7 +105,6 @@ private:
     QVector<Alarm> currentAlarms() const;
 
     void activateRBS();
-
     bool isSelectionRight();
 private:
     QVector<DisplayAlarm> m_alarms;
@@ -111,6 +112,21 @@ private:
     QScopedPointer<ExceptionsPanel> m_exceptionsPanel;
     bool m_isManuallyRefreshed {false};
     RbsLocation m_location;
+
+    AlarmTreeWidgetItem *m_dragParent {nullptr};
+
+    static QString m_mimeDataFormat;
+
+    // QWidget interface
+protected:
+    virtual void dragEnterEvent(QDragEnterEvent *event) override;
+    virtual void dragMoveEvent(QDragMoveEvent *event) override;
+
+    // QAbstractItemView interface
+protected:
+    virtual void startDrag(Qt::DropActions supportedActions) override;
+    virtual void dropEvent(QDropEvent *event) override;
+
 };
 
 #endif // ALARMTREEWIDGET_H

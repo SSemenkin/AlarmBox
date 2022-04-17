@@ -26,7 +26,6 @@ public:
     void onDeactivateRBSRequested(const QString &object, const QString &controllerHostname);
 
     void interrogateControllers() const;
-    bool isCanUpdate() const;
 
     QHash<Telnet*, QMap<QString, QString>> objectsHierarchy() const;
 signals:
@@ -67,7 +66,10 @@ private:
     void processControllerAuthentication(bool state);
 
     void supportConnection() const;
+    //герреты чтобы проверять валидность полученных ответов и их количества
+    //относительно каждого контроллера
     bool isAllCommandsReceived() const;
+    bool isCanUpdate() const;
 private:
     static uint64_t timeDelta;
 
