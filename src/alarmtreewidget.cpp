@@ -16,15 +16,18 @@ AlarmTreeWidget::AlarmTreeWidget(QWidget *parent) :
   , m_exceptionsPanel(new ExceptionsPanel)
   , m_location(Settings::instance()->getLocationFilepath())
 {
-    addTopLevelItem(new AlarmTreeWidgetItem(tr("CF Alarm")));
-    addTopLevelItem(new AlarmTreeWidgetItem(tr("Manually blocked")));
-    addTopLevelItem(new AlarmTreeWidgetItem(tr("Halted")));
-    addTopLevelItem(new AlarmTreeWidgetItem({tr("Not works")}));
+    addTopLevelItem(new AlarmTreeWidgetItem(tr("CF Alarm"), Alarm::Category::A1));
+    addTopLevelItem(new AlarmTreeWidgetItem(tr("Manually blocked"), Alarm::Category::A2));
+    addTopLevelItem(new AlarmTreeWidgetItem(tr("Halted"), Alarm::Category::A3));
+    addTopLevelItem(new AlarmTreeWidgetItem(tr("Not works"), Alarm::Category::A4));
+
+
 
     for (int i = 0; i < topLevelItemCount(); ++i) {
         AlarmTreeWidgetItem *parentItem = static_cast<AlarmTreeWidgetItem*>(topLevelItem(i));
         parentItem->setText(0, parentItem->pinnedText() + "(0)");
     }
+
 
     expandAll();
 
@@ -101,7 +104,6 @@ void AlarmTreeWidget::markItemLikeCleared(DisplayAlarm &alarm, const QBrush& bru
 
 void AlarmTreeWidget::markItemLikeNormal(DisplayAlarm &alarm, const QBrush &brush)
 {
-    if (alarm.m_alarm.isCleared()) return;
     alarm.m_alarm.m_state = Alarm::State::Normal;
     markTreeItemByBrush(alarm.m_alarmItem, brush);
 }
@@ -128,6 +130,7 @@ AlarmTreeWidgetItem *AlarmTreeWidget::createAlarmItem(const Alarm &alarm)
     labels.push_back(alarm.m_clearedTime.toString(Qt::LocaleDate));
 
     AlarmTreeWidgetItem *item = new AlarmTreeWidgetItem(labels);
+    item->setCategory(alarm.m_category);
     item->setFlags(item->flags() ^ Qt::ItemFlag::ItemIsEditable);
     return item;
 }
@@ -136,19 +139,29 @@ void AlarmTreeWidget::processNewAlarm(const Alarm &alarm)
 {
     qInfo() << "[Alarm Raised] " << alarm;
 
-     AlarmTreeWidgetItem *parent = static_cast<AlarmTreeWidgetItem*>(topLevelItem(static_cast<int>(alarm.m_category)));
-     // обработка исключений
-     // не добавлять те аварии, которые находятся в исключении
-     if (m_exceptionsPanel->isInException(alarm)) {
-         return;
-     }
+    AlarmTreeWidgetItem *parent;
 
-     AlarmTreeWidgetItem *child = createAlarmItem(alarm);
-     parent->addChild(child);
-     parent->setText(0, parent->pinnedText() + "(" + QString::number(parent->childCount()) + ")");
+    for (int i = 0; i < topLevelItemCount(); ++i) {
+        AlarmTreeWidgetItem *it = static_cast<AlarmTreeWidgetItem*>(topLevelItem(i));
+        if (it->category() == alarm.m_category) {
+            parent = it;
+            break;
+        }
+    }
+    // обработка исключений
+    // не добавлять те аварии, которые находятся в исключении
+    if (m_exceptionsPanel->isInException(alarm)) {
+        return;
+    }
 
-     m_alarms.push_back(DisplayAlarm(alarm, child));
-     markItemLikeRaised(m_alarms.last());
+    AlarmTreeWidgetItem *child = createAlarmItem(alarm);
+
+
+    parent->addChild(child);
+    parent->setText(0, parent->pinnedText() + "(" + QString::number(parent->childCount()) + ")");
+
+    m_alarms.push_back(DisplayAlarm(alarm, child));
+    markItemLikeRaised(m_alarms.last());
 }
 
 void AlarmTreeWidget::processClearedAlarm(DisplayAlarm &alarm)
@@ -167,11 +180,13 @@ void AlarmTreeWidget::checkForClearedAlarms(const QVector<Alarm> &alarms)
         DisplayAlarm &displayAlarm = m_alarms[i];
         Alarm &alarm = displayAlarm.m_alarm;
 
-        if (!alarms.contains(alarm) || m_exceptionsPanel->isInException(alarm)) {
+        if (!alarms.contains(alarm)) {
             if (alarm.isCleared()) {
                 if (m_isManuallyRefreshed) {
                     processClearedAlarm(m_alarms[i--]);
                 }
+            } else if (m_exceptionsPanel->isInException(alarm)) {
+                processClearedAlarm(displayAlarm);
             } else {
                 markItemLikeCleared(displayAlarm);
             }
@@ -403,8 +418,8 @@ void AlarmTreeWidget::startDrag(Qt::DropActions supportedActions)
             }
         }
         category_parent = static_cast<AlarmTreeWidgetItem*>(tmp);
-
         m_dragParent = category_parent;
+        m_dragItem = a_item;
     }
 
 
@@ -422,28 +437,38 @@ void AlarmTreeWidget::dropEvent(QDropEvent *event)
     const QMimeData *data = event->mimeData();
 
     if (!data->hasFormat(m_mimeDataFormat)) {
+        qDebug() << "drop accepted";
         QTreeWidget::dropEvent(event);
         return;
     }
 
     QTreeWidgetItem *dropOnItem = itemAt(event->pos());
 
-    if (!dropOnItem) {
-        qDebug() << "drop to widget not on item";
+    if(event->pos().x() < 60) {
         return;
     }
 
-    if (isItemTopLevel(dropOnItem)) {
-        qDebug() << "drop to top level item";
-
+    if (!dropOnItem) {
+        qDebug() << "Drop not accepted: not item;";
+        return;
     }
 
-    if (m_dragParent != dropOnItem->parent()) {
-        if (m_dragParent != dropOnItem) {
-            qDebug() << "Parents are different";
-            return;
-        }
+    if (static_cast<AlarmTreeWidgetItem*>(dropOnItem)->category() != m_dragItem->category()) {
+        qDebug() << "Drop not accepted: different category;";
+        return;
     }
+
+    if (isItemTopLevel(dropOnItem) &&
+        m_dragItem->category() != (static_cast<AlarmTreeWidgetItem*>(dropOnItem))->category()) {
+        qDebug() << "Drop not accepted: drop on top level && category drag different in top level;";
+        return;
+    }
+
+    if (isItemTopLevel(dropOnItem) && m_dragItem->parent() == dropOnItem) {
+        qDebug() << "Drop not accepted: drop on top level && dragItem == dropOnItem;";
+        return;
+    }
+
 
     QTreeWidget::dropEvent(event);
 }

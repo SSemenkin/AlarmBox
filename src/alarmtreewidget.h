@@ -12,9 +12,10 @@
 class AlarmTreeWidgetItem : public QTreeWidgetItem
 {
 public:
-    AlarmTreeWidgetItem(const QString &pinnedText) :
+    AlarmTreeWidgetItem(const QString &pinnedText, Alarm::Category category) :
         QTreeWidgetItem(QStringList(pinnedText))
         , m_pinnedText(pinnedText)
+        , m_category(category)
     {}
 
     AlarmTreeWidgetItem(const QStringList &labels) :
@@ -30,9 +31,17 @@ public:
         return text(m_commentColumn);
     }
 
+    void setCategory(Alarm::Category cat) {
+        m_category = cat;
+    }
+
+    Alarm::Category category() const {
+        return m_category;
+    }
+
 private:
     QString m_pinnedText;
-
+    Alarm::Category m_category;
     static int m_commentColumn;
 };
 
@@ -106,6 +115,7 @@ private:
 
     void activateRBS();
     bool isSelectionRight();
+
 private:
     QVector<DisplayAlarm> m_alarms;
     QMap<QString, QMap<QString, AlarmComment>> m_userComments;
@@ -114,8 +124,10 @@ private:
     RbsLocation m_location;
 
     AlarmTreeWidgetItem *m_dragParent {nullptr};
+    AlarmTreeWidgetItem *m_dragItem {nullptr};
 
     static QString m_mimeDataFormat;
+
 
     // QWidget interface
 protected:

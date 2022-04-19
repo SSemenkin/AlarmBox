@@ -107,7 +107,7 @@ int main(int argc, char *argv[])
         a.installTranslator(&qtTranslator);
     }
 
-    //a.setFont(Settings::instance()->getFont());
+    a.setFont(Settings::instance()->getFont());
 
     MainWindow w;
     w.setGeometry(Settings::instance()->getWindowGeometry());

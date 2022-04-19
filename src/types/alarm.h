@@ -16,6 +16,7 @@ public:
         Cleared
     };
     enum class Category : int32_t {
+        Invalid = -1,
         A1 = 0,
         A2,
         A3,
@@ -44,12 +45,32 @@ public:
     State     m_state {State::Raised};
     Category  m_category;
     Telnet*   m_source;
-    int       m_number {0};
 
     friend QDebug operator << (QDebug debug, const Alarm &a)
     {
         debug.nospace();
         debug << "Alarm(Object:" << a.m_object << "\t;Description:" << a.m_description << ")";
+        return debug.maybeSpace();
+    }
+    friend QDebug operator << (QDebug debug, Alarm::Category category) {
+        debug.nospace();
+        switch(category) {
+        case Category::Invalid:
+            debug << "Category::Invalid";
+            break;
+        case Category::A1:
+            debug << "Category::A1";
+            break;
+        case Category::A2:
+            debug << "Category::A2";
+            break;
+        case Category::A3:
+            debug << "Category::A3";
+            break;
+        case Category::A4:
+            debug << "Category::A4";
+            break;
+        }
         return debug.maybeSpace();
     }
 
