@@ -24,5 +24,6 @@
         <file>icons/dolphin-emu.svg</file>
         <file>icons/app.ico</file>
         <file>icons/com.gnome.software.svg</file>
+        <file>dvdVideo.png</file>
     </qresource>
 </RCC>

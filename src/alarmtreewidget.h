@@ -8,6 +8,7 @@
 #include "exceptionspanel.h"
 #include "rbslocation.h"
 
+class QLabel;
 
 class AlarmTreeWidgetItem : public QTreeWidgetItem
 {
@@ -72,6 +73,12 @@ struct DisplayAlarm {
 class AlarmTreeWidget : public QTreeWidget
 {
     Q_OBJECT
+
+    struct Velocity {
+        int x {5};
+        int y {5};
+    };
+
 public:
     AlarmTreeWidget(QWidget *parent = nullptr);
     ~AlarmTreeWidget();
@@ -127,7 +134,7 @@ private:
     AlarmTreeWidgetItem *m_dragItem {nullptr};
 
     static QString m_mimeDataFormat;
-
+    Velocity m_velocity;
 
     // QWidget interface
 protected:
@@ -138,7 +145,6 @@ protected:
 protected:
     virtual void startDrag(Qt::DropActions supportedActions) override;
     virtual void dropEvent(QDropEvent *event) override;
-
 };
 
 #endif // ALARMTREEWIDGET_H

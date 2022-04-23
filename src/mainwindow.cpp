@@ -17,6 +17,7 @@
 #include <QTranslator>
 #include <QDesktopServices>
 #include <QUrl>
+#include <QLabel>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)

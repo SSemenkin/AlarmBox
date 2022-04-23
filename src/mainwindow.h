@@ -13,6 +13,7 @@
 
 class AlarmDisplayWidget;
 class QSplitter;
+class QLabel;
 class InheritanceView;
 
 QT_BEGIN_NAMESPACE
@@ -54,6 +55,6 @@ private:
     UpdateChecker m_updater;
 
     QPalette m_lightPalette;
-    QPalette m_darkPalette;    
+    QPalette m_darkPalette;
 };
 #endif // MAINWINDOW_H

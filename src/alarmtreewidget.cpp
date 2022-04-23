@@ -7,6 +7,7 @@
 #include <QDataStream>
 #include <QMimeData>
 #include <QDrag>
+#include <QLabel>
 
 int AlarmTreeWidgetItem::m_commentColumn = 3;
 QString AlarmTreeWidget::m_mimeDataFormat = "application/alarms";
@@ -373,6 +374,22 @@ bool AlarmTreeWidget::isSelectionRight()
 
     return true;
 }
+
+//void AlarmTreeWidget::moveLabel()
+//{
+//    if (m_label->geometry().x() + m_label->width() >= viewport()->width() ||
+//        m_label->geometry().x() + m_velocity.x < 0) {
+//        m_velocity.x = -m_velocity.x;
+//        qDebug() << "Change direction x";
+//    }
+
+//    if (m_label->geometry().y() + m_label->height() + m_velocity.y >= viewport()->height() ||
+//        m_label->geometry().y() + m_velocity.y < 0) {
+//        m_velocity.y = -m_velocity.y;
+//        qDebug() << "Change direction y";
+//    }
+//    m_label->move(m_label->x() + m_velocity.x, m_label->y() + m_velocity.y);
+//}
 
 void AlarmTreeWidget::dragEnterEvent(QDragEnterEvent *event)
 {

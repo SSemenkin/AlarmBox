@@ -1,5 +1,8 @@
 QT       += core gui network
 
+QMAKE_CXXFLAGS_DEBUG += -g3 -pg
+QMAKE_LFLAGS_DEBUG += -pg -lgmon
+
 include($$PWD/../3rd_party/QSimpleUpdater/QSimpleUpdater.pri)
 INCLUDEPATH += $$PWD/../3rd_party/QSimpleUpdater/src
 
