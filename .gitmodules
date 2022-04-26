@@ -1,6 +1,6 @@
 [submodule "3rd_party/QSimpleUpdater"]
 	path = 3rd_party/QSimpleUpdater
 	url = https://github.com/SSemenkin/QSimpleUpdater.git
-[submodule "MapGraphics"]
-	path = MapGraphics
+[submodule "3rd_party/MapGraphics"]
+	path = 3rd_party/MapGraphics
 	url = https://github.com/SSemenkin/MapGraphics.git
