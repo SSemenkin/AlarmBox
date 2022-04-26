@@ -1,4 +1,7 @@
-TEMPLATE = SUBDIRS
+TEMPLATE = subdirs
 
-SUBDIRS += src\
-           3rd_party/MapGraphics
+SUBDIRS += \
+        3rd_party/MapGraphics/MapGraphics \
+        src
+
+СONFIG += ordered

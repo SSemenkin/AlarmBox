@@ -110,6 +110,7 @@ int main(int argc, char *argv[])
 #endif
 
     CustomApplication a(argc, argv);
+    a.setApplicationName("AlarmBox");
 
     removeOldExecutableFile();
     defaultMessageHalder = qInstallMessageHandler(messageHandler);

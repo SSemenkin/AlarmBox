@@ -102,3 +102,10 @@ RESOURCES += \
 
 OTHER_FILES += $$PWD/../updates.json\
                $$PWD/../updates_translations.json
+
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../3rd_party/MapGraphics/MapGraphics/release/ -lMapGraphics
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../3rd_party/MapGraphics/MapGraphics/debug/ -lMapGraphics
+else:unix: LIBS += -L$$OUT_PWD/../3rd_party/MapGraphics/MapGraphics/ -lMapGraphics
+
+INCLUDEPATH += $$PWD/../3rd_party/MapGraphics/MapGraphics
+DEPENDPATH += $$PWD/../3rd_party/MapGraphics/MapGraphics
