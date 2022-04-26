@@ -260,7 +260,7 @@ void AlarmInterrogator::processRLCRP(const QString &print)
     }
 }
 
-void AlarmInterrogator::processErrors(const QString &errorText)
+void AlarmInterrogator::processError(const QString &errorText)
 {
     bool isContainsFinishToken {false};
     for (const QString &token : Telnet::finishTokens()) {
@@ -340,7 +340,7 @@ void AlarmInterrogator::connectController(QSharedPointer<Telnet> controller)
     connect(controller.data(), &Telnet::commandExecuted,
             this, &AlarmInterrogator::processOutput);
     connect(controller.data(), &Telnet::errorOccured,
-            this, &AlarmInterrogator::processErrors);
+            this, &AlarmInterrogator::processError);
     controller->executeCommand(rxtcp());
 }
 

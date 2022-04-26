@@ -157,7 +157,7 @@ void AlarmTreeWidget::processNewAlarm(const Alarm &alarm)
 
     AlarmTreeWidgetItem *child = createAlarmItem(alarm);
 
-
+    child->setToolTip(0, "getObjectLocation()");
     parent->addChild(child);
     parent->setText(0, parent->pinnedText() + "(" + QString::number(parent->childCount()) + ")");
 

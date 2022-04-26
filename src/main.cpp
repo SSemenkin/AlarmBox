@@ -13,6 +13,8 @@
 #include <QJsonDocument>
 #include <QJsonValue>
 
+#include <iostream>
+
 QFile logFile("alarms.log");
 void (*defaultMessageHalder)(QtMsgType, const QMessageLogContext &, const QString &) = nullptr;
 
@@ -77,8 +79,29 @@ void messageHandler(QtMsgType type, const QMessageLogContext &context, const QSt
     type == QtMsgType::QtInfoMsg ? writeMessageToFile(message) : defaultMessageHalder(type, context, message);
 }
 
+
+void installTranslators(QTranslator *appTranlator, QTranslator *qtTranslator,
+                        QApplication *app, const QLocale &locale)
+{
+    if (appTranlator->load("translations/" + app->applicationName() + "_" + locale.name())) {
+        qDebug() <<  "AlarmBox successfull translation";
+        app->installTranslator(appTranlator);
+    } else {
+        std::cerr << "AlarmBox failed translation\n";
+    }
+
+    if (qtTranslator->load("translations/qt_" + locale.name())) {
+        qDebug() << "Qt successfull translation";
+        app->installTranslator(qtTranslator);
+    } else {
+        std::cerr << "Qt failed translation\n";
+    }
+}
+
+
 int main(int argc, char *argv[])
 {
+
 #ifdef UPDATE
     makeJSonFile("v.1.1.1\n.-Добавлена возможность(нужно было сразу) переключения темы без перезапуска приложения."
                  "\n-Теперь приложение будет автоматически проверять наличие обновлений."
@@ -93,18 +116,15 @@ int main(int argc, char *argv[])
     a.setApplicationVersion(APPLICATION_VERSION);
     a.setApplicationDisplayName(a.applicationName());
     a.setStyle(QStyleFactory::create("fusion"));
+
     QLocale locale = Settings::instance()->getLocale();
-    QTranslator translator;
-    QTranslator qtTranslator;
+    QScopedPointer<QTranslator> translator;
+    QScopedPointer<QTranslator> qtTranslator;
 
     if (locale != QLocale(QLocale::English)) {
-        bool result = translator.load("translations/" + a.applicationName()+ "_" + locale.name());
-        qDebug() << (result ? "AlarmBox Successfull translation" : "AlarmBox Failed Translation");
-        a.installTranslator(&translator);
-
-        result = qtTranslator.load("translations/qt_" + locale.name());
-        qDebug() << (result ? "Qt Successfull translation" : "Qt Failed Translation");
-        a.installTranslator(&qtTranslator);
+        translator.reset(new QTranslator);
+        qtTranslator.reset(new QTranslator);
+        installTranslators(translator.data(), qtTranslator.data(), &a, locale);
     }
 
     a.setFont(Settings::instance()->getFont());

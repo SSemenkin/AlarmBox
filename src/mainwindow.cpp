@@ -18,6 +18,7 @@
 #include <QDesktopServices>
 #include <QUrl>
 #include <QLabel>
+#include <QFile>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -83,6 +84,8 @@ MainWindow::MainWindow(QWidget *parent)
             &m_controllerOwner, QOverload<const QString&>::of(&ControllerOwnership::removeController));
     connect(m_controllersEdit->controllerWidget(), &ControllerListWidget::detailRequested,
             &m_controllerOwner, &ControllerOwnership::onDetailControllerRequested);
+
+
     ///
 
     /// AlarmDisplayWidget

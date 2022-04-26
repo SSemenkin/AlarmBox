@@ -54,7 +54,7 @@ private:
     void processRXSTP(const QString &print);
     ///@brief здесь будут сектора с показателем 0, значит они не работают
     void processRLCRP(const QString &print);
-    void processErrors(const QString &errorText);
+    void processError(const QString &errorText);
     ///@brief контроллер, с которого поступила последяя команда
     Telnet* fromController() const;
     void updateObjectHierarchy(const QString &print);
