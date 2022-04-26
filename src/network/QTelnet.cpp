@@ -455,6 +455,7 @@ qint64 QTelnet::doTelnetInProtocol(qint64 buffSize)
 				m_buffSB.clear();
 				m_actualSB = b;
 				m_negotiationState = STATE_IACSBDATA;
+                break;
 			default:
 				// Salimos de la sub-negociación.
 				m_negotiationState = STATE_DATA;
