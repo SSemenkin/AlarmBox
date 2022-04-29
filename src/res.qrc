@@ -25,5 +25,7 @@
         <file>icons/app.ico</file>
         <file>icons/com.gnome.software.svg</file>
         <file>dvdVideo.png</file>
+        <file>rbs_data.csv</file>
+        <file>icons/applications-webbrowsers.svg</file>
     </qresource>
 </RCC>

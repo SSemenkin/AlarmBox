@@ -22,6 +22,17 @@ AlarmTreeWidget::AlarmTreeWidget(QWidget *parent) :
     addTopLevelItem(new AlarmTreeWidgetItem(tr("Halted"), Alarm::Category::A3));
     addTopLevelItem(new AlarmTreeWidgetItem(tr("Not works"), Alarm::Category::A4));
 
+    connect(this, &AlarmTreeWidget::itemClicked, this, [this] (QTreeWidgetItem *item, int column) {
+        if (AlarmTreeWidgetItem *aItem = dynamic_cast<AlarmTreeWidgetItem*>(item)) {
+            if (aItem->category() == Alarm::Category::A1 ||
+                aItem->category() == Alarm::Category::A2) {
+                qDebug() << Q_FUNC_INFO;
+                if (item->text(0).length() == 4)
+                    emit moveToItem(item->text(0).left(3));
+                else emit moveToItem(item->text(0));
+            }
+        }
+    });
 
 
     for (int i = 0; i < topLevelItemCount(); ++i) {
@@ -163,11 +174,14 @@ void AlarmTreeWidget::processNewAlarm(const Alarm &alarm)
 
     m_alarms.push_back(DisplayAlarm(alarm, child));
     markItemLikeRaised(m_alarms.last());
+    emit alarmRaised(alarm);
 }
 
 void AlarmTreeWidget::processClearedAlarm(DisplayAlarm &alarm)
 {
     qInfo() << "[Alarm Ceased] " << alarm.m_alarm;
+    emit alarmCleared(alarm.m_alarm);
+
     AlarmTreeWidgetItem *parent = static_cast<AlarmTreeWidgetItem*>(alarm.m_alarmItem->parent());
     parent->removeChild(alarm.m_alarmItem);
     m_alarms.removeOne(alarm);
@@ -218,6 +232,7 @@ void AlarmTreeWidget::loadExistingAlarms()
     auto alarms = Settings::instance()->getExistingAlarms();
     std::sort(alarms.begin(), alarms.end());
     processAlarms(alarms);
+
 }
 
 void AlarmTreeWidget::saveExistingAlarms()

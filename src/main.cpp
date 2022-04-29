@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "version.h"
 #include "customapplication.h"
+#include "maps/qsqliteworker.h"
 
 #include <QTranslator>
 #include <QLocale>
@@ -98,6 +99,66 @@ void installTranslators(QTranslator *appTranlator, QTranslator *qtTranslator,
     }
 }
 
+//#define UPDATE_OBJECTS_DB
+
+struct NodeCell {
+    QString nodename;
+    QString cellid;
+    float angle;
+
+    bool operator == (const NodeCell& other) const {
+        return nodename == other.nodename &&
+                cellid == other.cellid &&
+               angle == other.angle;
+    }
+};
+struct Node {
+    QString name;
+    QPointF position;
+    bool operator == (const Node& other) const {
+        return name == other.name && position == other.position;
+    }
+};
+
+struct NodeInfo {
+    QVector<NodeCell> cells;
+    QVector<Node> nodes;
+
+    void addCell(const NodeCell &cell) {
+        if (!cells.contains(cell)) {
+            cells.push_back(cell);
+        }
+    }
+
+    void addNode(const Node &node) {
+        if (!nodes.contains(node)) {
+            nodes.push_back(node);
+        }
+    }
+};
+
+QString transform(QString source) {
+    return source.replace(',', '.').remove('N').remove('E').left(8);
+}
+
+NodeInfo loadFromFile(const QString &filepath)
+{
+    NodeInfo result;
+
+    QFile f (filepath);
+    if (f.open(QIODevice::ReadOnly)) {
+        QStringList d = QString(f.readAll()).split("\r\n");
+        for (int i = 1; i < d.size(); ++i) {
+            QStringList row = d.at(i).split(';', Qt::SkipEmptyParts);
+
+            if (row.isEmpty()) continue;
+
+            result.addCell(NodeCell{row.at(0), row.at(1), row.at(2).toFloat()});
+            result.addNode(Node{row.at(0), QPointF {transform(row[3]).toFloat(), transform(row[4]).toFloat()}});
+        }
+    } else qDebug() << f.errorString();
+    return result;
+}
 
 int main(int argc, char *argv[])
 {
@@ -107,6 +168,18 @@ int main(int argc, char *argv[])
                  "\n-Теперь приложение будет автоматически проверять наличие обновлений."
                  "\nv.1.2\n -Добавлен лог аварий (alarms.log)", QString("https://github.com/SSemenkin/AlarmBox/blob/main/releases/%1/AlarmBoX.exe?raw=true")
                  .arg(APPLICATION_VERSION), APPLICATION_VERSION);
+#endif
+
+#ifdef UPDATE_OBJECTS_DB
+    QSqliteWorker worker;
+    NodeInfo info = loadFromFile(":/rbs_data.csv");
+    for (const Node &node : info.nodes) {
+        worker.addRbs(node.name, node.position, "");
+    }
+
+    for (const NodeCell &cell : info.cells) {
+        worker.addCell(cell.nodename, cell.cellid, cell.angle);
+    }
 #endif
 
     CustomApplication a(argc, argv);

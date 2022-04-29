@@ -85,10 +85,17 @@ public:
     void processAlarms(const QVector<Alarm> &alarms);
     void onCurrentControllerChanged(const QString &controllerHostname);
     void execAddExceptionDialog();
+    QVector<Alarm> currentAlarms() const;
+
 signals:
     void refresh();
     void updated();
     void activateRBSRequested(const QString &name, const QString &controllerHostname);
+
+    void alarmRaised(const Alarm& alarm);
+    void alarmCleared(const Alarm& alarm);
+
+    void moveToItem(const QString &object);
 protected:
     virtual bool edit(const QModelIndex &index, EditTrigger trigger, QEvent *event) override;
 
@@ -118,7 +125,6 @@ private:
 
     void setupContextMenu();
 
-    QVector<Alarm> currentAlarms() const;
 
     void activateRBS();
     bool isSelectionRight();

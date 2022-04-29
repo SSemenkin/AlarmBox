@@ -10,6 +10,7 @@
 #include "controllersedit.h"
 #include "alarminterrogator.h"
 #include "updatechecker.h"
+#include "maps/mapwidget.h"
 
 class AlarmDisplayWidget;
 class QSplitter;
@@ -47,6 +48,7 @@ private:
     ControllerOwnership m_controllerOwner;
     QScopedPointer<AlarmInterrogator> m_interrogator;
     QScopedPointer<QSplitter> m_splitter;
+    QScopedPointer<MapWidget> m_mapWidget;
 
     ControllersEdit *m_controllersEdit;
     AlarmDisplayWidget *m_alarmDisplayWidget;

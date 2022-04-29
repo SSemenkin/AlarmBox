@@ -19,21 +19,25 @@
 #include <QUrl>
 #include <QLabel>
 #include <QFile>
+#include <QDockWidget>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , m_ui(new Ui::MainWindow)
     , m_interrogator(new AlarmInterrogator(m_controllerOwner.controllerList()))
     , m_splitter(new QSplitter(Qt::Horizontal))
+    , m_mapWidget(new MapWidget)
     , m_controllersEdit(new ControllersEdit(this))
     , m_alarmDisplayWidget(new AlarmDisplayWidget(this))
-    , m_inheritanceView(nullptr)
+    , m_inheritanceView(new InheritanceView(this))
     , m_lightPalette(palette())
     , m_darkPalette(generateDarkPalette())
 {
     m_ui->setupUi(this);
     m_ui->updateButton->setVisible(false);
-
+    m_ui->dockWidget->setWidget(m_mapWidget.data());
+    m_ui->dockWidget->setWindowTitle("AlarmBox Map");
+    m_ui->dockWidget->close();
     /// apply saved style
     if (Settings::instance()->getThemeIndex() != 0) {
         qApp->setPalette(m_darkPalette);
@@ -98,12 +102,23 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_alarmDisplayWidget, &AlarmDisplayWidget::refreshRequested,
             m_interrogator.data(), &AlarmInterrogator::interrogateControllers);
 
+    connect(m_alarmDisplayWidget->alarmTreeWidget(), &AlarmTreeWidget::alarmRaised,
+            m_mapWidget.data(), &MapWidget::onAlarmRaised);
+
+    connect(m_alarmDisplayWidget->alarmTreeWidget(), &AlarmTreeWidget::alarmCleared,
+            m_mapWidget.data(), &MapWidget::onAlarmCleared);
+    connect(m_alarmDisplayWidget->alarmTreeWidget(), &AlarmTreeWidget::moveToItem,
+            m_mapWidget.data(), &MapWidget::moveToItem);
+
+
     ///
 
     /// Action
     connect(m_ui->action_Settings, &QAction::triggered, this, &MainWindow::execSettingsDialog);
     connect(m_ui->actionAbout_program, &QAction::triggered, this, &MainWindow::aboutProgram);
-
+    connect(m_ui->action, &QAction::triggered, this, [this] () {
+        m_ui->dockWidget->setVisible(!m_ui->dockWidget->isVisible());
+    });
     ///
 
     ///  Interrogator
@@ -114,24 +129,23 @@ MainWindow::MainWindow(QWidget *parent)
             m_controllersEdit->controllerWidget(), &ControllerListWidget::processControllerNoMMLError);
     connect(m_interrogator.data(), &AlarmInterrogator::MMLError,
             m_controllersEdit->controllerWidget(), &ControllerListWidget::processControllerMMLError);
+    connect(m_inheritanceView->inheritanceTreeWidget(), &InheritanceTreeWidget::deactivateRBSRequested,
+            m_interrogator.data(), &AlarmInterrogator::onDeactivateRBSRequested);
 
     connect(m_interrogator.data(), &AlarmInterrogator::hierarchyUpdated, this, [this] () {
-        auto hierarchy = m_interrogator.data()->objectsHierarchy();
-        m_inheritanceView = new InheritanceView(hierarchy, this);
-        m_splitter->addWidget(m_inheritanceView);
-
-        QList<int> sizes = Settings::instance()->getSplitterSizes();
-        if(!sizes.isEmpty()) {
-            m_splitter->setSizes(sizes);
-        }
-
-        connect(m_inheritanceView->inheritanceTreeWidget(), &InheritanceTreeWidget::deactivateRBSRequested,
-                m_interrogator.data(), &AlarmInterrogator::onDeactivateRBSRequested);
+        m_inheritanceView->setObjectsHierarchy(m_interrogator->objectsHierarchy());
     });
 
     //updater
     connect(&m_updater, &UpdateChecker::updateAvaliable, m_ui->updateButton, &QPushButton::setVisible);
     connect(m_ui->updateButton, &QPushButton::clicked, this, &MainWindow::updateButtonClicked);
+
+    ////
+    QVector<Alarm> alarms = m_alarmDisplayWidget->alarmTreeWidget()->currentAlarms();
+    for (int i = 0; i < alarms.size(); ++i) {
+        m_mapWidget->onAlarmRaised(alarms.at(i));
+    }
+
 
     m_updater.startChecking();
 
@@ -185,6 +199,7 @@ void MainWindow::createSplitter()
 {
     m_splitter->addWidget(m_controllersEdit);
     m_splitter->addWidget(m_alarmDisplayWidget);
+    m_splitter->addWidget(m_inheritanceView);
     m_ui->horizontalLayout->addWidget(m_splitter.data());
 
     QList<int> sizes = Settings::instance()->getSplitterSizes();
