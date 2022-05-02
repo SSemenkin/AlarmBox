@@ -69,6 +69,7 @@ void MapWidget::moveToItem(const QString &object)
 {
     if (m_rbsList.contains(object)) {
         centerOn(m_rbsList[object]->pos());
+        setZoomLevel(15);
     }
 }
 
@@ -83,6 +84,7 @@ void MapWidget::initObjects()
     RbsObject *object = nullptr;
     for (auto it = rbsList.begin(); it != rbsList.end(); ++it) {
         object = new RbsObject(it.key(), it.value());
+        object->setToolTip(it.key());
 
         for (auto jt = m_rbsList.begin(); jt != m_rbsList.end(); ++jt) {
             if(jt.value()->pos() == it.value()) {

@@ -1,5 +1,5 @@
 ﻿#include "qsqliteworker.h"
-
+#include <QMessageBox>
 
 QSqliteWorker::QSqliteWorker(const QString &filepath, const QString &connectionName, QObject *parent) :
     QObject (parent),

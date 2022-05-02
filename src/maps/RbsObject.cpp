@@ -45,7 +45,7 @@ RbsObject::RbsObject(const QString &name, const QPointF &pos, MapGraphicsObject 
 
 RbsObject::~RbsObject()
 {
-    for(Cell* cell : __cells){
+    for(Cell* cell : qAsConst(__cells)){
         delete cell;
     }
     __cells.clear();
