@@ -44,7 +44,7 @@ public:
     QDateTime m_clearedTime;
     State     m_state {State::Raised};
     Category  m_category;
-    Telnet*   m_source;
+    bool      m_isExistingAtExit {false};
 
     friend QDebug operator << (QDebug debug, const Alarm &a)
     {

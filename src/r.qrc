@@ -1,10 +1,17 @@
 <RCC>
     <qresource prefix="/">
         <file>icons/acetoneiso.svg</file>
+        <file>icons/app.ico</file>
+        <file>icons/apper.svg</file>
         <file>icons/applications-office.svg</file>
         <file>icons/applications-system.svg</file>
+        <file>icons/applications-webbrowsers.svg</file>
+        <file>icons/battery.svg</file>
         <file>icons/com.azuredatastudio.oss.svg</file>
+        <file>icons/com.gnome.software.svg</file>
         <file>icons/cs-themes.svg</file>
+        <file>icons/desktop.ini</file>
+        <file>icons/dolphin-emu.svg</file>
         <file>icons/drive-removable-media-usb-pendrive.svg</file>
         <file>icons/folder.svg</file>
         <file>icons/folder-documents.svg</file>
@@ -19,12 +26,6 @@
         <file>icons/www-browser.svg</file>
         <file>icons/zanshin.svg</file>
         <file>icons/zathura.svg</file>
-        <file>icons/battery.svg</file>
-        <file>icons/apper.svg</file>
-        <file>icons/dolphin-emu.svg</file>
-        <file>icons/app.ico</file>
-        <file>icons/com.gnome.software.svg</file>
-        <file>rbs_data.csv</file>
-        <file>icons/applications-webbrowsers.svg</file>
+        <file>icons/dvd_video.png</file>
     </qresource>
 </RCC>

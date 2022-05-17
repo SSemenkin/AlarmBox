@@ -1,4 +1,5 @@
 SOURCES += \
+    $$PWD/maps/custommapgraphicsview.cpp \
     $$PWD/maps/RbsObject.cpp \
     $$PWD/maps/cell.cpp \
     customapplication.cpp \
@@ -31,6 +32,7 @@ SOURCES += \
     updatechecker.cpp
 
 HEADERS += \
+    $$PWD/maps/custommapgraphicsview.h \
     $$PWD/maps/RbsObject.h \
     $$PWD/maps/TrueMatrix.h \
     $$PWD/maps/cell.h \
@@ -80,7 +82,7 @@ TRANSLATIONS += \
         $$PWD/translations/AlarmBoX_ru.ts
 
 RESOURCES += \
-            res.qrc
+    r.qrc
 
 OTHER_FILES += $$PWD/../updates.json\
                $$PWD/../updates_translations.json

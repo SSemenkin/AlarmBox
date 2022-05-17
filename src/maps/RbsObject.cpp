@@ -1,5 +1,6 @@
 ﻿#include "RbsObject.h"
-
+#include <QMenu>
+#include <QAction>
 
 RbsObject::RbsObject(const QString &name, const QPointF &pos, MapGraphicsObject *parent)
     : MapGraphicsObject(true, parent), __name(name), __position(pos), __matrix(nullptr),
@@ -36,11 +37,7 @@ RbsObject::RbsObject(const QString &name, const QPointF &pos, MapGraphicsObject 
     connect(this, &RbsObject::doubleClicked, this, [] (const QString &name) {
         qDebug() << Q_FUNC_INFO << name;
     });
-    connect(this, &RbsObject::callMenu, this, [] (const QString &name, const QPoint& point) {
-        qDebug() << Q_FUNC_INFO << name << point;
-    });
-
-
+    connect(this, &RbsObject::callMenu, this, &RbsObject::processContextMenu);
 }
 
 RbsObject::~RbsObject()
@@ -94,6 +91,7 @@ void RbsObject::setBlockedState(bool state)
     for(auto cell : __cells){
         cell->setBlocked(state);
     }
+    __blocked = state;
 }
 
 void RbsObject::setStacked(int position)
@@ -173,6 +171,11 @@ void RbsObject::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     painter->setRenderHint(QPainter::Antialiasing);
     bool marked = false;
     QFontMetrics metrics(qApp->font());
+
+    if (!enabled()) {
+        return;
+    }
+
     for(Cell *cell : __cells){
 
         if(cell->isSelected()){
@@ -185,6 +188,7 @@ void RbsObject::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 
     if(__showName){
         painter->restore();
+        painter->setPen(QPen(Qt::black));
         painter->drawText(boundingRect().adjusted(0, -stackPosition * metrics.height() + 1, 0, -stackPosition * metrics.height() + 1), __name);
     }
 
@@ -201,6 +205,28 @@ void RbsObject::repaint()
         cell->drawCell();
     }
     this->redrawRequested();
+}
+
+void RbsObject::processContextMenu(const QString &cellName, const QPoint &point)
+{
+    if (m_contextMenu.isNull()) {
+        m_contextMenu.reset(createContextMenu());
+    }
+
+    __blocked ? m_contextMenu->actions().at(1)->setEnabled(false) :
+                 m_contextMenu->actions().at(0)->setEnabled(false);
+    m_contextMenu->popup(point);
+}
+
+QMenu *RbsObject::createContextMenu()
+{
+    QMenu* result = new QMenu();
+    QAction *activateRBSAction = new QAction(QIcon(":/icons/battery.svg"), tr("Activate RBS"), this);
+    QAction *mblObject = new QAction(QIcon(":/icons/apper.svg"), tr("Manually block object"), this);
+
+    result->addAction(activateRBSAction);
+    result->addAction(mblObject);
+    return result;
 }
 
 

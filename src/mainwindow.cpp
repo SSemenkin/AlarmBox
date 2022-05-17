@@ -11,7 +11,6 @@
 #include "QSimpleUpdater.h"
 
 #include <QListWidgetItem>
-#include <QMessageBox>
 #include <QPushButton>
 #include <QSplitter>
 #include <QTranslator>
@@ -20,6 +19,7 @@
 #include <QLabel>
 #include <QFile>
 #include <QDockWidget>
+#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -119,6 +119,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_ui->action, &QAction::triggered, this, [this] () {
         m_ui->dockWidget->setVisible(!m_ui->dockWidget->isVisible());
     });
+    connect(m_ui->dockWidget, &QDockWidget::visibilityChanged, [this](bool isVisible) {
+       m_ui->action->setChecked(isVisible);
+    });
     ///
 
     ///  Interrogator
@@ -211,7 +214,7 @@ void MainWindow::createSplitter()
 void MainWindow::aboutProgram()
 {
     QMessageBox box(this); // используется только для того чтобы передать иконку приложения
-    box.setIcon(QMessageBox::Information);
+
     box.setWindowTitle(tr("About program "));
     box.setText(tr("AlarmBox is a tool designed to simplify the monitoring of Ericsson objects in a 2G network.\nVersion ")
                 + qApp->applicationVersion() + tr("\nLastUpdates: ")

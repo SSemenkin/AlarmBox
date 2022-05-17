@@ -3,7 +3,6 @@
 
 #include <QMainWindow>
 
-
 #include "controllerownership.h"
 #include "addcontrollerdialog.h"
 #include "editcontrollerdialog.h"

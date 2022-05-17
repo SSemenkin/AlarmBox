@@ -4,16 +4,16 @@
 #include "tileSources/CompositeTileSource.h"
 #include "maps/qsqliteworker.h"
 #include "maps/RbsObject.h"
+#include "maps/custommapgraphicsview.h"
 
 MapWidget::MapWidget(QWidget *parent) :
-    MapGraphicsView(new MapGraphicsScene(parent), parent)
+    CustomMapGraphicsView(new MapGraphicsScene(parent), parent)
 {
 
     QSharedPointer<OSMTileSource> osmTiles(new OSMTileSource(OSMTileSource::OSMTiles), &QObject::deleteLater);
     setTileSource(osmTiles);
 
     initObjects();
-
 
     QObject::connect(this, &MapGraphicsView::zoomLevelChanged, this, [=] (quint8 zoomLevel) {
         bool required = zoomLevel > 11;
@@ -78,6 +78,8 @@ void MapWidget::initObjects()
     QSqliteWorker worker;
 
     QMap<QString , QPointF> rbsList = worker.getRbsList();
+
+    int rbsCount = rbsList.size();
     QMap<QString , QVector<CellInfo>> cellList = worker.getCellList();
 
 
@@ -89,6 +91,7 @@ void MapWidget::initObjects()
         for (auto jt = m_rbsList.begin(); jt != m_rbsList.end(); ++jt) {
             if(jt.value()->pos() == it.value()) {
                 object->setStacked(1);
+                rbsCount--;
                 break;
             }
         }
@@ -111,8 +114,7 @@ void MapWidget::initObjects()
         }
     }
 
-
-
+    qDebug() << rbsCount;
 }
 
 void MapWidget::markItemLikeAlarm(const QString &object, bool state)

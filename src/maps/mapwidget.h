@@ -6,8 +6,9 @@
 #include "RbsObject.h"
 
 #include "types/alarm.h"
+#include "custommapgraphicsview.h"
 
-class MapWidget : public MapGraphicsView
+class MapWidget : public CustomMapGraphicsView
 {
     Q_OBJECT
 public:

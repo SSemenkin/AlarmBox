@@ -17,6 +17,20 @@
    <iconset>
     <normaloff>:/icons/application.ico</normaloff>:/icons/application.ico</iconset>
   </property>
+  <property name="styleSheet">
+   <string notr="true">
+QSplitter::handle:horizontal {
+    width: 10px;
+}
+
+QSplitter::handle:vertical {
+    height: 10px;
+}
+
+QSplitter::handle:hover{
+  background:palette(highlight);
+}</string>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
@@ -38,7 +52,7 @@ color:black;</string>
        <string>Update</string>
       </property>
       <property name="icon">
-       <iconset resource="res.qrc">
+       <iconset resource="r.qrc">
         <normaloff>:/icons/com.gnome.software.svg</normaloff>:/icons/com.gnome.software.svg</iconset>
       </property>
       <property name="flat">
@@ -104,8 +118,8 @@ color:black;</string>
    </property>
    <property name="minimumSize">
     <size>
-     <width>61</width>
-     <height>38</height>
+     <width>107</width>
+     <height>46</height>
     </size>
    </property>
    <attribute name="dockWidgetArea">
@@ -115,7 +129,7 @@ color:black;</string>
   </widget>
   <action name="action_Settings">
    <property name="icon">
-    <iconset resource="res.qrc">
+    <iconset resource="r.qrc">
      <normaloff>:/icons/applications-system.svg</normaloff>:/icons/applications-system.svg</iconset>
    </property>
    <property name="text">
@@ -124,7 +138,7 @@ color:black;</string>
   </action>
   <action name="actionAbout_program">
    <property name="icon">
-    <iconset resource="res.qrc">
+    <iconset resource="r.qrc">
      <normaloff>:/icons/app.ico</normaloff>:/icons/app.ico</iconset>
    </property>
    <property name="text">
@@ -139,7 +153,7 @@ color:black;</string>
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset resource="res.qrc">
+    <iconset resource="r.qrc">
      <normaloff>:/icons/applications-webbrowsers.svg</normaloff>:/icons/applications-webbrowsers.svg</iconset>
    </property>
    <property name="text">
@@ -151,7 +165,7 @@ color:black;</string>
   </action>
  </widget>
  <resources>
-  <include location="res.qrc"/>
+  <include location="r.qrc"/>
  </resources>
  <connections/>
 </ui>

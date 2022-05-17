@@ -321,7 +321,6 @@ Alarm AlarmInterrogator::createDefaultAlarm(Alarm::Category category) const
     a.m_controllerTitle = fromController()->parsedTitle();
     a.m_category = category;
     a.m_description = Alarm::descriptionFromCategory(category);
-    a.m_source = fromController();
     return a;
 }
 

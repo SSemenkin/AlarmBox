@@ -8,7 +8,6 @@
 #include <QAction>
 #include <QMessageBox>
 
-
 ExceptionsPanel::ExceptionsPanel(QWidget *parent) :
     QTableWidget(parent)
   , m_exceptions(Settings::instance()->getExceptions())
@@ -22,9 +21,7 @@ ExceptionsPanel::ExceptionsPanel(QWidget *parent) :
 
     std::size_t rowCounter = 0;
     for (auto it = m_exceptions.begin(); it != m_exceptions.end(); ++it) {
-        for (auto jt = it.value().begin(); jt != it.value().end(); ++jt) {
-            ++rowCounter;
-        }
+        rowCounter += it.value().size();
     }
     setRowCount(rowCounter);
 

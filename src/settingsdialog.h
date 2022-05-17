@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QLocale>
 
+
 class QSimpleUpdater;
 
 class Settings;

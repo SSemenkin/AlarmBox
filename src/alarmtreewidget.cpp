@@ -9,6 +9,22 @@
 #include <QDrag>
 #include <QLabel>
 
+namespace helpers{
+    bool isDeltaBiggerThan(const QDateTime &begin, const QDateTime &end,
+                           qint64 delta = 60 * 60 * 24 * 14)
+    {
+        QDateTime result;
+
+        qint64 beginSecs = begin.toSecsSinceEpoch();
+        qint64 endSecs = end.toSecsSinceEpoch();
+
+        qint64 diff = endSecs > beginSecs ? endSecs - beginSecs :
+                                            beginSecs - endSecs ;
+
+        return diff > delta;
+    }
+}
+
 int AlarmTreeWidgetItem::m_commentColumn = 3;
 QString AlarmTreeWidget::m_mimeDataFormat = "application/alarms";
 
@@ -16,6 +32,9 @@ AlarmTreeWidget::AlarmTreeWidget(QWidget *parent) :
     QTreeWidget(parent)
   , m_exceptionsPanel(new ExceptionsPanel)
   , m_location(Settings::instance()->getLocationFilepath())
+  , m_dvdVideoLabel(new QLabel(this))
+  , m_dvdVideoTimer(new QTimer(this))
+  , m_afkTimer(new QTimer(this))
 {
     addTopLevelItem(new AlarmTreeWidgetItem(tr("CF Alarm"), Alarm::Category::A1));
     addTopLevelItem(new AlarmTreeWidgetItem(tr("Manually blocked"), Alarm::Category::A2));
@@ -23,10 +42,10 @@ AlarmTreeWidget::AlarmTreeWidget(QWidget *parent) :
     addTopLevelItem(new AlarmTreeWidgetItem(tr("Not works"), Alarm::Category::A4));
 
     connect(this, &AlarmTreeWidget::itemClicked, this, [this] (QTreeWidgetItem *item, int column) {
+        Q_UNUSED(column);
         if (AlarmTreeWidgetItem *aItem = dynamic_cast<AlarmTreeWidgetItem*>(item)) {
             if (aItem->category() == Alarm::Category::A1 ||
                 aItem->category() == Alarm::Category::A2) {
-                qDebug() << Q_FUNC_INFO;
                 if (item->text(0).length() == 4)
                     emit moveToItem(item->text(0).left(3));
                 else emit moveToItem(item->text(0));
@@ -54,6 +73,17 @@ AlarmTreeWidget::AlarmTreeWidget(QWidget *parent) :
     loadExistingAlarms();
 
     setDragDropMode(QAbstractItemView::DragDropMode::DragDrop);
+    setWordWrap(true);
+    setupDvdVideoLabel();
+
+    connect(m_afkTimer, &QTimer::timeout, [this] () {
+        if (!m_dvdVideoTimer->isActive()) {
+            m_dvdVideoTimer->start();
+            m_dvdVideoLabel->show();
+        }
+    });
+    m_afkTimer->setInterval(60 * 1000 * 10);
+    m_afkTimer->start();
 }
 
 AlarmTreeWidget::~AlarmTreeWidget()
@@ -136,6 +166,9 @@ AlarmTreeWidgetItem *AlarmTreeWidget::createAlarmItem(const Alarm &alarm)
     if (m_userComments.contains(alarm.m_controller)) {
         if (m_userComments[alarm.m_controller].contains(alarm.m_object)) {
             labels.push_back(m_userComments.value(alarm.m_controller).value(alarm.m_object).m_description);
+            AlarmComment &comment = m_userComments[alarm.m_controller][alarm.m_object];
+            //helpers::isDeltaBiggerThan(comment.m_createAt, alarm.m_raisedTime);
+            labels.push_back(comment.m_description);
         } else labels.push_back("");
     }
     labels.push_back(alarm.m_raisedTime.toString(Qt::LocaleDate));
@@ -168,7 +201,6 @@ void AlarmTreeWidget::processNewAlarm(const Alarm &alarm)
 
     AlarmTreeWidgetItem *child = createAlarmItem(alarm);
 
-    child->setToolTip(0, "getObjectLocation()");
     parent->addChild(child);
     parent->setText(0, parent->pinnedText() + "(" + QString::number(parent->childCount()) + ")");
 
@@ -324,6 +356,10 @@ void AlarmTreeWidget::setupContextMenu()
     connect(addExceptionAction, &QAction::triggered, this, &AlarmTreeWidget::execAddExceptionDialog);
     connect(refreshAction, &QAction::triggered, this, [this](){
         m_isManuallyRefreshed = true;
+        m_afkTimer->stop();
+        m_afkTimer->start();
+        m_dvdVideoTimer->stop();
+        m_dvdVideoLabel->hide();
         emit refresh();
     });
 
@@ -351,7 +387,7 @@ void AlarmTreeWidget::activateRBS()
 
     QList<QTreeWidgetItem*> d = selectedItems();
 
-    if (d.first()->parent() != topLevelItem(1)) {
+    if (static_cast<AlarmTreeWidgetItem*>(d.first()->parent())->category() != Alarm::Category::A2) {
         return;
     } else {
         int choice = QMessageBox::question(this, tr("Activate RBS"), tr("Are you sure you want to unblock ") +
@@ -379,7 +415,7 @@ bool AlarmTreeWidget::isSelectionRight()
 {
     QList<QTreeWidgetItem*> d = selectedItems();
 
-    if (d.isEmpty()) {
+    if (d.isEmpty() || d.size() > 1) {
         return false;
     }
 
@@ -390,21 +426,27 @@ bool AlarmTreeWidget::isSelectionRight()
     return true;
 }
 
-//void AlarmTreeWidget::moveLabel()
-//{
-//    if (m_label->geometry().x() + m_label->width() >= viewport()->width() ||
-//        m_label->geometry().x() + m_velocity.x < 0) {
-//        m_velocity.x = -m_velocity.x;
-//        qDebug() << "Change direction x";
-//    }
+void AlarmTreeWidget::moveDvdVideoLabel()
+{
+    if (m_dvdVideoLabel->geometry().x() + m_dvdVideoLabel->width() >= viewport()->width() ||
+        m_dvdVideoLabel->geometry().x() + m_velocity.x < 0) {
+        m_velocity.x *= -1;
+    }
 
-//    if (m_label->geometry().y() + m_label->height() + m_velocity.y >= viewport()->height() ||
-//        m_label->geometry().y() + m_velocity.y < 0) {
-//        m_velocity.y = -m_velocity.y;
-//        qDebug() << "Change direction y";
-//    }
-//    m_label->move(m_label->x() + m_velocity.x, m_label->y() + m_velocity.y);
-//}
+    if (m_dvdVideoLabel->geometry().y() + m_dvdVideoLabel->height() + m_velocity.y >= viewport()->height() ||
+        m_dvdVideoLabel->geometry().y() + m_velocity.y < 0) {
+        m_velocity.y *= -1;
+    }
+    m_dvdVideoLabel->move(m_dvdVideoLabel->x() + m_velocity.x, m_dvdVideoLabel->y() + m_velocity.y);
+}
+
+void AlarmTreeWidget::setupDvdVideoLabel()
+{
+    m_dvdVideoLabel->setPixmap(QPixmap(":/icons/dvd_video.png").scaled(300, 200, Qt::AspectRatioMode::KeepAspectRatio));
+    m_dvdVideoTimer->setInterval(20);
+    m_dvdVideoLabel->hide();
+    connect(m_dvdVideoTimer, &QTimer::timeout, this, &AlarmTreeWidget::moveDvdVideoLabel);
+}
 
 void AlarmTreeWidget::dragEnterEvent(QDragEnterEvent *event)
 {

@@ -4,7 +4,6 @@
 #include <QAction>
 #include <QMessageBox>
 
-
 InheritanceTreeWidget::InheritanceTreeWidget(QWidget *parent) :
     QTreeWidget(parent)
 {

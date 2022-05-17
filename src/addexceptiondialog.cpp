@@ -2,6 +2,7 @@
 #include "ui_addexceptiondialog.h"
 #include "network/telnet.h"
 #include "settings.h"
+
 #include <QMessageBox>
 
 AddExceptionDialog::AddExceptionDialog(const QList<QSharedPointer<Telnet>> &controllerList, QWidget *parent) :

@@ -129,6 +129,10 @@ private:
     void activateRBS();
     bool isSelectionRight();
 
+    // just for fun
+    void moveDvdVideoLabel();
+    void setupDvdVideoLabel();
+
 private:
     QVector<DisplayAlarm> m_alarms;
     QMap<QString, QMap<QString, AlarmComment>> m_userComments;
@@ -141,6 +145,9 @@ private:
 
     static QString m_mimeDataFormat;
     Velocity m_velocity;
+    QLabel *m_dvdVideoLabel;
+    QTimer *m_dvdVideoTimer;
+    QTimer *m_afkTimer;
 
     // QWidget interface
 protected:

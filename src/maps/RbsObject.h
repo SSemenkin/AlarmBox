@@ -4,6 +4,8 @@
 #include "MapGraphicsObject.h"
 #include "cell.h"
 #include "TrueMatrix.h"
+#include <QMenu>
+#include <QScopedPointer>
 
 class RbsObject : public MapGraphicsObject
 {
@@ -32,6 +34,10 @@ signals:
 
 public slots:
     void repaint();
+private:
+    void processContextMenu(const QString &cellName,
+                            const QPoint& point);
+    QMenu* createContextMenu();
 
 private:
     QString __name;
@@ -49,9 +55,11 @@ private:
     bool __disabled;
     bool __blocked;
 
+    QScopedPointer<QMenu> m_contextMenu {nullptr};
+
     // MapGraphicsObject interface
 protected:
-    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) override;
     void contextMenuEvent(QGraphicsSceneContextMenuEvent * event) override;
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;

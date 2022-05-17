@@ -5,6 +5,7 @@
 #include <QMenu>
 #include <QAction>
 #include <network/telnet.h>
+#include <QMessageBox>
 
 ControllerListWidget::ControllerListWidget(QWidget *parent) :
     QListWidget(parent)

@@ -14,6 +14,7 @@
 #include <QJsonDocument>
 #include <QJsonValue>
 
+
 #include <iostream>
 
 QFile logFile("alarms.log");
@@ -140,7 +141,14 @@ struct NodeInfo {
 QString transform(QString source) {
     return source.replace(',', '.').remove('N').remove('E').left(8);
 }
-
+QString loadStylesheet(const QString &filepath)
+{
+    QFile f(filepath);
+    if (f.open(QIODevice::ReadOnly)) {
+        return f.readAll();
+    }
+    return QString();
+}
 NodeInfo loadFromFile(const QString &filepath)
 {
     NodeInfo result;
