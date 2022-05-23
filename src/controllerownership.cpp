@@ -37,7 +37,7 @@ void ControllerOwnership::addController(const QString &hostname, const QString &
 
 void ControllerOwnership::removeController(int index)
 {
-    Q_ASSERT(index >=0 && index < m_controllerList.size() && "Out of range");\
+    Q_ASSERT(index >=0 && index < m_controllerList.size() && "Out of range");
     Telnet *t = m_controllerList.at(index).data();
     emit controllerRemoved(t);
     m_controllerList.removeAt(index); 

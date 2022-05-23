@@ -59,7 +59,6 @@ AlarmTreeWidget::AlarmTreeWidget(QWidget *parent) :
         parentItem->setText(0, parentItem->pinnedText() + "(0)");
     }
 
-
     expandAll();
 
     topLevelItem(0)->setIcon(0, QIcon(":/icons/folder-public.svg"));
@@ -165,7 +164,6 @@ AlarmTreeWidgetItem *AlarmTreeWidget::createAlarmItem(const Alarm &alarm)
     labels.push_back(alarm.m_controllerTitle);
     if (m_userComments.contains(alarm.m_controller)) {
         if (m_userComments[alarm.m_controller].contains(alarm.m_object)) {
-            labels.push_back(m_userComments.value(alarm.m_controller).value(alarm.m_object).m_description);
             AlarmComment &comment = m_userComments[alarm.m_controller][alarm.m_object];
             //helpers::isDeltaBiggerThan(comment.m_createAt, alarm.m_raisedTime);
             labels.push_back(comment.m_description);
@@ -264,7 +262,6 @@ void AlarmTreeWidget::loadExistingAlarms()
     auto alarms = Settings::instance()->getExistingAlarms();
     std::sort(alarms.begin(), alarms.end());
     processAlarms(alarms);
-
 }
 
 void AlarmTreeWidget::saveExistingAlarms()

@@ -29,7 +29,9 @@ SOURCES += \
     types/alarmcomment.cpp \
     types/controllerinfo.cpp \
     types/displayexception.cpp \
-    updatechecker.cpp
+    updatechecker.cpp \
+    types/node.cpp \
+    processholder.cpp
 
 HEADERS += \
     $$PWD/maps/custommapgraphicsview.h \
@@ -65,6 +67,8 @@ HEADERS += \
     types/displayexception.h \
     types/types.h \
     updatechecker.h \
+    processholder.h \
+    types/node.h \
     version.h
 
 FORMS += \
