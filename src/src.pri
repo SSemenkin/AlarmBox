@@ -2,12 +2,15 @@ SOURCES += \
     $$PWD/maps/custommapgraphicsview.cpp \
     $$PWD/maps/RbsObject.cpp \
     $$PWD/maps/cell.cpp \
+    $$PWD/nodestatemodel.cpp \
+    $$PWD/nodestateview.cpp \
     customapplication.cpp \
     inheritancetreewidget.cpp \
     inheritanceview.cpp \
     main.cpp\
     addcontrollerdialog.cpp \
     addexceptiondialog.cpp \
+    addnodedialog.cpp \
     alarmdisplaywidget.cpp \
     alarminterrogator.cpp \
     alarmtreewidget.cpp \
@@ -38,8 +41,11 @@ HEADERS += \
     $$PWD/maps/RbsObject.h \
     $$PWD/maps/TrueMatrix.h \
     $$PWD/maps/cell.h \
+    $$PWD/nodestatemodel.h \
+    $$PWD/nodestateview.h \
     addcontrollerdialog.h \
     addexceptiondialog.h \
+    addnodedialog.h \
     alarmdisplaywidget.h \
     alarminterrogator.h \
     alarmtreewidget.h \
@@ -74,6 +80,7 @@ HEADERS += \
 FORMS += \
     addcontrollerdialog.ui \
     addexceptiondialog.ui \
+    addnodedialog.ui \
     alarmdisplaywidget.ui \
     controllereditwidget.ui \
     controllersedit.ui \

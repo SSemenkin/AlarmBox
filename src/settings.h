@@ -50,6 +50,9 @@ public:
     void setExistingAlarms(const QVector<Alarm> &alarms);
     QVector<Alarm> getExistingAlarms() const;
 
+    void setNodeList(const QVector<Node> &nodes);
+    QVector<Node> getNodes() const;
+
     void setLastUpdates(const QString &content);
     QString getLastUpdates() const;
 
@@ -71,6 +74,9 @@ private:
     /// имя файла (будет распологаться в user/appdata/local/programm/filename.prefix
     template<typename T>
     void serialize(const T &data, const QString &filename) const;
+
+    template<typename T>
+    void serializeV(const T &data, const QString &filename) const;
 
     template<typename T>
     QVector<T> deserialize(const QString &filename) const;

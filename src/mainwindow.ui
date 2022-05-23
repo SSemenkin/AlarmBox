@@ -68,7 +68,7 @@ width:1000px;
            </attribute>
            <layout class="QGridLayout" name="gridLayout_5">
             <item row="0" column="0">
-             <widget class="QTableView" name="huaweiGSMView"/>
+             <widget class="NodeStateView" name="huaweiGSMView"/>
             </item>
            </layout>
           </widget>
@@ -82,7 +82,7 @@ width:1000px;
        </attribute>
        <layout class="QGridLayout" name="gridLayout_6">
         <item row="0" column="0">
-         <widget class="QTableView" name="umtsView"/>
+         <widget class="NodeStateView" name="umtsView"/>
         </item>
        </layout>
       </widget>
@@ -102,7 +102,7 @@ width:1000px;
            </attribute>
            <layout class="QGridLayout" name="gridLayout_7">
             <item row="0" column="0">
-             <widget class="QTableView" name="ericssonLTEView"/>
+             <widget class="NodeStateView" name="ericssonLTEView"/>
             </item>
            </layout>
           </widget>
@@ -112,7 +112,7 @@ width:1000px;
            </attribute>
            <layout class="QGridLayout" name="gridLayout_8">
             <item row="0" column="0">
-             <widget class="QTableView" name="huaweiLTEView"/>
+             <widget class="NodeStateView" name="huaweiLTEView"/>
             </item>
            </layout>
           </widget>
@@ -250,6 +250,13 @@ color:black;</string>
    </property>
   </action>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>NodeStateView</class>
+   <extends>QTableView</extends>
+   <header location="global">nodestateview.h</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="r.qrc"/>
  </resources>

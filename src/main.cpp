@@ -113,17 +113,17 @@ struct NodeCell {
                angle == other.angle;
     }
 };
-struct Node {
+struct MapNode {
     QString name;
     QPointF position;
-    bool operator == (const Node& other) const {
+    bool operator == (const MapNode& other) const {
         return name == other.name && position == other.position;
     }
 };
 
 struct NodeInfo {
     QVector<NodeCell> cells;
-    QVector<Node> nodes;
+    QVector<MapNode> nodes;
 
     void addCell(const NodeCell &cell) {
         if (!cells.contains(cell)) {
@@ -131,7 +131,7 @@ struct NodeInfo {
         }
     }
 
-    void addNode(const Node &node) {
+    void addNode(const MapNode &node) {
         if (!nodes.contains(node)) {
             nodes.push_back(node);
         }
@@ -162,7 +162,7 @@ NodeInfo loadFromFile(const QString &filepath)
             if (row.isEmpty()) continue;
 
             result.addCell(NodeCell{row.at(0), row.at(1), row.at(2).toFloat()});
-            result.addNode(Node{row.at(0), QPointF {transform(row[3]).toFloat(), transform(row[4]).toFloat()}});
+            result.addNode(MapNode{row.at(0), QPointF {transform(row[3]).toFloat(), transform(row[4]).toFloat()}});
         }
     } else qDebug() << f.errorString();
     return result;

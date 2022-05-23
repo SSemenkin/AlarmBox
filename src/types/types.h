@@ -5,5 +5,6 @@
 #include "displayexception.h"
 #include "alarmcomment.h"
 #include "controllerinfo.h"
+#include "node.h"
 
 #endif // TYPES_H

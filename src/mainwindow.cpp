@@ -218,7 +218,7 @@ void MainWindow::aboutProgram()
     box.setWindowTitle(tr("About program "));
     box.setText(tr("AlarmBox is a tool designed to simplify the monitoring of Ericsson objects in a 2G network.\nVersion ")
                 + qApp->applicationVersion() + tr("\nLastUpdates: ")
-               );
+               + Settings::instance()->getLastUpdates());
     box.setInformativeText(Settings::instance()->getLastUpdates());
     box.exec();
 }

@@ -39,6 +39,24 @@ void Settings::serialize(const T &data, const QString& filename) const
 }
 
 template<typename T>
+void Settings::serializeV(const T &data, const QString &filename) const
+{
+    QJsonDocument document;
+    QJsonArray array;
+
+    QFile f(QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation) + "/" + filename);
+    f.open(QIODevice::WriteOnly | QIODevice::Truncate);
+    for (auto it = data.begin(); it != data.end(); ++it) {
+        array.push_back(QJsonValue::fromVariant((*it).toVariantMap()));
+    }
+
+    document.setArray(array);
+    f.write(document.toJson());
+    f.close();
+}
+
+
+template<typename T>
 QVector<T> Settings::deserialize(const QString &filename) const
 {
     QFile f(QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation) + "/" + filename);
@@ -212,22 +230,22 @@ QFont Settings::getFont() const
 
 void Settings::setExistingAlarms(const QVector<Alarm> &alarms)
 {
-    QJsonDocument document;
-    QJsonArray array;
-
-    QFile f(QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation) + "/existing_alarms.json");
-    f.open(QIODevice::WriteOnly | QIODevice::Truncate);
-    for (int i = 0; i < alarms.size(); ++i) {
-        array.push_back(QJsonValue::fromVariant(alarms.at(i).toVariantMap()));
-    }
-    document.setArray(array);
-    f.write(document.toJson());
-    f.close();
+    serializeV(alarms, "existing_alarms.json");
 }
 
 QVector<Alarm> Settings::getExistingAlarms() const
 {
     return deserialize<Alarm>("existing_alarms.json");
+}
+
+void Settings::setNodeList(const QVector<Node> &nodes)
+{
+    serializeV(nodes, "nodes.json");
+}
+
+QVector<Node> Settings::getNodes() const
+{
+    return deserialize<Node>("nodes.json");
 }
 
 void Settings::setLastUpdates(const QString &content)
@@ -292,3 +310,4 @@ QString Settings::decodeEncodeData(const QString &input, const QString &key)
     result = QString::fromLatin1(r, inputLength);
     return result;
 }
+
