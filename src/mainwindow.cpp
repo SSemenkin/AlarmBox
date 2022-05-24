@@ -22,6 +22,8 @@
 #include <QDockWidget>
 #include <QMessageBox>
 
+#include "nodestatemodel.h"
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , m_ui(new Ui::MainWindow)
@@ -46,6 +48,13 @@ MainWindow::MainWindow(QWidget *parent)
     m_ui->huaweiLTEView->setProcessHolder(m_processHolder);
     m_ui->ericssonLTEView->setProcessHolder(m_processHolder);
     m_ui->umtsView->setProcessHolder(m_processHolder);
+
+
+    NodeStateModel* nodeModel = new NodeStateModel(this);
+
+    connect(m_processHolder.data(), &ProcessHolder::stateChanged, nodeModel, &NodeStateModel::onNodeStateChanged);
+
+    m_ui->umtsView->setModel(nodeModel);
 
     /// apply saved style
     if (Settings::instance()->getThemeIndex() != 0) {

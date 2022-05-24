@@ -91,7 +91,6 @@ void ProcessHolder::processPingFinished(int exitCode, QProcess::ExitStatus exitS
     qDebug() << exitCode
              << exitStatus;
     // Тут нужно подвести итог по полученным данным.
-
     QProcess* process = qobject_cast<QProcess*>(sender());
 
     if (!process) {

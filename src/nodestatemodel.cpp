@@ -45,3 +45,10 @@ QVariant NodeStateModel::data(const QModelIndex &index, int role) const
         return QVariant();
     }
 }
+
+void NodeStateModel::onNodeStateChanged(Node *node, Node::NodeState state)
+{
+    beginInsertRows(QModelIndex(), 0, m_nodes.size());
+    m_nodes.push_back({node, state});
+    endInsertRows();
+}
