@@ -44,6 +44,8 @@ public:
     QVariantMap toVariantMap() const;
     static Node fromVariantMap(const QVariantMap &nodeInfo);
 
+    bool operator == (const Node &other) const;
+
 private:
     QString m_name;
     QString m_destination;

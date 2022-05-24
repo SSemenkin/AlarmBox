@@ -7,6 +7,7 @@
 
 #include "inheritanceview.h"
 #include "inheritancetreewidget.h"
+#include "processholder.h"
 
 #include "QSimpleUpdater.h"
 
@@ -27,6 +28,7 @@ MainWindow::MainWindow(QWidget *parent)
     , m_interrogator(new AlarmInterrogator(m_controllerOwner.controllerList()))
     , m_splitter(new QSplitter(Qt::Horizontal))
     , m_mapWidget(new MapWidget)
+    , m_processHolder(new ProcessHolder)
     , m_controllersEdit(new ControllersEdit(this))
     , m_alarmDisplayWidget(new AlarmDisplayWidget(this))
     , m_inheritanceView(new InheritanceView(this))
@@ -38,6 +40,13 @@ MainWindow::MainWindow(QWidget *parent)
     m_ui->dockWidget->setWidget(m_mapWidget.data());
     m_ui->dockWidget->setWindowTitle("AlarmBox Map");
     m_ui->dockWidget->close();
+
+    //table views
+    m_ui->huaweiGSMView->setProcessHolder(m_processHolder);
+    m_ui->huaweiLTEView->setProcessHolder(m_processHolder);
+    m_ui->ericssonLTEView->setProcessHolder(m_processHolder);
+    m_ui->umtsView->setProcessHolder(m_processHolder);
+
     /// apply saved style
     if (Settings::instance()->getThemeIndex() != 0) {
         qApp->setPalette(m_darkPalette);

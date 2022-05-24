@@ -77,3 +77,9 @@ Node Node::fromVariantMap(const QVariantMap &nodeInfo)
 
     return Node(name, dest, type, vendor);
 }
+
+bool Node::operator ==(const Node &other) const
+{
+    return m_name == other.nodeName() &&
+           m_nodeType == other.nodeType();
+}

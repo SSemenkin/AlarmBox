@@ -15,6 +15,7 @@ class AlarmDisplayWidget;
 class QSplitter;
 class QLabel;
 class InheritanceView;
+class ProcessHolder;
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -48,6 +49,7 @@ private:
     QScopedPointer<AlarmInterrogator> m_interrogator;
     QScopedPointer<QSplitter> m_splitter;
     QScopedPointer<MapWidget> m_mapWidget;
+    QSharedPointer<ProcessHolder> m_processHolder;
 
     ControllersEdit *m_controllersEdit;
     AlarmDisplayWidget *m_alarmDisplayWidget;

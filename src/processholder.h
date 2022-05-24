@@ -4,12 +4,12 @@
 #include <QObject>
 #include <QMap>
 #include <QSharedPointer>
+#include <QProcess>
 
 #include <memory>
 
 #include "types/node.h"
 
-class QProcess;
 class QTimer;
 
 
@@ -18,15 +18,22 @@ class ProcessHolder final : public QObject
     Q_OBJECT
 public:
     explicit ProcessHolder(QObject *parent = nullptr);
+    ~ProcessHolder();
     void addNode(Node::NodeType, Node::NodeVendor, const QString &nodeName, const QString &nodeDestination);
     bool removeNode(Node::NodeType, const QString &nodeName);
 signals:
-    void stateChanged(QSharedPointer<Node>, Node::NodeState state);
+    void stateChanged(Node*, Node::NodeState state);
 private:
-    QMap<Node*, QSharedPointer<QProcess>> m_processes;
-    QMap<Node*, Node::NodeState> m_nodeStates;
+    void loadNodes();
+    void saveNodes();
+    void interrogate();
+    void processPingOutput();
+    void processPingFinished(int exitCode, QProcess::ExitStatus exitStatus);
+private:
+    QMap<Node*, QProcess*> m_processes;
+    QHash<QProcess*, QString> m_output;
 
-    QVector<QSharedPointer<Node*>> m_nodes;
+    QVector<Node> m_nodes;
 
     QTimer *m_interrogatorTimer;
 };

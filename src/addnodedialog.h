@@ -17,6 +17,13 @@ public:
 
     void setDefaultType(int);
     void setDefaultVendor(int);
+    virtual void accept() override;
+
+signals:
+    void addNodeRequested(int type,
+                          int vendor,
+                          const QString &name,
+                          const QString &dest);
 
 private:
     Ui::AddNodeDialog *ui;
