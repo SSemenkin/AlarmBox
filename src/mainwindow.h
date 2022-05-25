@@ -11,6 +11,7 @@
 #include "updatechecker.h"
 #include "maps/mapwidget.h"
 
+class QTableView;
 class AlarmDisplayWidget;
 class QSplitter;
 class QLabel;
@@ -37,6 +38,7 @@ private:
     void execAddControllerDialog();
     void execEditControllerDialog();
     void execSettingsDialog();
+    void showManageNodesView();
     void createSplitter();
     void aboutProgram();
     void updateButtonClicked();
@@ -50,6 +52,7 @@ private:
     QScopedPointer<QSplitter> m_splitter;
     QScopedPointer<MapWidget> m_mapWidget;
     QSharedPointer<ProcessHolder> m_processHolder;
+    QScopedPointer<QTableView> m_manageTable;
 
     ControllersEdit *m_controllersEdit;
     AlarmDisplayWidget *m_alarmDisplayWidget;

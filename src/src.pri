@@ -2,6 +2,7 @@ SOURCES += \
     $$PWD/maps/custommapgraphicsview.cpp \
     $$PWD/maps/RbsObject.cpp \
     $$PWD/maps/cell.cpp \
+    $$PWD/nodeinfomodel.cpp \
     $$PWD/nodestatemodel.cpp \
     $$PWD/nodestateview.cpp \
     customapplication.cpp \
@@ -41,6 +42,7 @@ HEADERS += \
     $$PWD/maps/RbsObject.h \
     $$PWD/maps/TrueMatrix.h \
     $$PWD/maps/cell.h \
+    $$PWD/nodeinfomodel.h \
     $$PWD/nodestatemodel.h \
     $$PWD/nodestateview.h \
     addcontrollerdialog.h \

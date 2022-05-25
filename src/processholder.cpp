@@ -53,6 +53,11 @@ bool ProcessHolder::removeNode(Node::NodeType type, const QString &nodeName)
     }
 }
 
+QVector<Node> &ProcessHolder::nodes()
+{
+    return m_nodes;
+}
+
 void ProcessHolder::loadNodes()
 {
     QVector<Node> nodes = Settings::instance()->getNodes();

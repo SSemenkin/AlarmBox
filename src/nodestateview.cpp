@@ -15,7 +15,6 @@ NodeStateView::NodeStateView(QWidget *parent) :
 void NodeStateView::setProcessHolder(QSharedPointer<ProcessHolder> processHolder)
 {
     m_processHolder = processHolder;
-
     connect(m_processHolder.data(), &ProcessHolder::stateChanged, m_model, &NodeStateModel::onNodeStateChanged);
 }
 
@@ -33,18 +32,17 @@ void NodeStateView::setNodeFilter(const NodeFilter &nodeFilter)
 void NodeStateView::setupContextMenu()
 {
     setContextMenuPolicy(Qt::ContextMenuPolicy::ActionsContextMenu);
-    QAction *add = new QAction(tr("Add"), this);
     QAction *nodes = new QAction(tr("Manage"), this);
     QAction *refresh = new QAction(tr("Refresh"), this);
 
-    connect(add, &QAction::triggered, this, &NodeStateView::processAddNodeDialog);
     connect(refresh, &QAction::triggered, this, [this]() ->void {
        if (NodeStateModel *nModel = dynamic_cast<NodeStateModel*>(model())) {
            nModel->refreshData();
        }
     });
 
-    addAction(add);
+    connect(nodes, &QAction::triggered, this, &NodeStateView::manageRequested);
+
     addAction(nodes);
     addAction(refresh);
 }

@@ -29,13 +29,15 @@ private:
     void interrogate();
     void processPingOutput();
     void processPingFinished(int exitCode, QProcess::ExitStatus exitStatus);
+    QVector<Node> &nodes();
 private:
     QMap<Node, QProcess*> m_processes;
     QHash<QProcess*, QString> m_output;
 
     QVector<Node> m_nodes;
-
     QTimer *m_interrogatorTimer;
+
+    friend class NodeInfoModel;
 };
 
 #endif // PROCESSHOLDER_H

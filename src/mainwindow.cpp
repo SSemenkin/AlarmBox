@@ -23,6 +23,7 @@
 #include <QMessageBox>
 
 #include "nodestatemodel.h"
+#include "nodeinfomodel.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -31,6 +32,7 @@ MainWindow::MainWindow(QWidget *parent)
     , m_splitter(new QSplitter(Qt::Horizontal))
     , m_mapWidget(new MapWidget)
     , m_processHolder(new ProcessHolder)
+    , m_manageTable(new QTableView)
     , m_controllersEdit(new ControllersEdit(this))
     , m_alarmDisplayWidget(new AlarmDisplayWidget(this))
     , m_inheritanceView(new InheritanceView(this))
@@ -43,6 +45,7 @@ MainWindow::MainWindow(QWidget *parent)
     m_ui->dockWidget->setWindowTitle("AlarmBox Map");
     m_ui->dockWidget->close();
 
+    m_manageTable->setModel(new NodeInfoModel(m_processHolder, this));
     //table views
     m_ui->huaweiGSMView->setProcessHolder(m_processHolder);
     m_ui->huaweiLTEView->setProcessHolder(m_processHolder);
@@ -54,6 +57,13 @@ MainWindow::MainWindow(QWidget *parent)
     m_ui->huaweiLTEView->setNodeFilter(NodeFilter{Node::NodeType::Node_LTE, Node::NodeVendor::Huawei});
     m_ui->ericssonLTEView->setNodeFilter(NodeFilter{Node::NodeType::Node_LTE, Node::NodeVendor::Ericsson});
     m_ui->umtsView->setNodeFilter(NodeFilter{Node::NodeType::Node_UMTS, Node::NodeVendor::Huawei});
+
+
+    connect(m_ui->huaweiGSMView, &NodeStateView::manageRequested, this, &MainWindow::showManageNodesView);
+    connect(m_ui->huaweiLTEView, &NodeStateView::manageRequested, this, &MainWindow::showManageNodesView);
+    connect(m_ui->ericssonLTEView, &NodeStateView::manageRequested, this, &MainWindow::showManageNodesView);
+    connect(m_ui->umtsView, &NodeStateView::manageRequested, this, &MainWindow::showManageNodesView);
+
     ///
 
 
@@ -61,6 +71,8 @@ MainWindow::MainWindow(QWidget *parent)
     if (Settings::instance()->getThemeIndex() != 0) {
         qApp->setPalette(m_darkPalette);
     }
+
+
 
     ////
 
@@ -215,6 +227,11 @@ void MainWindow::execSettingsDialog()
     connect(&dialog, &SettingsDialog::themeChanged, this, &MainWindow::onThemeChanged);
     connect(&dialog, &SettingsDialog::fontChanged, this, &MainWindow::onFontChanged);
     dialog.exec();
+}
+
+void MainWindow::showManageNodesView()
+{
+    m_manageTable->show();
 }
 
 void MainWindow::createSplitter()
