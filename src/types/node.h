@@ -17,8 +17,8 @@ public:
 
     enum class NodeVendor {
         Invalid = -1,
-        Huawei,
-        Ericssson
+        Ericsson,
+        Huawei
     };
 
     enum class NodeState {
@@ -44,7 +44,8 @@ public:
     QVariantMap toVariantMap() const;
     static Node fromVariantMap(const QVariantMap &nodeInfo);
 
-    bool operator == (const Node &other) const;
+    bool operator ==(const Node &other) const;
+    bool operator <(const Node &other) const;
 
 private:
     QString m_name;

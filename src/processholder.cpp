@@ -3,6 +3,7 @@
 
 #include <QTimer>
 #include <QTextCodec>
+#include <QMessageBox>
 
 ProcessHolder::ProcessHolder(QObject *parent)
     : QObject{parent}
@@ -27,12 +28,15 @@ void ProcessHolder::addNode(Node::NodeType type, Node::NodeVendor vendor, const 
         QProcess* pingProcess = new QProcess(this);
         pingProcess->setProgram("ping");
         pingProcess->setArguments({node.nodeDestination()});
+        pingProcess->setProcessChannelMode(QProcess::ProcessChannelMode::SeparateChannels);
 
         connect(pingProcess, &QProcess::readyRead, this, &ProcessHolder::processPingOutput);
         connect(pingProcess, static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
                 this, &ProcessHolder::processPingFinished);
 
-        m_processes[&m_nodes.last()] = pingProcess;
+        m_processes[m_nodes.last()] = pingProcess;
+    } else {
+        QMessageBox::information(nullptr, tr("Error"), tr("Node is already exists."));
     }
 }
 
@@ -98,7 +102,10 @@ void ProcessHolder::processPingFinished(int exitCode, QProcess::ExitStatus exitS
     }
 
     QString output = m_output.value(process);
-    Node *node = m_processes.key(process);
+    Node node = m_processes.key(process);
+
+
+
     if (output.contains("(0%") && output.count("TTL") > 2) {
         emit stateChanged(node, Node::NodeState::Working);
     } else {

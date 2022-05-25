@@ -35,9 +35,7 @@ QSplitter::handle:hover{
     <item row="0" column="0">
      <widget class="QTabWidget" name="tabWidget">
       <property name="styleSheet">
-       <string notr="true">QTabWidget::tab-bar {
-width:1000px;
-}</string>
+       <string notr="true"/>
       </property>
       <property name="currentIndex">
        <number>0</number>

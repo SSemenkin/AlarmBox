@@ -50,11 +50,12 @@ MainWindow::MainWindow(QWidget *parent)
     m_ui->umtsView->setProcessHolder(m_processHolder);
 
 
-    NodeStateModel* nodeModel = new NodeStateModel(this);
+    m_ui->huaweiGSMView->setNodeFilter(NodeFilter{Node::NodeType::Node_GSM, Node::NodeVendor::Huawei});
+    m_ui->huaweiLTEView->setNodeFilter(NodeFilter{Node::NodeType::Node_LTE, Node::NodeVendor::Huawei});
+    m_ui->ericssonLTEView->setNodeFilter(NodeFilter{Node::NodeType::Node_LTE, Node::NodeVendor::Ericsson});
+    m_ui->umtsView->setNodeFilter(NodeFilter{Node::NodeType::Node_UMTS, Node::NodeVendor::Huawei});
+    ///
 
-    connect(m_processHolder.data(), &ProcessHolder::stateChanged, nodeModel, &NodeStateModel::onNodeStateChanged);
-
-    m_ui->umtsView->setModel(nodeModel);
 
     /// apply saved style
     if (Settings::instance()->getThemeIndex() != 0) {

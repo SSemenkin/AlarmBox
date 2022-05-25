@@ -22,7 +22,7 @@ public:
     void addNode(Node::NodeType, Node::NodeVendor, const QString &nodeName, const QString &nodeDestination);
     bool removeNode(Node::NodeType, const QString &nodeName);
 signals:
-    void stateChanged(Node*, Node::NodeState state);
+    void stateChanged(const Node &node, Node::NodeState state);
 private:
     void loadNodes();
     void saveNodes();
@@ -30,7 +30,7 @@ private:
     void processPingOutput();
     void processPingFinished(int exitCode, QProcess::ExitStatus exitStatus);
 private:
-    QMap<Node*, QProcess*> m_processes;
+    QMap<Node, QProcess*> m_processes;
     QHash<QProcess*, QString> m_output;
 
     QVector<Node> m_nodes;
