@@ -32,9 +32,12 @@ void NodeStateView::setNodeFilter(const NodeFilter &nodeFilter)
 void NodeStateView::setupContextMenu()
 {
     setContextMenuPolicy(Qt::ContextMenuPolicy::ActionsContextMenu);
-    QAction *nodes = new QAction(tr("Manage"), this);
-    QAction *refresh = new QAction(tr("Refresh"), this);
+    QAction *nodes = new QAction(QIcon(":/icons/cs-themes.svg"), tr("Manage"), this);
+    QAction *refresh = new QAction(QIcon(":/icons/acetoneiso.svg"), tr("Refresh"), this);
+    QAction *add = new QAction(QIcon(":/icons/cs-themes.svg"), tr("Add"), this);
 
+
+    connect(add, &QAction::triggered, this, &NodeStateView::processAddNodeDialog);
     connect(refresh, &QAction::triggered, this, [this]() ->void {
        if (NodeStateModel *nModel = dynamic_cast<NodeStateModel*>(model())) {
            nModel->refreshData();
@@ -43,6 +46,7 @@ void NodeStateView::setupContextMenu()
 
     connect(nodes, &QAction::triggered, this, &NodeStateView::manageRequested);
 
+    addAction(add);
     addAction(nodes);
     addAction(refresh);
 }

@@ -5,10 +5,14 @@
 #include <QTextCodec>
 #include <QMessageBox>
 
+ProcessHolder* ProcessHolder::m_instance = nullptr;
+
 ProcessHolder::ProcessHolder(QObject *parent)
     : QObject{parent}
     , m_interrogatorTimer(new QTimer(this))
 {
+    Q_ASSERT(m_instance == nullptr);
+    m_instance = this;
     loadNodes();
     connect(m_interrogatorTimer, &QTimer::timeout, this, &ProcessHolder::interrogate);
     m_interrogatorTimer->start(60 * 1000);
@@ -51,6 +55,11 @@ bool ProcessHolder::removeNode(Node::NodeType type, const QString &nodeName)
         m_nodes.erase(place);
         return true;
     }
+}
+
+ProcessHolder *ProcessHolder::instance()
+{
+    return m_instance;
 }
 
 QVector<Node> &ProcessHolder::nodes()

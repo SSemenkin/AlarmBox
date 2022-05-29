@@ -1,26 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>EditControllerDialog</class>
- <widget class="QDialog" name="EditControllerDialog">
+ <class>NodeEditDialog</class>
+ <widget class="QDialog" name="NodeEditDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>436</width>
-    <height>358</height>
+    <width>732</width>
+    <height>490</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Edit controller</string>
-  </property>
-  <property name="windowIcon">
-   <iconset resource="r.qrc">
-    <normaloff>:/icons/tomboy-ng.svg</normaloff>:/icons/tomboy-ng.svg</iconset>
+   <string>Nodes</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0">
-    <layout class="QVBoxLayout" name="verticalLayout"/>
-   </item>
    <item row="1" column="0">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
@@ -31,16 +24,30 @@
      </property>
     </widget>
    </item>
+   <item row="0" column="0">
+    <widget class="NodeTreeWidget" name="treeWidget">
+     <column>
+      <property name="text">
+       <string notr="true">1</string>
+      </property>
+     </column>
+    </widget>
+   </item>
   </layout>
  </widget>
- <resources>
-  <include location="r.qrc"/>
- </resources>
+ <customwidgets>
+  <customwidget>
+   <class>NodeTreeWidget</class>
+   <extends>QTreeWidget</extends>
+   <header location="global">nodetreewidget.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
  <connections>
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>EditControllerDialog</receiver>
+   <receiver>NodeEditDialog</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -56,7 +63,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>EditControllerDialog</receiver>
+   <receiver>NodeEditDialog</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

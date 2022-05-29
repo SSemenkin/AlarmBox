@@ -42,34 +42,102 @@
         <translation>Контроллер:</translation>
     </message>
     <message>
-        <location filename="../addexceptiondialog.cpp" line="15"/>
+        <location filename="../addexceptiondialog.cpp" line="16"/>
         <source>CF Alarm</source>
         <translation>Авария по CF</translation>
     </message>
     <message>
-        <location filename="../addexceptiondialog.cpp" line="15"/>
+        <location filename="../addexceptiondialog.cpp" line="16"/>
         <source>Manually blocked</source>
         <translation>Заблокированы</translation>
     </message>
     <message>
-        <location filename="../addexceptiondialog.cpp" line="15"/>
+        <location filename="../addexceptiondialog.cpp" line="16"/>
         <source>Halted</source>
         <translation>Захалчена</translation>
     </message>
     <message>
-        <location filename="../addexceptiondialog.cpp" line="15"/>
+        <location filename="../addexceptiondialog.cpp" line="16"/>
         <source>Not works</source>
         <translation>Не в работе</translation>
     </message>
     <message>
-        <location filename="../addexceptiondialog.cpp" line="31"/>
+        <location filename="../addexceptiondialog.cpp" line="32"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location filename="../addexceptiondialog.cpp" line="31"/>
+        <location filename="../addexceptiondialog.cpp" line="32"/>
         <source>Cannot add exception. Object is empty.</source>
         <translation>Невозможно добавить исключение. Объект не указан.</translation>
+    </message>
+</context>
+<context>
+    <name>AddNodeDialog</name>
+    <message>
+        <location filename="../addnodedialog.ui" line="14"/>
+        <source>Add Node</source>
+        <translation>Добавить объкт</translation>
+    </message>
+    <message>
+        <location filename="../addnodedialog.ui" line="32"/>
+        <source>Node destination:</source>
+        <translation>Ip-адрес объекта:</translation>
+    </message>
+    <message>
+        <location filename="../addnodedialog.ui" line="39"/>
+        <source>Node name:</source>
+        <translation>Имя объекта:</translation>
+    </message>
+    <message>
+        <location filename="../addnodedialog.ui" line="46"/>
+        <source>Node vendor:</source>
+        <translation>Производитель:</translation>
+    </message>
+    <message>
+        <location filename="../addnodedialog.ui" line="53"/>
+        <source>Node type:</source>
+        <translation>Стандарт сети:</translation>
+    </message>
+    <message>
+        <location filename="../addnodedialog.ui" line="63"/>
+        <source>000.000.000.000</source>
+        <translation>000.000.000.000</translation>
+    </message>
+    <message>
+        <location filename="../addnodedialog.ui" line="71"/>
+        <source>GSM</source>
+        <translation>GSM</translation>
+    </message>
+    <message>
+        <location filename="../addnodedialog.ui" line="76"/>
+        <source>UMTS</source>
+        <translation>UMTS</translation>
+    </message>
+    <message>
+        <location filename="../addnodedialog.ui" line="81"/>
+        <source>LTE</source>
+        <translation>LTE</translation>
+    </message>
+    <message>
+        <location filename="../addnodedialog.ui" line="90"/>
+        <source>Ericsson</source>
+        <translation>Ericsson</translation>
+    </message>
+    <message>
+        <location filename="../addnodedialog.ui" line="95"/>
+        <source>Huawei</source>
+        <translation>Huawei</translation>
+    </message>
+    <message>
+        <location filename="../addnodedialog.cpp" line="40"/>
+        <source>Empty fields</source>
+        <translation>Пустые поля</translation>
+    </message>
+    <message>
+        <location filename="../addnodedialog.cpp" line="40"/>
+        <source>Please fill all fields.</source>
+        <translation>Пожалуйста заполните все поля.</translation>
     </message>
 </context>
 <context>
@@ -137,78 +205,78 @@
         <translation type="vanished">В аварии</translation>
     </message>
     <message>
-        <location filename="../alarmtreewidget.cpp" line="14"/>
+        <location filename="../alarmtreewidget.cpp" line="39"/>
         <source>CF Alarm</source>
         <translation>Аварии по CF</translation>
     </message>
     <message>
-        <location filename="../alarmtreewidget.cpp" line="15"/>
+        <location filename="../alarmtreewidget.cpp" line="40"/>
         <source>Manually blocked</source>
         <translation>Заблокированы</translation>
     </message>
     <message>
-        <location filename="../alarmtreewidget.cpp" line="16"/>
+        <location filename="../alarmtreewidget.cpp" line="41"/>
         <source>Halted</source>
         <translation>Захалчены</translation>
     </message>
     <message>
-        <location filename="../alarmtreewidget.cpp" line="17"/>
+        <location filename="../alarmtreewidget.cpp" line="42"/>
         <source>Not works</source>
         <translation>Не в работе</translation>
     </message>
     <message>
-        <location filename="../alarmtreewidget.cpp" line="254"/>
+        <location filename="../alarmtreewidget.cpp" line="321"/>
         <source> location</source>
         <translation> местоположение</translation>
     </message>
     <message>
-        <location filename="../alarmtreewidget.cpp" line="271"/>
+        <location filename="../alarmtreewidget.cpp" line="338"/>
         <source>Refresh</source>
         <translation>Обновить</translation>
     </message>
     <message>
-        <location filename="../alarmtreewidget.cpp" line="272"/>
+        <location filename="../alarmtreewidget.cpp" line="339"/>
         <source>Exceptions</source>
         <translation>Исключения</translation>
     </message>
     <message>
-        <location filename="../alarmtreewidget.cpp" line="273"/>
+        <location filename="../alarmtreewidget.cpp" line="340"/>
         <source>Location</source>
         <translation>Местоположение</translation>
     </message>
     <message>
-        <location filename="../alarmtreewidget.cpp" line="274"/>
+        <location filename="../alarmtreewidget.cpp" line="341"/>
         <source>Update locations</source>
         <translation>Обновить местоположения</translation>
     </message>
     <message>
-        <location filename="../alarmtreewidget.cpp" line="275"/>
-        <location filename="../alarmtreewidget.cpp" line="319"/>
+        <location filename="../alarmtreewidget.cpp" line="342"/>
+        <location filename="../alarmtreewidget.cpp" line="390"/>
         <source>Activate RBS</source>
         <translation>Активировать РБС</translation>
     </message>
     <message>
-        <location filename="../alarmtreewidget.cpp" line="281"/>
+        <location filename="../alarmtreewidget.cpp" line="348"/>
         <source>Duplicates</source>
         <translation>Дубликаты</translation>
     </message>
     <message>
-        <location filename="../alarmtreewidget.cpp" line="319"/>
+        <location filename="../alarmtreewidget.cpp" line="390"/>
         <source>Are you sure you want to unblock </source>
         <translation>Вы уверенны, что хотите разблокировать </translation>
     </message>
     <message>
-        <location filename="../alarmtreewidget.cpp" line="329"/>
+        <location filename="../alarmtreewidget.cpp" line="400"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location filename="../alarmtreewidget.cpp" line="329"/>
+        <location filename="../alarmtreewidget.cpp" line="400"/>
         <source>Alarm already cleared. Object is not manually blocked.</source>
         <translation>Авария ушла. Объект не заблокирован.</translation>
     </message>
     <message>
-        <location filename="../alarmtreewidget.cpp" line="60"/>
+        <location filename="../alarmtreewidget.cpp" line="111"/>
         <source>All</source>
         <translation>Все</translation>
     </message>
@@ -244,65 +312,65 @@
 <context>
     <name>ControllerListWidget</name>
     <message>
-        <location filename="../controllerlistwidget.cpp" line="15"/>
+        <location filename="../controllerlistwidget.cpp" line="16"/>
         <source>&amp;Reconnect</source>
         <translation>&amp;Переподключиться</translation>
     </message>
     <message>
-        <location filename="../controllerlistwidget.cpp" line="16"/>
+        <location filename="../controllerlistwidget.cpp" line="17"/>
         <source>&amp;Edit</source>
         <translation>&amp;Редактировать</translation>
     </message>
     <message>
-        <location filename="../controllerlistwidget.cpp" line="17"/>
+        <location filename="../controllerlistwidget.cpp" line="18"/>
         <source>&amp;Remove</source>
         <translation>&amp;Удалить</translation>
     </message>
     <message>
-        <location filename="../controllerlistwidget.cpp" line="18"/>
+        <location filename="../controllerlistwidget.cpp" line="19"/>
         <source>&amp;Details</source>
         <translation>&amp;Детали</translation>
     </message>
     <message>
-        <location filename="../controllerlistwidget.cpp" line="19"/>
+        <location filename="../controllerlistwidget.cpp" line="20"/>
         <source>Add</source>
         <translation>Добавить</translation>
     </message>
     <message>
-        <location filename="../controllerlistwidget.cpp" line="21"/>
-        <location filename="../controllerlistwidget.cpp" line="108"/>
+        <location filename="../controllerlistwidget.cpp" line="22"/>
+        <location filename="../controllerlistwidget.cpp" line="109"/>
         <source>All</source>
         <translation>Все</translation>
     </message>
     <message>
-        <location filename="../controllerlistwidget.cpp" line="39"/>
+        <location filename="../controllerlistwidget.cpp" line="40"/>
         <source>Error in mml mode</source>
         <translation>Ошибка в режиме mml</translation>
     </message>
     <message>
-        <location filename="../controllerlistwidget.cpp" line="39"/>
+        <location filename="../controllerlistwidget.cpp" line="40"/>
         <source>Error: %1
 Controller: %2</source>
         <translation>Ошибка: %1
 Контроллер: %2</translation>
     </message>
     <message>
-        <location filename="../controllerlistwidget.cpp" line="54"/>
+        <location filename="../controllerlistwidget.cpp" line="55"/>
         <source>Remove </source>
         <translation>Удалить </translation>
     </message>
     <message>
-        <location filename="../controllerlistwidget.cpp" line="55"/>
+        <location filename="../controllerlistwidget.cpp" line="56"/>
         <source>Are you sure you want to delete </source>
         <translation>Вы уверенны, что хотите удалить </translation>
     </message>
     <message>
-        <location filename="../controllerlistwidget.cpp" line="106"/>
+        <location filename="../controllerlistwidget.cpp" line="107"/>
         <source>Please select only one item.</source>
         <translation>Пожалуйста выберите только один элемент.</translation>
     </message>
     <message>
-        <location filename="../controllerlistwidget.cpp" line="120"/>
+        <location filename="../controllerlistwidget.cpp" line="121"/>
         <source>Error: %1
 Controller: %2!
 Do you want to reconnect?</source>
@@ -319,7 +387,7 @@ Do you want try again?</source>
 Хотите попробовать снова?</translation>
     </message>
     <message>
-        <location filename="../controllerlistwidget.cpp" line="126"/>
+        <location filename="../controllerlistwidget.cpp" line="127"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
@@ -328,7 +396,7 @@ Do you want try again?</source>
         <translation type="vanished">Ошибка авторизации</translation>
     </message>
     <message>
-        <location filename="../controllerlistwidget.cpp" line="106"/>
+        <location filename="../controllerlistwidget.cpp" line="107"/>
         <source>Select more than one item</source>
         <translation>Не выбрано</translation>
     </message>
@@ -368,168 +436,124 @@ Do you want try again?</source>
 <context>
     <name>Downloader</name>
     <message>
-        <location filename="../../3rd_party/QSimpleUpdater/src/Downloader.ui" line="23"/>
-        <location filename="../../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="259"/>
         <source>Updater</source>
-        <translation>Обновление</translation>
+        <translation type="vanished">Обновление</translation>
     </message>
     <message>
-        <location filename="../../3rd_party/QSimpleUpdater/src/Downloader.ui" line="90"/>
-        <location filename="../../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="108"/>
-        <location filename="../../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="342"/>
         <source>Downloading updates</source>
-        <translation>Загрузка обновлений</translation>
+        <translation type="vanished">Загрузка обновлений</translation>
     </message>
     <message>
-        <location filename="../../3rd_party/QSimpleUpdater/src/Downloader.ui" line="113"/>
         <source>Time remaining: 0 minutes</source>
-        <translation>Времени осталось: 0 минут</translation>
+        <translation type="vanished">Времени осталось: 0 минут</translation>
     </message>
     <message>
-        <location filename="../../3rd_party/QSimpleUpdater/src/Downloader.ui" line="154"/>
         <source>Open</source>
-        <translation>Открыть</translation>
+        <translation type="vanished">Открыть</translation>
     </message>
     <message>
-        <location filename="../../3rd_party/QSimpleUpdater/src/Downloader.ui" line="161"/>
-        <location filename="../../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="107"/>
         <source>Stop</source>
-        <translation>Остановить</translation>
+        <translation type="vanished">Остановить</translation>
     </message>
     <message>
-        <location filename="../../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="109"/>
-        <location filename="../../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="422"/>
         <source>Time remaining</source>
-        <translation>Времени осталось</translation>
+        <translation type="vanished">Времени осталось</translation>
     </message>
     <message>
-        <location filename="../../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="109"/>
         <source>unknown</source>
-        <translation>неизвестно</translation>
+        <translation type="vanished">неизвестно</translation>
     </message>
     <message>
-        <location filename="../../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="193"/>
         <source>Error</source>
-        <translation>Ошибка</translation>
+        <translation type="vanished">Ошибка</translation>
     </message>
     <message>
-        <location filename="../../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="193"/>
         <source>Cannot find downloaded update!</source>
-        <translation>Не удалось найти загруженное обновление!</translation>
+        <translation type="vanished">Не удалось найти загруженное обновление!</translation>
     </message>
     <message>
-        <location filename="../../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="211"/>
         <source>Close</source>
-        <translation>Закрыть</translation>
+        <translation type="vanished">Закрыть</translation>
     </message>
     <message>
-        <location filename="../../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="212"/>
         <source>Download complete!</source>
-        <translation>Загрузка завершена!</translation>
+        <translation type="vanished">Загрузка завершена!</translation>
     </message>
     <message>
-        <location filename="../../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="213"/>
         <source>The installer will open separately</source>
-        <translation>Установщик будет открыт отдельно</translation>
+        <translation type="vanished">Установщик будет открыт отдельно</translation>
     </message>
     <message>
-        <location filename="../../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="220"/>
         <source>Click &quot;OK&quot; to begin installing the update</source>
-        <translation>Нажмите «ОК», чтобы начать установку обновления</translation>
+        <translation type="vanished">Нажмите «ОК», чтобы начать установку обновления</translation>
     </message>
     <message>
-        <location filename="../../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="222"/>
         <source>In order to install the update, you may need to quit the application.</source>
-        <translation>Для установки обновления может потребоваться выйти из приложения.</translation>
+        <translation type="vanished">Для установки обновления может потребоваться выйти из приложения.</translation>
     </message>
     <message>
-        <location filename="../../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="226"/>
         <source>In order to install the update, you may need to quit the application. This is a mandatory update, exiting now will close the application</source>
-        <translation>Для установки обновления может потребоваться выйти из приложения. Это обязательное обновление, выход из которого закроет приложение</translation>
+        <translation type="vanished">Для установки обновления может потребоваться выйти из приложения. Это обязательное обновление, выход из которого закроет приложение</translation>
     </message>
     <message>
-        <location filename="../../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="245"/>
         <source>Click the &quot;Open&quot; button to apply the update</source>
-        <translation>Нажмите кнопку «Открыть», чтобы применить обновление</translation>
+        <translation type="vanished">Нажмите кнопку «Открыть», чтобы применить обновление</translation>
     </message>
     <message>
-        <location filename="../../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="263"/>
         <source>Are you sure you want to cancel the download?</source>
-        <translation>Вы уверены, что хотите отменить загрузку?</translation>
+        <translation type="vanished">Вы уверены, что хотите отменить загрузку?</translation>
     </message>
     <message>
-        <location filename="../../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="266"/>
-        <source>Are you sure you want to cancel the download? This is a mandatory update, exiting now will close the application</source>
-        <translatorcomment>Вы уверены, что хотите отменить загрузку? Это обязательное обновление, выход из которого закроет приложение.</translatorcomment>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="325"/>
-        <location filename="../../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="334"/>
         <source>%1 bytes</source>
-        <translation>%1 байт</translation>
+        <translation type="vanished">%1 байт</translation>
     </message>
     <message>
-        <location filename="../../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="328"/>
-        <location filename="../../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="337"/>
         <source>%1 KB</source>
-        <translation>%1 KB</translation>
+        <translation type="vanished">%1 KB</translation>
     </message>
     <message>
-        <location filename="../../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="331"/>
-        <location filename="../../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="340"/>
         <source>%1 MB</source>
-        <translation>%1 MB</translation>
+        <translation type="vanished">%1 MB</translation>
     </message>
     <message>
-        <location filename="../../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="342"/>
         <source>of</source>
-        <translation>из</translation>
+        <translation type="vanished">из</translation>
     </message>
     <message>
-        <location filename="../../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="368"/>
         <source>Downloading Updates</source>
-        <translation>Загрузка обновлений</translation>
+        <translation type="vanished">Загрузка обновлений</translation>
     </message>
     <message>
-        <location filename="../../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="369"/>
         <source>Time Remaining</source>
-        <translation>Времени осталось</translation>
+        <translation type="vanished">Времени осталось</translation>
     </message>
     <message>
-        <location filename="../../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="369"/>
         <source>Unknown</source>
-        <translation>Неизвестно</translation>
+        <translation type="vanished">Неизвестно</translation>
     </message>
     <message>
-        <location filename="../../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="396"/>
         <source>about %1 hours</source>
-        <translation>около %1 часов</translation>
+        <translation type="vanished">около %1 часов</translation>
     </message>
     <message>
-        <location filename="../../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="398"/>
         <source>about one hour</source>
-        <translation>около часа</translation>
+        <translation type="vanished">около часа</translation>
     </message>
     <message>
-        <location filename="../../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="407"/>
         <source>%1 minutes</source>
-        <translation>%1 минут</translation>
+        <translation type="vanished">%1 минут</translation>
     </message>
     <message>
-        <location filename="../../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="409"/>
         <source>1 minute</source>
-        <translation>1 минута</translation>
+        <translation type="vanished">1 минута</translation>
     </message>
     <message>
-        <location filename="../../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="417"/>
         <source>%1 seconds</source>
-        <translation>%1 секунд</translation>
+        <translation type="vanished">%1 секунд</translation>
     </message>
     <message>
-        <location filename="../../3rd_party/QSimpleUpdater/src/Downloader.cpp" line="419"/>
         <source>1 second</source>
-        <translation>1 секунда</translation>
+        <translation type="vanished">1 секунда</translation>
     </message>
 </context>
 <context>
@@ -543,72 +567,72 @@ Do you want try again?</source>
 <context>
     <name>ExceptionsPanel</name>
     <message>
-        <location filename="../exceptionspanel.cpp" line="16"/>
+        <location filename="../exceptionspanel.cpp" line="15"/>
         <source>Exceptions</source>
         <translation>Исключения</translation>
     </message>
     <message>
-        <location filename="../exceptionspanel.cpp" line="19"/>
+        <location filename="../exceptionspanel.cpp" line="18"/>
         <source>Controller</source>
         <translation>Контроллер</translation>
     </message>
     <message>
-        <location filename="../exceptionspanel.cpp" line="19"/>
+        <location filename="../exceptionspanel.cpp" line="18"/>
         <source>Object</source>
         <translation>Объект</translation>
     </message>
     <message>
-        <location filename="../exceptionspanel.cpp" line="19"/>
+        <location filename="../exceptionspanel.cpp" line="18"/>
         <source>Alarm</source>
         <translation>Авария</translation>
     </message>
     <message>
-        <location filename="../exceptionspanel.cpp" line="73"/>
+        <location filename="../exceptionspanel.cpp" line="70"/>
         <source>Duplicate</source>
         <translation>Дубликат</translation>
     </message>
     <message>
-        <location filename="../exceptionspanel.cpp" line="73"/>
+        <location filename="../exceptionspanel.cpp" line="70"/>
         <source>This is duplicate of existing exception. Cannot add duplicate.</source>
         <translation>Уже существует такое исключение.</translation>
     </message>
     <message>
-        <location filename="../exceptionspanel.cpp" line="94"/>
+        <location filename="../exceptionspanel.cpp" line="91"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location filename="../exceptionspanel.cpp" line="94"/>
+        <location filename="../exceptionspanel.cpp" line="91"/>
         <source>Please select row.</source>
         <translation>Пожалуйста выберите строку.</translation>
     </message>
     <message>
-        <location filename="../exceptionspanel.cpp" line="120"/>
+        <location filename="../exceptionspanel.cpp" line="117"/>
         <source>Add exception</source>
         <translation>Добавить исключени</translation>
     </message>
     <message>
-        <location filename="../exceptionspanel.cpp" line="121"/>
+        <location filename="../exceptionspanel.cpp" line="118"/>
         <source>Remove exception</source>
         <translation>Удалить исключение</translation>
     </message>
     <message>
-        <location filename="../exceptionspanel.cpp" line="147"/>
+        <location filename="../exceptionspanel.cpp" line="144"/>
         <source>CF Alarm</source>
         <translation>Авария по CF</translation>
     </message>
     <message>
-        <location filename="../exceptionspanel.cpp" line="147"/>
+        <location filename="../exceptionspanel.cpp" line="144"/>
         <source>Manually blocked</source>
         <translation>Заблокированы</translation>
     </message>
     <message>
-        <location filename="../exceptionspanel.cpp" line="148"/>
+        <location filename="../exceptionspanel.cpp" line="145"/>
         <source>Halted</source>
         <translation>Захалчена</translation>
     </message>
     <message>
-        <location filename="../exceptionspanel.cpp" line="148"/>
+        <location filename="../exceptionspanel.cpp" line="145"/>
         <source>Not works</source>
         <translation>Не в работе</translation>
     </message>
@@ -616,17 +640,17 @@ Do you want try again?</source>
 <context>
     <name>InheritanceTreeWidget</name>
     <message>
-        <location filename="../inheritancetreewidget.cpp" line="125"/>
+        <location filename="../inheritancetreewidget.cpp" line="124"/>
         <source>Manually block object</source>
         <translation>Заблокировать РБС</translation>
     </message>
     <message>
-        <location filename="../inheritancetreewidget.cpp" line="143"/>
+        <location filename="../inheritancetreewidget.cpp" line="142"/>
         <source>Manually block</source>
         <translation>Блокировка БС</translation>
     </message>
     <message>
-        <location filename="../inheritancetreewidget.cpp" line="143"/>
+        <location filename="../inheritancetreewidget.cpp" line="142"/>
         <source>Are you sure you want to block </source>
         <translation>Вы уверенны, что хотите заблокировать </translation>
     </message>
@@ -644,7 +668,7 @@ Do you want try again?</source>
         <translation>Например: LUG112/112...</translation>
     </message>
     <message>
-        <location filename="../inheritanceview.cpp" line="10"/>
+        <location filename="../inheritanceview.cpp" line="9"/>
         <source>Objects</source>
         <translation>Объекты</translation>
     </message>
@@ -657,75 +681,108 @@ Do you want try again?</source>
         <translation>Главное окно</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="38"/>
+        <location filename="../mainwindow.ui" line="45"/>
+        <source>GSM</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="55"/>
+        <location filename="../mainwindow.ui" line="99"/>
+        <source>Ericsson</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="65"/>
+        <location filename="../mainwindow.ui" line="109"/>
+        <source>Huawei</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="79"/>
+        <source>UMTS</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="89"/>
+        <source>LTE</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="136"/>
         <source>Update</source>
         <translation>Обновить</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="67"/>
+        <location filename="../mainwindow.ui" line="155"/>
         <source>toolBar</source>
         <translation>Панель иструментов</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="91"/>
+        <location filename="../mainwindow.ui" line="183"/>
         <source>toolBar_2</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="122"/>
+        <location filename="../mainwindow.ui" line="229"/>
         <source>About program</source>
         <translation>О программе</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="244"/>
+        <location filename="../mainwindow.ui" line="247"/>
+        <source>Open map</source>
+        <translation>Открыть карту</translation>
     </message>
     <message>
         <source>&amp;File</source>
         <translation type="vanished">&amp;Файл</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="113"/>
+        <location filename="../mainwindow.ui" line="220"/>
         <source>&amp;Settings</source>
         <translation>&amp;Опции</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="89"/>
+        <location filename="../mainwindow.cpp" line="126"/>
         <source>Last update : </source>
         <translation>Последнее обновление : </translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="156"/>
+        <location filename="../mainwindow.cpp" line="205"/>
         <source>No items selected</source>
         <translation>Выберите хотя бы один элемент</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="156"/>
+        <location filename="../mainwindow.cpp" line="205"/>
         <source>Please select item.</source>
         <translation>Выберите хотя бы один элемент.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="196"/>
+        <location filename="../mainwindow.cpp" line="252"/>
         <source>About program </source>
         <translation>О программе </translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="197"/>
+        <location filename="../mainwindow.cpp" line="253"/>
         <source>AlarmBox is a tool designed to simplify the monitoring of Ericsson objects in a 2G network.
 Version </source>
         <translation>AlarmBox — это инструмент, предназначенный для упрощения мониторинга объектов Ericsson в сети 2G.
 Версия </translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="198"/>
+        <location filename="../mainwindow.cpp" line="254"/>
         <source>
 LastUpdates: </source>
         <translation>
 Последние обновления: </translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="255"/>
+        <location filename="../mainwindow.cpp" line="311"/>
         <source>Language changed</source>
         <translation>Язык изменён</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="256"/>
+        <location filename="../mainwindow.cpp" line="312"/>
         <source>The language change will take effect after the next launch.
 Restart application?</source>
         <translation>Изменение языка интерфейса вступит в силу после следующего запуска приложения.
@@ -748,6 +805,116 @@ Restart application?</source>
     <message>
         <source>Please select item</source>
         <translation type="vanished">Не выбран</translation>
+    </message>
+</context>
+<context>
+    <name>NodeEditDialog</name>
+    <message>
+        <location filename="../nodeeditdialog.ui" line="14"/>
+        <source>Nodes</source>
+        <translation>Объекты</translation>
+    </message>
+</context>
+<context>
+    <name>NodeStateModel</name>
+    <message>
+        <location filename="../nodestatemodel.cpp" line="34"/>
+        <source>Remote host unreachable</source>
+        <translation>Удалённый узел недоступен</translation>
+    </message>
+    <message>
+        <location filename="../nodestatemodel.cpp" line="35"/>
+        <source>Works</source>
+        <translation>Работает</translation>
+    </message>
+    <message>
+        <location filename="../nodestatemodel.cpp" line="49"/>
+        <source>Node name</source>
+        <translation>Название объекта</translation>
+    </message>
+    <message>
+        <location filename="../nodestatemodel.cpp" line="49"/>
+        <source>Destination</source>
+        <translation>Адрес</translation>
+    </message>
+    <message>
+        <location filename="../nodestatemodel.cpp" line="49"/>
+        <source>State</source>
+        <translation>Состояние</translation>
+    </message>
+</context>
+<context>
+    <name>NodeStateView</name>
+    <message>
+        <location filename="../nodestateview.cpp" line="35"/>
+        <source>Manage</source>
+        <translation>Объекты</translation>
+    </message>
+    <message>
+        <location filename="../nodestateview.cpp" line="36"/>
+        <source>Refresh</source>
+        <translation>Обновить</translation>
+    </message>
+    <message>
+        <location filename="../nodestateview.cpp" line="37"/>
+        <source>Add</source>
+        <translation>Добавить</translation>
+    </message>
+</context>
+<context>
+    <name>NodeTreeWidget</name>
+    <message>
+        <location filename="../nodetreewidget.cpp" line="17"/>
+        <source>Node name</source>
+        <translation>Название объекта</translation>
+    </message>
+    <message>
+        <location filename="../nodetreewidget.cpp" line="17"/>
+        <source>Node destination</source>
+        <translation>Ip-адрес объекта</translation>
+    </message>
+    <message>
+        <location filename="../nodetreewidget.cpp" line="17"/>
+        <source>Node Vendor</source>
+        <translation>Производитель</translation>
+    </message>
+    <message>
+        <location filename="../nodetreewidget.cpp" line="70"/>
+        <source>Node removed</source>
+        <translation>Объект удалён</translation>
+    </message>
+    <message>
+        <location filename="../nodetreewidget.cpp" line="70"/>
+        <source>Node successfully removed.</source>
+        <translation>Объект успешно удалён.</translation>
+    </message>
+    <message>
+        <location filename="../nodetreewidget.cpp" line="72"/>
+        <source>Node not removed</source>
+        <translation>Объект не удалён</translation>
+    </message>
+    <message>
+        <location filename="../nodetreewidget.cpp" line="72"/>
+        <source>Node cannot be removed.</source>
+        <translation>Объект не удалён.</translation>
+    </message>
+    <message>
+        <location filename="../nodetreewidget.cpp" line="81"/>
+        <source>&amp;Remove</source>
+        <translation>&amp;Удалить</translation>
+    </message>
+</context>
+<context>
+    <name>ProcessHolder</name>
+    <message>
+        <location filename="../processholder.cpp" line="43"/>
+        <source>Error</source>
+        <translation>Ошибка</translation>
+    </message>
+    <message>
+        <location filename="../processholder.cpp" line="43"/>
+        <source>Node is already exists.</source>
+        <translation>Объект уже существует.</translation>
     </message>
 </context>
 <context>
@@ -778,6 +945,19 @@ Duplicates.</source>
         <location filename="../types/alarm.cpp" line="19"/>
         <source>Not works</source>
         <translation>Не в работе</translation>
+    </message>
+</context>
+<context>
+    <name>RbsObject</name>
+    <message>
+        <location filename="../maps/RbsObject.cpp" line="224"/>
+        <source>Activate RBS</source>
+        <translation>Активировать РБС</translation>
+    </message>
+    <message>
+        <location filename="../maps/RbsObject.cpp" line="225"/>
+        <source>Manually block object</source>
+        <translation>Заблокировать РБС</translation>
     </message>
 </context>
 <context>
@@ -966,29 +1146,24 @@ Duplicates.</source>
 <context>
     <name>Updater</name>
     <message>
-        <location filename="../../3rd_party/QSimpleUpdater/src/Updater.cpp" line="452"/>
         <source>Would you like to download the update now?</source>
-        <translation>Загрузить обновление сейчас?</translation>
+        <translation type="vanished">Загрузить обновление сейчас?</translation>
     </message>
     <message>
-        <location filename="../../3rd_party/QSimpleUpdater/src/Updater.cpp" line="455"/>
         <source>Would you like to download the update now? This is a mandatory update, exiting now will close the application</source>
-        <translation>Загрузить обновление сейчас? Это обязательное обновление, выход из которого закроет приложение</translation>
+        <translation type="vanished">Загрузить обновление сейчас? Это обязательное обновление, выход из которого закроет приложение</translation>
     </message>
     <message>
-        <location filename="../../3rd_party/QSimpleUpdater/src/Updater.cpp" line="460"/>
         <source>Version %1 of %2 has been released!</source>
-        <translation>Версия %1 модуля %2 была выпущена!</translation>
+        <translation type="vanished">Версия %1 модуля %2 была выпущена!</translation>
     </message>
     <message>
-        <location filename="../../3rd_party/QSimpleUpdater/src/Updater.cpp" line="496"/>
         <source>No updates are available for the moment</source>
-        <translation>Нет доступных обновлений</translation>
+        <translation type="vanished">Нет доступных обновлений</translation>
     </message>
     <message>
-        <location filename="../../3rd_party/QSimpleUpdater/src/Updater.cpp" line="498"/>
         <source>Congratulations! You are running the latest version of %1</source>
-        <translation>Вы используете последнюю версию %1</translation>
+        <translation type="vanished">Вы используете последнюю версию %1</translation>
     </message>
 </context>
 </TS>

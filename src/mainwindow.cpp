@@ -23,7 +23,7 @@
 #include <QMessageBox>
 
 #include "nodestatemodel.h"
-#include "nodeinfomodel.h"
+#include "nodeeditdialog.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -32,7 +32,6 @@ MainWindow::MainWindow(QWidget *parent)
     , m_splitter(new QSplitter(Qt::Horizontal))
     , m_mapWidget(new MapWidget)
     , m_processHolder(new ProcessHolder)
-    , m_manageTable(new QTableView)
     , m_controllersEdit(new ControllersEdit(this))
     , m_alarmDisplayWidget(new AlarmDisplayWidget(this))
     , m_inheritanceView(new InheritanceView(this))
@@ -45,7 +44,6 @@ MainWindow::MainWindow(QWidget *parent)
     m_ui->dockWidget->setWindowTitle("AlarmBox Map");
     m_ui->dockWidget->close();
 
-    m_manageTable->setModel(new NodeInfoModel(m_processHolder, this));
     //table views
     m_ui->huaweiGSMView->setProcessHolder(m_processHolder);
     m_ui->huaweiLTEView->setProcessHolder(m_processHolder);
@@ -180,7 +178,6 @@ MainWindow::MainWindow(QWidget *parent)
         m_mapWidget->onAlarmRaised(alarms.at(i));
     }
 
-
     m_updater.startChecking();
 
     createSplitter();
@@ -231,7 +228,8 @@ void MainWindow::execSettingsDialog()
 
 void MainWindow::showManageNodesView()
 {
-    m_manageTable->show();
+    NodeEditDialog nDialog;
+    nDialog.exec();
 }
 
 void MainWindow::createSplitter()

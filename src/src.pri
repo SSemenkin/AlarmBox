@@ -2,7 +2,6 @@ SOURCES += \
     $$PWD/maps/custommapgraphicsview.cpp \
     $$PWD/maps/RbsObject.cpp \
     $$PWD/maps/cell.cpp \
-    $$PWD/nodeinfomodel.cpp \
     $$PWD/nodestatemodel.cpp \
     $$PWD/nodestateview.cpp \
     customapplication.cpp \
@@ -35,14 +34,15 @@ SOURCES += \
     types/displayexception.cpp \
     updatechecker.cpp \
     types/node.cpp \
-    processholder.cpp
+    processholder.cpp \
+    nodeeditdialog.cpp \
+    nodetreewidget.cpp
 
 HEADERS += \
     $$PWD/maps/custommapgraphicsview.h \
     $$PWD/maps/RbsObject.h \
     $$PWD/maps/TrueMatrix.h \
     $$PWD/maps/cell.h \
-    $$PWD/nodeinfomodel.h \
     $$PWD/nodestatemodel.h \
     $$PWD/nodestateview.h \
     addcontrollerdialog.h \
@@ -77,7 +77,9 @@ HEADERS += \
     updatechecker.h \
     processholder.h \
     types/node.h \
-    version.h
+    version.h \
+    nodeeditdialog.h \
+    nodetreewidget.h
 
 FORMS += \
     addcontrollerdialog.ui \
@@ -89,7 +91,8 @@ FORMS += \
     editcontrollerdialog.ui \
     inheritanceview.ui \
     mainwindow.ui \
-    settingsdialog.ui
+    settingsdialog.ui \
+    nodeeditdialog.ui
 
 TRANSLATIONS += \
         $$PWD/translations/AlarmBoX_ru.ts

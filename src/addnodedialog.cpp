@@ -34,9 +34,7 @@ void AddNodeDialog::accept()
     int type = ui->nodeTypeCombo->currentIndex();
     int vendor = ui->nodeVendorCombo->currentIndex();
 
-    if (!name.isEmpty()
-    && !dest.isEmpty())
-    {
+    if (!name.isEmpty() && !dest.isEmpty()) {
         emit addNodeRequested(type, vendor, name, dest);
     } else {
         QMessageBox::warning(this, tr("Empty fields"), tr("Please fill all fields."));

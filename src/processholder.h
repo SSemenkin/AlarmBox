@@ -21,6 +21,7 @@ public:
     ~ProcessHolder();
     void addNode(Node::NodeType, Node::NodeVendor, const QString &nodeName, const QString &nodeDestination);
     bool removeNode(Node::NodeType, const QString &nodeName);
+    static ProcessHolder* instance();
 signals:
     void stateChanged(const Node &node, Node::NodeState state);
 private:
@@ -37,7 +38,8 @@ private:
     QVector<Node> m_nodes;
     QTimer *m_interrogatorTimer;
 
-    friend class NodeInfoModel;
+    static ProcessHolder *m_instance;
+    friend class NodeTreeWidget;
 };
 
 #endif // PROCESSHOLDER_H

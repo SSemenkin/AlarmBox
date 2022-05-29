@@ -17,6 +17,7 @@ class QSplitter;
 class QLabel;
 class InheritanceView;
 class ProcessHolder;
+class NodeTreeWidget;
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -52,7 +53,7 @@ private:
     QScopedPointer<QSplitter> m_splitter;
     QScopedPointer<MapWidget> m_mapWidget;
     QSharedPointer<ProcessHolder> m_processHolder;
-    QScopedPointer<QTableView> m_manageTable;
+
 
     ControllersEdit *m_controllersEdit;
     AlarmDisplayWidget *m_alarmDisplayWidget;
