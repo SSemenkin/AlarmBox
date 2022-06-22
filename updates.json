@@ -1,9 +1,9 @@
 {
 "updates": {
     "windows": {
-        "changelog": "v.1.4.\n -Добавлена возможность сортировки аварий.\n -Добавлена возможность вложенности аварий.\nv.1.5.\n -Добавлена возможность мониторить объекты других вендоров и стандартов",
-        "download-url": "https://github.com/SSemenkin/AlarmBox/blob/main/releases/1.5/AlarmBoX.exe?raw=true",
-        "latest-version": "1.5",
+        "changelog": "v.1.5.\n -Добавлена возможность мониторить объекты других вендоров и стандартов\n -Теперь при нажатии Ctrl+C будет скопирована вся строка\n -Вложенные аварии не удаляются вместе с \"родителем\"\n -Добавлена новая кнопка, позволяющая копировать отчёт для Состояния сети",
+        "download-url": "https://github.com/SSemenkin/AlarmBox/blob/main/releases/1.6/AlarmBox.exe?raw=true",
+        "latest-version": "1.6",
         "mandatory": true,
         "open-url": ""
     },
