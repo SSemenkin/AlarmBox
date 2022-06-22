@@ -35,9 +35,9 @@ UpdateStatus RbsLocation::updateLocations(const QString &filename)
     return result;
 }
 
-QString RbsLocation::getLocation(const QString &object)
+QString RbsLocation::getLocation(const QString &object) const
 {
-    QMap<QString, QString>::iterator iterator  = m_locations.find(object);
+    QMap<QString, QString>::const_iterator iterator  = m_locations.find(object);
 
     return iterator == m_locations.end() ?
                 QString(QObject::tr("Object location is unknown.")) :

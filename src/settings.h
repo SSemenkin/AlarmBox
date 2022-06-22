@@ -59,6 +59,8 @@ public:
     void setThemeIndex(int index);
     int getThemeIndex() const;
 
+    void setDVDVideoEnabled(bool state);
+    bool getIsDVDVideoEnabled() const;
 
 protected:
     explicit Settings(QObject *parent = nullptr);

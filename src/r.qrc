@@ -27,5 +27,6 @@
         <file>icons/zanshin.svg</file>
         <file>icons/zathura.svg</file>
         <file>icons/dvd_video.png</file>
+        <file>icons/report.png</file>
     </qresource>
 </RCC>

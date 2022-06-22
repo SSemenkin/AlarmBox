@@ -84,7 +84,9 @@ public:
     ~AlarmTreeWidget();
     void processAlarms(const QVector<Alarm> &alarms);
     void onCurrentControllerChanged(const QString &controllerHostname);
+    void onDVDVideoStateChanged(bool state);
     void execAddExceptionDialog();
+    QString makeReport() const;
     QVector<Alarm> currentAlarms() const;
 
 signals:
@@ -108,6 +110,7 @@ private:
     AlarmTreeWidgetItem* createAlarmItem(const Alarm &alarm);
     void processNewAlarm(const Alarm &alarm);
     void processClearedAlarm(DisplayAlarm& alarm);
+    void processChildOfClearedAlarm(DisplayAlarm &alarm);
 
     void checkForClearedAlarms(const QVector<Alarm> &alarms);
     void checkForRaisedAlarms(const QVector<Alarm> &alarms);
@@ -121,6 +124,7 @@ private:
     void resizeColumnsToContents();
 
     void getObjectLocation();
+    QString getObjectLocation(QTreeWidgetItem *item) const;
     bool isItemTopLevel(QTreeWidgetItem *item) const;
 
     void setupContextMenu();
@@ -132,6 +136,9 @@ private:
     // just for fun
     void moveDvdVideoLabel();
     void setupDvdVideoLabel();
+
+    void copyRow();
+
 
 private:
     QVector<DisplayAlarm> m_alarms;
@@ -148,6 +155,7 @@ private:
     QLabel *m_dvdVideoLabel;
     QTimer *m_dvdVideoTimer;
     QTimer *m_afkTimer;
+    bool m_isDVDVideoEnabled;
 
     // QWidget interface
 protected:

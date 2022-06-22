@@ -13,11 +13,12 @@ class SettingsDialog;
 }
 
 struct InitialValues {
+    QFont font;
     QLocale language;
     bool refresh;
+    bool dvdVideo;
     uint32_t period;
     int themeIndex;
-    QFont font;
 };
 
 class SettingsDialog : public QDialog
@@ -34,6 +35,7 @@ signals:
     void autoRefreshChanged(bool state);
     void themeChanged(int themeIndex);
     void fontChanged(const QFont &font);
+    void DVDVideoStateChanged(bool state);
 private:
     void applySettings();
     void chooseFont();

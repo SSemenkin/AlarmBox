@@ -170,7 +170,6 @@ NodeInfo loadFromFile(const QString &filepath)
 
 int main(int argc, char *argv[])
 {
-
 #ifdef UPDATE
     makeJSonFile("v.1.1.1\n.-Добавлена возможность(нужно было сразу) переключения темы без перезапуска приложения."
                  "\n-Теперь приложение будет автоматически проверять наличие обновлений."

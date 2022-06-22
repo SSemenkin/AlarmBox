@@ -27,12 +27,14 @@ SettingsDialog::SettingsDialog(QWidget *parent) :
 
     m_ui->checkBox->setChecked(m_settings.getIsAutoRefreshEnabled());
     m_ui->spinBox->setValue(m_settings.getRefreshPeriod());
+    m_ui->checkBox_2->setChecked(m_settings.getIsDVDVideoEnabled());
 
     m_initValues.language   = m_settings.getLocale();
     m_initValues.period     = m_settings.getRefreshPeriod();
     m_initValues.refresh    = m_settings.getIsAutoRefreshEnabled();
     m_initValues.themeIndex = m_settings.getThemeIndex();
     m_initValues.font       = m_settings.getFont();
+    m_initValues.dvdVideo   = m_settings.getIsDVDVideoEnabled();
 
 }
 
@@ -47,6 +49,7 @@ void SettingsDialog::applySettings()
     m_settings.setAutoRefreshEnabled(m_ui->checkBox->isChecked());
     m_settings.setRefreshPeriod(m_ui->spinBox->value());
     m_settings.setThemeIndex(m_ui->themeCombo->currentIndex());
+    m_settings.setDVDVideoEnabled(m_ui->checkBox_2->isChecked());
 
     if (m_initValues.language != m_settings.getLocale()) {
         emit localeChanged(m_settings.getLocale());
@@ -67,6 +70,10 @@ void SettingsDialog::applySettings()
     if (m_initValues.font != m_settings.getFont()) {
         m_settings.setFont(m_initValues.font);
         emit fontChanged(m_settings.getFont());
+    }
+
+    if (m_initValues.dvdVideo != m_settings.getIsDVDVideoEnabled()) {
+        emit DVDVideoStateChanged(m_settings.getIsDVDVideoEnabled());
     }
 }
 

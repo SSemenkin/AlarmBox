@@ -12,8 +12,8 @@ public:
                       char **argv);
 
 private:
-    void applyFontToAllWidgets(const QFont& font);
-    void applyPaletteToAllWidgets(const QPalette &palette);
+    void applyFontToAllWidgets(const QFont& font) const;
+    void applyPaletteToAllWidgets(const QPalette &palette) const;
 };
 
 #endif // CUSTOMAPPLICATION_H

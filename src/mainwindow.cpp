@@ -21,6 +21,7 @@
 #include <QFile>
 #include <QDockWidget>
 #include <QMessageBox>
+#include <QClipboard>
 
 #include "nodestatemodel.h"
 #include "nodeeditdialog.h"
@@ -148,8 +149,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_ui->action, &QAction::triggered, this, [this] () {
         m_ui->dockWidget->setVisible(!m_ui->dockWidget->isVisible());
     });
-    connect(m_ui->dockWidget, &QDockWidget::visibilityChanged, [this](bool isVisible) {
-       m_ui->action->setChecked(isVisible);
+    connect(m_ui->dockWidget, &QDockWidget::visibilityChanged, m_ui->action, &QAction::setChecked);
+    connect(m_ui->actionReport, &QAction::triggered, this, [this] () {
+        QString report = m_alarmDisplayWidget->alarmTreeWidget()->makeReport();
+        qApp->clipboard()->setText(report);
     });
     ///
 
@@ -223,6 +226,7 @@ void MainWindow::execSettingsDialog()
     connect(&dialog, &SettingsDialog::autoRefreshChanged, m_interrogator.data(), &AlarmInterrogator::onAutoRefreshChanged);
     connect(&dialog, &SettingsDialog::themeChanged, this, &MainWindow::onThemeChanged);
     connect(&dialog, &SettingsDialog::fontChanged, this, &MainWindow::onFontChanged);
+    connect(&dialog, &SettingsDialog::DVDVideoStateChanged, m_alarmDisplayWidget->alarmTreeWidget(), &AlarmTreeWidget::onDVDVideoStateChanged);
     dialog.exec();
 }
 

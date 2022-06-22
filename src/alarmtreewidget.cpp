@@ -8,6 +8,9 @@
 #include <QMimeData>
 #include <QDrag>
 #include <QLabel>
+#include <QShortcut>
+#include <QApplication>
+#include <QClipboard>
 
 namespace helpers{
     bool isDeltaBiggerThan(const QDateTime &begin, const QDateTime &end,
@@ -35,6 +38,7 @@ AlarmTreeWidget::AlarmTreeWidget(QWidget *parent) :
   , m_dvdVideoLabel(new QLabel(this))
   , m_dvdVideoTimer(new QTimer(this))
   , m_afkTimer(new QTimer(this))
+  , m_isDVDVideoEnabled(Settings::instance()->getIsDVDVideoEnabled())
 {
     addTopLevelItem(new AlarmTreeWidgetItem(tr("CF Alarm"), Alarm::Category::A1));
     addTopLevelItem(new AlarmTreeWidgetItem(tr("Manually blocked"), Alarm::Category::A2));
@@ -78,11 +82,17 @@ AlarmTreeWidget::AlarmTreeWidget(QWidget *parent) :
     connect(m_afkTimer, &QTimer::timeout, [this] () {
         if (!m_dvdVideoTimer->isActive()) {
             m_dvdVideoTimer->start();
-            m_dvdVideoLabel->show();
+            if (m_isDVDVideoEnabled) {
+                m_dvdVideoLabel->show();
+            }
         }
     });
     m_afkTimer->setInterval(60 * 1000 * 10);
     m_afkTimer->start();
+
+    QShortcut *copyAction = new QShortcut(QKeySequence(Qt::CTRL | Qt::Key_C), this);
+
+    connect(copyAction, &QShortcut::activated, this, &AlarmTreeWidget::copyRow);
 }
 
 AlarmTreeWidget::~AlarmTreeWidget()
@@ -121,6 +131,16 @@ void AlarmTreeWidget::onCurrentControllerChanged(const QString &controllerHostna
                                 controllerHostname == alarm.m_alarm.m_controller)) {
                     markItemLikeNormal(alarm, Qt::lightGray);
         }
+    }
+}
+
+void AlarmTreeWidget::onDVDVideoStateChanged(bool state)
+{
+    m_isDVDVideoEnabled = state;
+    if (m_dvdVideoTimer->isActive() && state) {
+        m_dvdVideoLabel->show();
+    } else if (!state && m_dvdVideoLabel->isVisible()) {
+        m_dvdVideoLabel->hide();
     }
 }
 
@@ -212,11 +232,28 @@ void AlarmTreeWidget::processClearedAlarm(DisplayAlarm &alarm)
     qInfo() << "[Alarm Ceased] " << alarm.m_alarm;
     emit alarmCleared(alarm.m_alarm);
 
+    processChildOfClearedAlarm(alarm);
+
     AlarmTreeWidgetItem *parent = static_cast<AlarmTreeWidgetItem*>(alarm.m_alarmItem->parent());
     parent->removeChild(alarm.m_alarmItem);
     m_alarms.removeOne(alarm);
 
     parent->setText(0, parent->pinnedText() + "(" + QString::number(parent->childCount()) + ")");
+}
+
+void AlarmTreeWidget::processChildOfClearedAlarm(DisplayAlarm &alarm)
+{
+    if (alarm.treeWidgetItem()->childCount() > 0) {
+        QList<QTreeWidgetItem *> children;
+
+        while(alarm.treeWidgetItem()->childCount()) {
+            children.push_back(alarm.treeWidgetItem()->takeChild(0));
+        }
+
+        if (QTreeWidgetItem *parentItem = alarm.treeWidgetItem()->parent()) {
+            parentItem->addChildren(children);
+        }
+    }
 }
 
 void AlarmTreeWidget::checkForClearedAlarms(const QVector<Alarm> &alarms)
@@ -321,6 +358,12 @@ void AlarmTreeWidget::getObjectLocation()
     QMessageBox::information(this, object + tr(" location"), m_location.getLocation(object));
 }
 
+QString AlarmTreeWidget::getObjectLocation(QTreeWidgetItem *item) const
+{
+    QString object = item->text(0);
+    return m_location.getLocation(object);
+}
+
 bool AlarmTreeWidget::isItemTopLevel(QTreeWidgetItem *item) const
 {
     for (int i = 0; i < topLevelItemCount(); ++i) {
@@ -341,7 +384,7 @@ void AlarmTreeWidget::setupContextMenu()
     QAction *updateLocationsAction = new QAction(QIcon(":/icons/www-browser.svg"), tr("Update locations"), this);
     QAction *activateRBSAction = new QAction(QIcon(":/icons/battery.svg"), tr("Activate RBS"), this);
 
-    connect(getLocationAction, &QAction::triggered, this, &AlarmTreeWidget::getObjectLocation);
+    connect(getLocationAction, &QAction::triggered, this, static_cast<void (AlarmTreeWidget::*)()>(&AlarmTreeWidget::getObjectLocation));
     connect(updateLocationsAction, &QAction::triggered, this, [this] () {
         UpdateStatus result = m_location.updateLocations(Settings::instance()->getLocationFilepath());
         if (result.m_status == Status::Duplicate) {
@@ -443,6 +486,31 @@ void AlarmTreeWidget::setupDvdVideoLabel()
     m_dvdVideoTimer->setInterval(20);
     m_dvdVideoLabel->hide();
     connect(m_dvdVideoTimer, &QTimer::timeout, this, &AlarmTreeWidget::moveDvdVideoLabel);
+}
+
+void AlarmTreeWidget::copyRow()
+{
+    if (isSelectionRight()) {
+        QList<QTreeWidgetItem*> items = selectedItems();
+
+        QString clipboardText = items.first()->text(0) + " " + items.first()->text(1) + " " + items.first()->text(3);
+        qApp->clipboard()->setText(clipboardText);
+    }
+}
+
+QString AlarmTreeWidget::makeReport() const
+{
+    QString report = "2G:\n";
+
+    for (int i = 0; i < topLevelItemCount(); ++i) {
+        for (int j = 0; j < topLevelItem(i)->childCount(); ++j) {
+            QTreeWidgetItem *alarmItem = topLevelItem(i)->child(j);
+            report += alarmItem->text(0)  + "(" + getObjectLocation(alarmItem) + ") " + alarmItem->text(1) + " " + alarmItem->text(3) + '\n';
+        }
+        report += '\n';
+    }
+
+    return report;
 }
 
 void AlarmTreeWidget::dragEnterEvent(QDragEnterEvent *event)

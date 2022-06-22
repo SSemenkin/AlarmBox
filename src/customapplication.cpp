@@ -9,7 +9,7 @@ CustomApplication::CustomApplication(int argc, char **argv) :
     connect(this, &QApplication::paletteChanged, this, &CustomApplication::applyPaletteToAllWidgets);
 }
 
-void CustomApplication::applyFontToAllWidgets(const QFont &font)
+void CustomApplication::applyFontToAllWidgets(const QFont &font) const
 {
     auto widgets = allWidgets();
     for (int i = 0; i < widgets.size(); ++i) {
@@ -17,7 +17,7 @@ void CustomApplication::applyFontToAllWidgets(const QFont &font)
     }
 }
 
-void CustomApplication::applyPaletteToAllWidgets(const QPalette &palette)
+void CustomApplication::applyPaletteToAllWidgets(const QPalette &palette) const
 {
     auto widgets = allWidgets();
     for (int i = 0; i < widgets.size(); ++i) {

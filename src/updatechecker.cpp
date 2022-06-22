@@ -81,6 +81,7 @@ void UpdateChecker::setupUpdater()
     m_updater->setDownloadDirectory(TRANSLATIONS_RU_URL, qApp->applicationDirPath() + "/translations/");
 
     // executable file
+    m_updater->setModuleName(EXECUTABLE_URL, qApp->applicationName());
     m_updater->setModuleVersion(EXECUTABLE_URL, APPLICATION_VERSION);
     m_updater->setNotifyOnFinish(EXECUTABLE_URL, false);
     m_updater->setNotifyOnUpdate(EXECUTABLE_URL, false);

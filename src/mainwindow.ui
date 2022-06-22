@@ -195,6 +195,7 @@ color:black;</string>
     <bool>false</bool>
    </attribute>
    <addaction name="actionAbout_program"/>
+   <addaction name="actionReport"/>
   </widget>
   <widget class="QDockWidget" name="dockWidget">
    <property name="enabled">
@@ -245,6 +246,15 @@ color:black;</string>
    </property>
    <property name="toolTip">
     <string>Open map</string>
+   </property>
+  </action>
+  <action name="actionReport">
+   <property name="icon">
+    <iconset resource="r.qrc">
+     <normaloff>:/icons/report.png</normaloff>:/icons/report.png</iconset>
+   </property>
+   <property name="text">
+    <string>Report</string>
    </property>
   </action>
  </widget>

@@ -19,7 +19,7 @@ public:
     RbsLocation(const QString &filename);
 
     UpdateStatus updateLocations(const QString &filename);
-    QString getLocation(const QString &object);
+    QString getLocation(const QString &object) const;
 
 private:
     void insert(const QString &object, const QString &location, UpdateStatus &status);

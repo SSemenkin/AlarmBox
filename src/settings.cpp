@@ -278,6 +278,16 @@ int Settings::getThemeIndex() const
     return value("theme_index", 0).toInt();
 }
 
+void Settings::setDVDVideoEnabled(bool state)
+{
+    setValue("dvd_video", state);
+}
+
+bool Settings::getIsDVDVideoEnabled() const
+{
+    return value("dvd_video", true).toBool();
+}
+
 void Settings::setLocationFilepath(const QString &filepath)
 {
     setValue("location_filename", filepath);
