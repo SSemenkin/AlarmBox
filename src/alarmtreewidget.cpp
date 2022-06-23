@@ -250,9 +250,12 @@ void AlarmTreeWidget::processChildOfClearedAlarm(DisplayAlarm &alarm)
             children.push_back(alarm.treeWidgetItem()->takeChild(0));
         }
 
-        if (QTreeWidgetItem *parentItem = alarm.treeWidgetItem()->parent()) {
-            parentItem->addChildren(children);
+        QTreeWidgetItem *topLevelParent = alarm.treeWidgetItem();
+        while (topLevelParent->parent()) {
+            topLevelParent = topLevelParent->parent();
         }
+
+        topLevelParent->addChildren(children);
     }
 }
 
