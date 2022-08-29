@@ -6,6 +6,7 @@
 
 InheritanceTreeWidget::InheritanceTreeWidget(QWidget *parent) :
     QTreeWidget(parent)
+  , m_location(Settings::instance()->getLocationFilepath())
 {
     setupContextMenu();
 }
@@ -14,6 +15,7 @@ InheritanceTreeWidget::InheritanceTreeWidget(const QHash<Telnet*, QMap<QString, 
                                              QWidget *parent) :
     QTreeWidget(parent)
   , m_hierarchy(hierarchy)
+  , m_location(Settings::instance()->getLocationFilepath())
 {
     buildTree();
     setupContextMenu();
@@ -121,9 +123,14 @@ void InheritanceTreeWidget::setupContextMenu()
 {
     setContextMenuPolicy(Qt::ActionsContextMenu);
 
-    QAction *mblObject = new QAction(QIcon(":/icons/apper.svg"), tr("Manually block object"), this);
-    connect(mblObject, &QAction::triggered, this, &InheritanceTreeWidget::deactivateRBS);
-    addAction(mblObject);
+    QAction *mblAction = new QAction(QIcon(":/icons/apper.svg"), tr("Manually block object"), this);
+    QAction *locationAction = new QAction(QIcon(":/icons/gpxsee.svg"), tr("Location"), this);
+
+    connect(mblAction, &QAction::triggered, this, &InheritanceTreeWidget::deactivateRBS);
+    connect(locationAction, &QAction::triggered, this, &InheritanceTreeWidget::showRBSLocation);
+
+    addAction(mblAction);
+    addAction(locationAction);
 }
 
 void InheritanceTreeWidget::deactivateRBS()
@@ -156,4 +163,12 @@ bool InheritanceTreeWidget::isTopLevelTreeItem(QTreeWidgetItem *item)
         }
     }
     return false;
+}
+
+void InheritanceTreeWidget::showRBSLocation()
+{
+    auto selected = selectedItems();
+    if (selected.size() == 1 && !isTopLevelTreeItem(selected.first())) {
+        QMessageBox::information(this, selected.first()->text(0) + tr(" location"), m_location.getLocation(selected.first()->text(0)));
+    }
 }

@@ -1,6 +1,8 @@
 #ifndef INHERITANCETREEWIDGET_H
 #define INHERITANCETREEWIDGET_H
 
+#include "rbslocation.h"
+#include "settings.h"
 #include <QTreeWidget>
 #include <QMap>
 
@@ -47,8 +49,10 @@ private:
     void setupContextMenu();
     void deactivateRBS();
     bool isTopLevelTreeItem(QTreeWidgetItem *item);
+    void showRBSLocation();
 private:
     QHash<Telnet*, QMap<QString, QString>> m_hierarchy;
+    RbsLocation m_location;
 
     QVector<QTreeWidgetItem *> m_prevSelection;
     QTreeWidgetItem *m_current {nullptr};
