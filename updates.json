@@ -1,9 +1,9 @@
 {
 "updates": {
     "windows": {
-        "changelog": "v.1.5.\n -Добавлена возможность мониторить объекты других вендоров и стандартов\n -Теперь при нажатии Ctrl+C будет скопирована вся строка\n -Вложенные аварии не удаляются вместе с \"родителем\"\n -Добавлена новая кнопка, позволяющая копировать отчёт для Состояния сети",
-        "download-url": "https://github.com/SSemenkin/AlarmBox/blob/main/releases/1.6/AlarmBox.exe?raw=true",
-        "latest-version": "1.6",
+        "changelog": "v.1.7\n -Добавлена возможность обновления Базы данных объектов.\n -Отредактированы переводы.\n -Изменены иконки на прозрачные.\n -Добавлены оповещения.",
+        "download-url": "https://github.com/SSemenkin/AlarmBox/blob/main/releases/1.7/AlarmBox.exe?raw=true",
+        "latest-version": "1.7",
         "mandatory": true,
         "open-url": ""
     },

@@ -2,8 +2,8 @@
 "updates": {
     "windows": {
       "open-url": "",
-      "latest-version": "1.6",
-      "download-url": "https://github.com/SSemenkin/AlarmBox/blob/main/releases/1.6/AlarmBox_ru.qm?raw=true",
+      "latest-version": "1.7",
+      "download-url": "https://github.com/SSemenkin/AlarmBox/blob/main/releases/1.7/AlarmBox_ru.qm?raw=true",
       "changelog": "",
       "mandatory": true
     },
