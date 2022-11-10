@@ -25,6 +25,8 @@ public:
 
     bool addRbs(const QString &name, const QPointF &point, const QString &adress) const;
     bool addCell(const QString &rbsName, const QString &cellName, int angle) const;
+signals:
+    void error(const QString &errorMessage) const;
 
 private:
 

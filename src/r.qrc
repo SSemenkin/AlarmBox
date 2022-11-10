@@ -28,5 +28,6 @@
         <file>icons/zathura.svg</file>
         <file>icons/dvd_video.png</file>
         <file>icons/report.png</file>
+        <file>icons/update.png</file>
     </qresource>
 </RCC>

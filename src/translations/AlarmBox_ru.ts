@@ -225,53 +225,53 @@
         <translation>Не в работе</translation>
     </message>
     <message>
-        <location filename="../alarmtreewidget.cpp" line="358"/>
+        <location filename="../alarmtreewidget.cpp" line="362"/>
         <source> location</source>
         <translation> местоположение</translation>
     </message>
     <message>
-        <location filename="../alarmtreewidget.cpp" line="381"/>
+        <location filename="../alarmtreewidget.cpp" line="385"/>
         <source>Refresh</source>
         <translation>Обновить</translation>
     </message>
     <message>
-        <location filename="../alarmtreewidget.cpp" line="382"/>
+        <location filename="../alarmtreewidget.cpp" line="386"/>
         <source>Exceptions</source>
         <translation>Исключения</translation>
     </message>
     <message>
-        <location filename="../alarmtreewidget.cpp" line="383"/>
+        <location filename="../alarmtreewidget.cpp" line="387"/>
         <source>Location</source>
         <translation>Местоположение</translation>
     </message>
     <message>
-        <location filename="../alarmtreewidget.cpp" line="384"/>
+        <location filename="../alarmtreewidget.cpp" line="388"/>
         <source>Update locations</source>
         <translation>Обновить местоположения</translation>
     </message>
     <message>
-        <location filename="../alarmtreewidget.cpp" line="385"/>
-        <location filename="../alarmtreewidget.cpp" line="433"/>
+        <location filename="../alarmtreewidget.cpp" line="389"/>
+        <location filename="../alarmtreewidget.cpp" line="437"/>
         <source>Activate RBS</source>
         <translation>Активировать РБС</translation>
     </message>
     <message>
-        <location filename="../alarmtreewidget.cpp" line="391"/>
+        <location filename="../alarmtreewidget.cpp" line="395"/>
         <source>Duplicates</source>
         <translation>Дубликаты</translation>
     </message>
     <message>
-        <location filename="../alarmtreewidget.cpp" line="433"/>
+        <location filename="../alarmtreewidget.cpp" line="437"/>
         <source>Are you sure you want to unblock </source>
         <translation>Вы уверенны, что хотите разблокировать </translation>
     </message>
     <message>
-        <location filename="../alarmtreewidget.cpp" line="443"/>
+        <location filename="../alarmtreewidget.cpp" line="447"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location filename="../alarmtreewidget.cpp" line="443"/>
+        <location filename="../alarmtreewidget.cpp" line="447"/>
         <source>Alarm already cleared. Object is not manually blocked.</source>
         <translation>Авария ушла. Объект не заблокирован.</translation>
     </message>
@@ -431,6 +431,79 @@ Do you want try again?</source>
         <location filename="../controllersedit.ui" line="33"/>
         <source>Remove</source>
         <translation>Удалить</translation>
+    </message>
+</context>
+<context>
+    <name>DatabaseUpdaterDialog</name>
+    <message>
+        <location filename="../databaseupdaterdialog.ui" line="14"/>
+        <source>Update Object DB</source>
+        <translation>Обновление объектов БД</translation>
+    </message>
+    <message>
+        <location filename="../databaseupdaterdialog.ui" line="31"/>
+        <source>Update</source>
+        <translation>Обновить</translation>
+    </message>
+    <message>
+        <location filename="../databaseupdaterdialog.ui" line="58"/>
+        <source>Requirements to file content</source>
+        <translation>Требование к файлу</translation>
+    </message>
+    <message>
+        <location filename="../databaseupdaterdialog.ui" line="24"/>
+        <source>...</source>
+        <translation>...</translation>
+    </message>
+    <message>
+        <location filename="../databaseupdaterdialog.ui" line="44"/>
+        <source>Path to file:</source>
+        <translation>Путь к файлу:</translation>
+    </message>
+    <message>
+        <location filename="../databaseupdaterdialog.cpp" line="17"/>
+        <source>Select source file</source>
+        <translation>Выберите файл</translation>
+    </message>
+    <message>
+        <location filename="../databaseupdaterdialog.cpp" line="20"/>
+        <source>Requirements</source>
+        <translation>Требования</translation>
+    </message>
+    <message>
+        <location filename="../databaseupdaterdialog.cpp" line="20"/>
+        <source>First row will ignored.
+You must select file that contains 5 columns (at least).
+FORMAT {RBS_NAME;CELL_NAME;AZIMUTH;LONGITUDE;LATITUDE.}</source>
+        <translation>Первая строка будет проигнорирована.
+Вы должны выбрать файл, который содержит 5 столбцов (как минимум).
+FORMAT {RBS_NAME;CELL_NAME;AZIMUTH;LONGITUDE;LATITUDE.}</translation>
+    </message>
+    <message>
+        <location filename="../databaseupdaterdialog.cpp" line="35"/>
+        <location filename="../databaseupdaterdialog.cpp" line="40"/>
+        <source>Error</source>
+        <translation>Ошибка</translation>
+    </message>
+    <message>
+        <location filename="../databaseupdaterdialog.cpp" line="35"/>
+        <source>Filepath is empty.</source>
+        <translation>Путь к файлу пустой.</translation>
+    </message>
+    <message>
+        <location filename="../databaseupdaterdialog.cpp" line="40"/>
+        <source>Update is running.</source>
+        <translation>Обновление уже запущено.</translation>
+    </message>
+    <message>
+        <location filename="../databaseupdaterdialog.cpp" line="51"/>
+        <source>Info</source>
+        <translation>Информация</translation>
+    </message>
+    <message>
+        <location filename="../databaseupdaterdialog.cpp" line="51"/>
+        <source>Update complete.Change will take effect after the next launch.</source>
+        <translation>Обновление завершено.Изменения вступят в силу после следующего запуска.</translation>
     </message>
 </context>
 <context>
@@ -683,19 +756,29 @@ Do you want try again?</source>
 <context>
     <name>InheritanceTreeWidget</name>
     <message>
-        <location filename="../inheritancetreewidget.cpp" line="124"/>
+        <location filename="../inheritancetreewidget.cpp" line="126"/>
         <source>Manually block object</source>
         <translation>Заблокировать РБС</translation>
     </message>
     <message>
-        <location filename="../inheritancetreewidget.cpp" line="142"/>
+        <location filename="../inheritancetreewidget.cpp" line="127"/>
+        <source>Location</source>
+        <translation>Местоположение</translation>
+    </message>
+    <message>
+        <location filename="../inheritancetreewidget.cpp" line="149"/>
         <source>Manually block</source>
         <translation>Блокировка БС</translation>
     </message>
     <message>
-        <location filename="../inheritancetreewidget.cpp" line="142"/>
+        <location filename="../inheritancetreewidget.cpp" line="149"/>
         <source>Are you sure you want to block </source>
         <translation>Вы уверенны, что хотите заблокировать </translation>
+    </message>
+    <message>
+        <location filename="../inheritancetreewidget.cpp" line="172"/>
+        <source> location</source>
+        <translation> местоположение</translation>
     </message>
 </context>
 <context>
@@ -766,71 +849,85 @@ Do you want try again?</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="230"/>
+        <location filename="../mainwindow.ui" line="231"/>
         <source>About program</source>
         <translation>О программе</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="245"/>
-        <location filename="../mainwindow.ui" line="248"/>
+        <location filename="../mainwindow.ui" line="246"/>
+        <location filename="../mainwindow.ui" line="249"/>
         <source>Open map</source>
         <translation>Открыть карту</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="257"/>
+        <location filename="../mainwindow.ui" line="258"/>
+        <source>Prepare a report</source>
+        <translation>Подготовить отчёт</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="267"/>
+        <source>Update objects DB</source>
+        <translation>Обновить БД объектов</translation>
+    </message>
+    <message>
         <source>Report</source>
-        <translation>Отчёт</translation>
+        <translation type="vanished">Отчёт</translation>
     </message>
     <message>
         <source>&amp;File</source>
         <translation type="vanished">&amp;Файл</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="221"/>
+        <location filename="../mainwindow.ui" line="222"/>
         <source>&amp;Settings</source>
         <translation>&amp;Опции</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="127"/>
+        <location filename="../mainwindow.cpp" line="128"/>
         <source>Last update : </source>
         <translation>Последнее обновление : </translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="208"/>
+        <location filename="../mainwindow.cpp" line="157"/>
+        <source>The report has been copied to the clipboard.</source>
+        <translation>Отчёт был скопирован в буфер обмена.</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="211"/>
         <source>No items selected</source>
         <translation>Выберите хотя бы один элемент</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="208"/>
+        <location filename="../mainwindow.cpp" line="211"/>
         <source>Please select item.</source>
         <translation>Выберите хотя бы один элемент.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="256"/>
+        <location filename="../mainwindow.cpp" line="259"/>
         <source>About program </source>
         <translation>О программе </translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="257"/>
+        <location filename="../mainwindow.cpp" line="260"/>
         <source>AlarmBox is a tool designed to simplify the monitoring of Ericsson objects in a 2G network.
 Version </source>
         <translation>AlarmBox — это инструмент, предназначенный для упрощения мониторинга объектов Ericsson в сети 2G.
 Версия </translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="258"/>
+        <location filename="../mainwindow.cpp" line="261"/>
         <source>
 LastUpdates: </source>
         <translation>
 Последние обновления: </translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="314"/>
+        <location filename="../mainwindow.cpp" line="323"/>
         <source>Language changed</source>
         <translation>Язык изменён</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="315"/>
+        <location filename="../mainwindow.cpp" line="324"/>
         <source>The language change will take effect after the next launch.
 Restart application?</source>
         <translation>Изменение языка интерфейса вступит в силу после следующего запуска приложения.

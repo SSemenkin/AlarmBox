@@ -185,9 +185,10 @@ AlarmTreeWidgetItem *AlarmTreeWidget::createAlarmItem(const Alarm &alarm)
     if (m_userComments.contains(alarm.m_controller)) {
         if (m_userComments[alarm.m_controller].contains(alarm.m_object)) {
             AlarmComment &comment = m_userComments[alarm.m_controller][alarm.m_object];
-            //helpers::isDeltaBiggerThan(comment.m_createAt, alarm.m_raisedTime);
             labels.push_back(comment.m_description);
         } else labels.push_back("");
+    } else {
+        labels.push_back("");
     }
     labels.push_back(alarm.m_raisedTime.toString(Qt::LocaleDate));
     labels.push_back(alarm.m_clearedTime.toString(Qt::LocaleDate));

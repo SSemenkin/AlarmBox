@@ -196,6 +196,7 @@ color:black;</string>
    </attribute>
    <addaction name="actionAbout_program"/>
    <addaction name="actionReport"/>
+   <addaction name="actionUpdate_objects_DB"/>
   </widget>
   <widget class="QDockWidget" name="dockWidget">
    <property name="enabled">
@@ -254,7 +255,16 @@ color:black;</string>
      <normaloff>:/icons/report.png</normaloff>:/icons/report.png</iconset>
    </property>
    <property name="text">
-    <string>Report</string>
+    <string>Prepare a report</string>
+   </property>
+  </action>
+  <action name="actionUpdate_objects_DB">
+   <property name="icon">
+    <iconset resource="../3rd_party/QSimpleUpdater/etc/resources/qsimpleupdater.qrc">
+     <normaloff>:/icons/update.png</normaloff>:/icons/update.png</iconset>
+   </property>
+   <property name="text">
+    <string>Update objects DB</string>
    </property>
   </action>
  </widget>
@@ -266,6 +276,7 @@ color:black;</string>
   </customwidget>
  </customwidgets>
  <resources>
+  <include location="../3rd_party/QSimpleUpdater/etc/resources/qsimpleupdater.qrc"/>
   <include location="r.qrc"/>
  </resources>
  <connections/>

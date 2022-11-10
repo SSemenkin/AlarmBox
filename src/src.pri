@@ -1,4 +1,5 @@
 SOURCES += \
+    $$PWD/databaseupdater.cpp \
     $$PWD/maps/custommapgraphicsview.cpp \
     $$PWD/maps/RbsObject.cpp \
     $$PWD/maps/cell.cpp \
@@ -36,9 +37,11 @@ SOURCES += \
     types/node.cpp \
     processholder.cpp \
     nodeeditdialog.cpp \
-    nodetreewidget.cpp
+    nodetreewidget.cpp \
+    databaseupdaterdialog.cpp
 
 HEADERS += \
+    $$PWD/databaseupdater.h \
     $$PWD/maps/custommapgraphicsview.h \
     $$PWD/maps/RbsObject.h \
     $$PWD/maps/TrueMatrix.h \
@@ -79,7 +82,8 @@ HEADERS += \
     types/node.h \
     version.h \
     nodeeditdialog.h \
-    nodetreewidget.h
+    nodetreewidget.h \
+    databaseupdaterdialog.h
 
 FORMS += \
     addcontrollerdialog.ui \
@@ -92,7 +96,8 @@ FORMS += \
     inheritanceview.ui \
     mainwindow.ui \
     settingsdialog.ui \
-    nodeeditdialog.ui
+    nodeeditdialog.ui \
+    databaseupdaterdialog.ui
 
 TRANSLATIONS += \
         $$PWD/translations/AlarmBoX_ru.ts

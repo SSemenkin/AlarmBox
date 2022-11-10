@@ -36,7 +36,7 @@ QMap<QString, QPointF> QSqliteWorker::getRbsList() const
         }
         return result;
     } else {
-        qDebug() << query.lastError();
+        emit error(query.lastError().text());
         return QMap <QString, QPointF> ();
     }
 }
@@ -54,7 +54,7 @@ QMap<QString, QVector< CellInfo>> QSqliteWorker::getCellList() const
         }
         return result;
     } else {
-        qDebug() << query.lastError();
+        emit error(query.lastError().text());
         return QMap <QString, QVector<CellInfo>> ();
     }
 }
@@ -72,7 +72,7 @@ QMap<QString, QString> QSqliteWorker::getAdresses() const
         }
         return result;
     } else {
-        qDebug() << query.lastError();
+        emit error(query.lastError().text());
         return QMap <QString, QString> ();
     }
 }
@@ -85,7 +85,7 @@ bool QSqliteWorker::addRbs(const QString &name, const QPointF &point, const QStr
                    .arg (name, QString::number (point.x ()), QString::number (point.y ()), adress))) {
         return true;
     } else {
-        qDebug() << q.lastError();
+        emit error(q.lastError().text());
         return false;
     }
 }
@@ -98,7 +98,7 @@ bool QSqliteWorker::addCell(const QString &rbsName, const QString &cellName, int
                    .arg (rbsName, cellName, QString::number (angle)))) {
         return true;
     } else {
-        qDebug() << q.lastError();
+        emit error(q.lastError().text());
         return false;
     }
 }

@@ -25,6 +25,7 @@
 
 #include "nodestatemodel.h"
 #include "nodeeditdialog.h"
+#include "databaseupdaterdialog.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -153,7 +154,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_ui->actionReport, &QAction::triggered, this, [this] () {
         QString report = m_alarmDisplayWidget->alarmTreeWidget()->makeReport();
         qApp->clipboard()->setText(report);
+        m_ui->statusbar->showMessage(tr("The report has been copied to the clipboard."));
     });
+    connect(m_ui->actionUpdate_objects_DB, &QAction::triggered, this, &MainWindow::updateDDButtonClicked);
     ///
 
     ///  Interrogator
@@ -263,6 +266,12 @@ void MainWindow::aboutProgram()
 void MainWindow::updateButtonClicked()
 {
     m_updater.update();
+}
+
+void MainWindow::updateDDButtonClicked()
+{
+    DatabaseUpdaterDialog dialog;
+    dialog.exec();
 }
 
 void MainWindow::restartApplication()

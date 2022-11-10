@@ -43,6 +43,7 @@ private:
     void createSplitter();
     void aboutProgram();
     void updateButtonClicked();
+    void updateDDButtonClicked();
 
     QPalette generateDarkPalette() const;
     void restartApplication();
