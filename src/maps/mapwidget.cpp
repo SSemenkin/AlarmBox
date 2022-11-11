@@ -5,13 +5,18 @@
 #include "maps/qsqliteworker.h"
 #include "maps/RbsObject.h"
 #include "maps/custommapgraphicsview.h"
+#include "maps/maplegend.h"
 
 MapWidget::MapWidget(QWidget *parent) :
     CustomMapGraphicsView(new MapGraphicsScene(parent), parent)
+  , m_legend(new MapLegend(tr("Legend"), this))
 {
-
     QSharedPointer<OSMTileSource> osmTiles(new OSMTileSource(OSMTileSource::OSMTiles), &QObject::deleteLater);
     setTileSource(osmTiles);
+
+    m_legend->addDefinition(Cell::alarmPixmap(), tr("In alarm"));
+    m_legend->addDefinition(Cell::mblPixmap(), tr("MBL"));
+    m_legend->addDefinition(Cell::normalPixmap(), tr("Normal"));
 
     initObjects();
 
@@ -73,6 +78,14 @@ void MapWidget::moveToItem(const QString &object)
     }
 }
 
+void MapWidget::resizeEvent(QResizeEvent *event)
+{
+    CustomMapGraphicsView::resizeEvent(event);
+    m_legend->move(width() - m_legend->width() - 20,
+                   20);
+    m_legend->update();
+}
+
 void MapWidget::initObjects()
 {
     QSqliteWorker worker;
@@ -114,7 +127,6 @@ void MapWidget::initObjects()
         }
     }
 
-    qDebug() << rbsCount;
 }
 
 void MapWidget::markItemLikeAlarm(const QString &object, bool state)

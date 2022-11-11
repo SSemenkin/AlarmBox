@@ -8,7 +8,7 @@
 #include "network/telnet.h"
 #include "types/types.h"
 
-class Settings : protected QSettings // наследование protected для того чтобы закрыть доступ к методам базового класса
+class Settings : private QSettings // наследование private для того чтобы закрыть доступ к методам базового класса
                                      // и оставить такую возможность только для наследников и самого себя.
 {
     Q_OBJECT

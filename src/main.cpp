@@ -16,6 +16,8 @@
 
 #include <iostream>
 
+#include <maps/maplegend.h>
+
 QFile logFile("alarms.log");
 void (*defaultMessageHalder)(QtMsgType, const QMessageLogContext &, const QString &) = nullptr;
 
@@ -123,6 +125,7 @@ int main(int argc, char *argv[])
 
     CustomApplication a(argc, argv);
     a.setApplicationName("AlarmBox");
+
 
     removeOldExecutableFile();
     defaultMessageHalder = qInstallMessageHandler(messageHandler);

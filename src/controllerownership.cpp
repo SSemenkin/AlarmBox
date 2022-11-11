@@ -1,4 +1,5 @@
 #include "controllerownership.h"
+#include "types/types.h"
 
 ControllerOwnership *ControllerOwnership::m_instance = nullptr;
 

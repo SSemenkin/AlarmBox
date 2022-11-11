@@ -2,7 +2,6 @@
 #define ALARM_H
 
 #include "def.h"
-#include <QDebug>
 
 class Telnet;
 

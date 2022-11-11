@@ -1,5 +1,6 @@
 SOURCES += \
     $$PWD/databaseupdater.cpp \
+    $$PWD/maps/maplegend.cpp \
     $$PWD/maps/custommapgraphicsview.cpp \
     $$PWD/maps/RbsObject.cpp \
     $$PWD/maps/cell.cpp \
@@ -46,6 +47,7 @@ HEADERS += \
     $$PWD/maps/RbsObject.h \
     $$PWD/maps/TrueMatrix.h \
     $$PWD/maps/cell.h \
+    $$PWD/maps/maplegend.h \
     $$PWD/nodestatemodel.h \
     $$PWD/nodestateview.h \
     addcontrollerdialog.h \

@@ -108,6 +108,24 @@ bool Cell::isBlocked()
     return __blocked;
 }
 
+QPixmap Cell::mblPixmap()
+{
+    static QPixmap p(":/icons/map/mbl.png");
+    return p;
+}
+
+QPixmap Cell::alarmPixmap()
+{
+    static QPixmap p(":/icons/map/alarm.png");
+    return p;
+}
+
+QPixmap Cell::normalPixmap()
+{
+    static QPixmap p(":/icons/map/normal.png");
+    return p;
+}
+
 void Cell::drawCell()
 {
     if(__cellPixmap){

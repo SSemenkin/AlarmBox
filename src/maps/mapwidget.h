@@ -8,6 +8,8 @@
 #include "types/alarm.h"
 #include "custommapgraphicsview.h"
 
+class MapLegend;
+
 class MapWidget : public CustomMapGraphicsView
 {
     Q_OBJECT
@@ -18,6 +20,8 @@ public:
     void onAlarmRaised(const Alarm& alarm);
     void onAlarmCleared(const Alarm& alarm);
     void moveToItem(const QString &object);
+protected:
+    void resizeEvent(QResizeEvent*) override;
 private:
     void initObjects();
 private:
@@ -26,7 +30,7 @@ private:
     void markItemLikeHalted(const QString &cellid);
     void markItemLikeNotWorks(const QString &cellid);
 private:
-
+    MapLegend *m_legend;
     QMap<QString, RbsObject*> m_rbsList;
 };
 

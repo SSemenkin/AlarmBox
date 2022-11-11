@@ -36,7 +36,7 @@ QMap<QString, QPointF> QSqliteWorker::getRbsList() const
         }
         return result;
     } else {
-        emit error(query.lastError().text());
+        emit error("SqlQuery : select rbs_name, position_X, position_Y from rbs\n" + query.lastError().text());
         return QMap <QString, QPointF> ();
     }
 }
@@ -54,7 +54,7 @@ QMap<QString, QVector< CellInfo>> QSqliteWorker::getCellList() const
         }
         return result;
     } else {
-        emit error(query.lastError().text());
+        emit error("SqlQuery: select * from cell\n" + query.lastError().text());
         return QMap <QString, QVector<CellInfo>> ();
     }
 }
@@ -72,7 +72,7 @@ QMap<QString, QString> QSqliteWorker::getAdresses() const
         }
         return result;
     } else {
-        emit error(query.lastError().text());
+        emit error("SqlQuery :select rbs_name, adress from rbs" + query.lastError().text());
         return QMap <QString, QString> ();
     }
 }
@@ -81,11 +81,12 @@ bool QSqliteWorker::addRbs(const QString &name, const QPointF &point, const QStr
 {
     QSqlDatabase db;
     QSqlQuery q = connectAndCreateQuery (db);
-    if (q.exec (QString ("insert into rbs (rbs_name, position_X, position_Y, adress) values ('%1', '%2', '%3', '%4')")
-                   .arg (name, QString::number (point.x ()), QString::number (point.y ()), adress))) {
+    const QString query = QString ("insert into rbs (rbs_name, position_X, position_Y, adress) values ('%1', '%2', '%3', '%4')")
+            .arg (name, QString::number (point.x ()), QString::number (point.y ()), adress);
+    if (q.exec (query)) {
         return true;
     } else {
-        emit error(q.lastError().text());
+        emit error("SqlQuery: " + query + "\n" + q.lastError().text());
         return false;
     }
 }
@@ -94,11 +95,12 @@ bool QSqliteWorker::addCell(const QString &rbsName, const QString &cellName, int
 {
     QSqlDatabase db;
     QSqlQuery q = connectAndCreateQuery (db);
-    if(q.exec (QString ("insert into cell (rbs_name, cellname, angle) values ('%1', '%2', '%3')")
-                   .arg (rbsName, cellName, QString::number (angle)))) {
+    const QString query = QString ("insert into cell (rbs_name, cellname, angle) values ('%1', '%2', '%3')")
+            .arg (rbsName, cellName, QString::number (angle));
+    if(q.exec (query)) {
         return true;
     } else {
-        emit error(q.lastError().text());
+        emit error("SqlQuery : " + query + "\n" + q.lastError().text());
         return false;
     }
 }

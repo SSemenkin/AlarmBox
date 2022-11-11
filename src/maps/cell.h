@@ -37,6 +37,10 @@ public:
         isParentNameVisible = state;
     }
 
+    static QPixmap mblPixmap();
+    static QPixmap alarmPixmap();
+    static QPixmap normalPixmap();
+
 signals:
     void stateChanged();
 
